@@ -13,21 +13,21 @@ import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.network.v2019_02_01.ErrorException;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
 import com.microsoft.rest.RestClient;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
+import com.microsoft.rest.credentials.ServiceClientCredentials;
 import java.io.IOException;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Initializes a new instance of the NetworkManagementClientImpl class.
@@ -867,6 +867,32 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The ResourceNavigationLinksInner object to access its operations.
+     */
+    private ResourceNavigationLinksInner resourceNavigationLinks;
+
+    /**
+     * Gets the ResourceNavigationLinksInner object to access its operations.
+     * @return the ResourceNavigationLinksInner object.
+     */
+    public ResourceNavigationLinksInner resourceNavigationLinks() {
+        return this.resourceNavigationLinks;
+    }
+
+    /**
+     * The ServiceAssociationLinksInner object to access its operations.
+     */
+    private ServiceAssociationLinksInner serviceAssociationLinks;
+
+    /**
+     * Gets the ServiceAssociationLinksInner object to access its operations.
+     * @return the ServiceAssociationLinksInner object.
+     */
+    public ServiceAssociationLinksInner serviceAssociationLinks() {
+        return this.serviceAssociationLinks;
+    }
+
+    /**
      * The VirtualNetworkPeeringsInner object to access its operations.
      */
     private VirtualNetworkPeeringsInner virtualNetworkPeerings;
@@ -1151,6 +1177,8 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.usages = new UsagesInner(restClient().retrofit(), this);
         this.virtualNetworks = new VirtualNetworksInner(restClient().retrofit(), this);
         this.subnets = new SubnetsInner(restClient().retrofit(), this);
+        this.resourceNavigationLinks = new ResourceNavigationLinksInner(restClient().retrofit(), this);
+        this.serviceAssociationLinks = new ServiceAssociationLinksInner(restClient().retrofit(), this);
         this.virtualNetworkPeerings = new VirtualNetworkPeeringsInner(restClient().retrofit(), this);
         this.virtualNetworkGateways = new VirtualNetworkGatewaysInner(restClient().retrofit(), this);
         this.virtualNetworkGatewayConnections = new VirtualNetworkGatewayConnectionsInner(restClient().retrofit(), this);
