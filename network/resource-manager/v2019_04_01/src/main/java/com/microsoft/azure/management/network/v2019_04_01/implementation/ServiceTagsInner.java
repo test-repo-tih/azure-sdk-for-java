@@ -16,14 +16,14 @@ import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.Response;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -60,7 +60,7 @@ public class ServiceTagsInner {
     /**
      * Gets a list of service tag information resources.
      *
-     * @param location The location.
+     * @param location The location that will be used as a reference for version (not as a filter based on location, you will get the list of service tags with prefix details across all regions but limited to the cloud that your subscription belongs to).
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -73,7 +73,7 @@ public class ServiceTagsInner {
     /**
      * Gets a list of service tag information resources.
      *
-     * @param location The location.
+     * @param location The location that will be used as a reference for version (not as a filter based on location, you will get the list of service tags with prefix details across all regions but limited to the cloud that your subscription belongs to).
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -85,7 +85,7 @@ public class ServiceTagsInner {
     /**
      * Gets a list of service tag information resources.
      *
-     * @param location The location.
+     * @param location The location that will be used as a reference for version (not as a filter based on location, you will get the list of service tags with prefix details across all regions but limited to the cloud that your subscription belongs to).
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ServiceTagsListResultInner object
      */
@@ -101,7 +101,7 @@ public class ServiceTagsInner {
     /**
      * Gets a list of service tag information resources.
      *
-     * @param location The location.
+     * @param location The location that will be used as a reference for version (not as a filter based on location, you will get the list of service tags with prefix details across all regions but limited to the cloud that your subscription belongs to).
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ServiceTagsListResultInner object
      */

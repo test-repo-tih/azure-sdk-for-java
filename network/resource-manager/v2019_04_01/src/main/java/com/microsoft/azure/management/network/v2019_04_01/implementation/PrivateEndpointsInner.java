@@ -15,9 +15,9 @@ import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.network.v2019_04_01.ErrorException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.network.v2019_04_01.ErrorException;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
@@ -25,18 +25,18 @@ import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
-import retrofit2.http.Path;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -424,7 +424,7 @@ public class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
-     * @param parameters Parameters supplied to the create or update private endpoint operation
+     * @param parameters Parameters supplied to the create or update private endpoint operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -439,7 +439,7 @@ public class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
-     * @param parameters Parameters supplied to the create or update private endpoint operation
+     * @param parameters Parameters supplied to the create or update private endpoint operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -453,7 +453,7 @@ public class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
-     * @param parameters Parameters supplied to the create or update private endpoint operation
+     * @param parameters Parameters supplied to the create or update private endpoint operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -471,7 +471,7 @@ public class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
-     * @param parameters Parameters supplied to the create or update private endpoint operation
+     * @param parameters Parameters supplied to the create or update private endpoint operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -499,7 +499,7 @@ public class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
-     * @param parameters Parameters supplied to the create or update private endpoint operation
+     * @param parameters Parameters supplied to the create or update private endpoint operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -514,7 +514,7 @@ public class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
-     * @param parameters Parameters supplied to the create or update private endpoint operation
+     * @param parameters Parameters supplied to the create or update private endpoint operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -528,7 +528,7 @@ public class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
-     * @param parameters Parameters supplied to the create or update private endpoint operation
+     * @param parameters Parameters supplied to the create or update private endpoint operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PrivateEndpointInner object
      */
@@ -546,7 +546,7 @@ public class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointIn
      *
      * @param resourceGroupName The name of the resource group.
      * @param privateEndpointName The name of the private endpoint.
-     * @param parameters Parameters supplied to the create or update private endpoint operation
+     * @param parameters Parameters supplied to the create or update private endpoint operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PrivateEndpointInner object
      */
