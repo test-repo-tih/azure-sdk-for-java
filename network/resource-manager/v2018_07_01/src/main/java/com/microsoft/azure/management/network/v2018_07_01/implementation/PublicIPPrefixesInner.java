@@ -16,9 +16,9 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.network.v2018_07_01.TagsObject;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.network.v2018_07_01.TagsObject;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
@@ -27,19 +27,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
 import retrofit2.http.PATCH;
-import retrofit2.http.Path;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -268,7 +268,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * Gets the specified public IP prefix in a specified resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the PublicIPPrefx.
+     * @param publicIpPrefixName The name of the Public IP Prefix.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -282,7 +282,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * Gets the specified public IP prefix in a specified resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the PublicIPPrefx.
+     * @param publicIpPrefixName The name of the Public IP Prefix.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -295,7 +295,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * Gets the specified public IP prefix in a specified resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the PublicIPPrefx.
+     * @param publicIpPrefixName The name of the Public IP Prefix.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PublicIPPrefixInner object
      */
@@ -312,7 +312,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * Gets the specified public IP prefix in a specified resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the PublicIPPrefx.
+     * @param publicIpPrefixName The name of the Public IP Prefix.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PublicIPPrefixInner object
      */
@@ -346,7 +346,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * Gets the specified public IP prefix in a specified resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the PublicIPPrefx.
+     * @param publicIpPrefixName The name of the Public IP Prefix.
      * @param expand Expands referenced resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -361,7 +361,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * Gets the specified public IP prefix in a specified resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the PublicIPPrefx.
+     * @param publicIpPrefixName The name of the Public IP Prefix.
      * @param expand Expands referenced resources.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -375,7 +375,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * Gets the specified public IP prefix in a specified resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the PublicIPPrefx.
+     * @param publicIpPrefixName The name of the Public IP Prefix.
      * @param expand Expands referenced resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PublicIPPrefixInner object
@@ -393,7 +393,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * Gets the specified public IP prefix in a specified resource group.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the PublicIPPrefx.
+     * @param publicIpPrefixName The name of the Public IP Prefix.
      * @param expand Expands referenced resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PublicIPPrefixInner object
