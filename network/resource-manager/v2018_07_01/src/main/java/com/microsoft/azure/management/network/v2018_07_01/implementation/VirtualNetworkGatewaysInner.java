@@ -15,11 +15,11 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.network.v2018_07_01.TagsObject;
 import com.microsoft.azure.management.network.v2018_07_01.VpnClientParameters;
 import com.microsoft.azure.management.network.v2018_07_01.VpnDeviceScriptParameters;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
@@ -28,20 +28,24 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
 import retrofit2.http.PATCH;
-import retrofit2.http.Path;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -1211,7 +1215,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         final String apiVersion = "2018-07-01";
         final String gatewayVip = null;
         Observable<Response<ResponseBody>> observable = service.reset(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), gatewayVip, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
     }
     /**
      * Resets the primary of the virtual network gateway in the specified resource group.
@@ -1281,7 +1285,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.reset(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), gatewayVip, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
     }
 
     /**
@@ -1523,7 +1527,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         Validator.validate(parameters);
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.generatevpnclientpackage(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
     }
 
     /**
@@ -1614,6 +1618,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
     private ServiceResponse<String> beginGeneratevpnclientpackageDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<String, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<String>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1690,7 +1695,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         Validator.validate(parameters);
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.generateVpnProfile(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
     }
 
     /**
@@ -1850,7 +1855,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.getVpnProfilePackageUrl(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
     }
 
     /**
@@ -2003,7 +2008,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         final String apiVersion = "2018-07-01";
         final String peer = null;
         Observable<Response<ResponseBody>> observable = service.getBgpPeerStatus(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
     }
     /**
      * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
@@ -2073,7 +2078,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.getBgpPeerStatus(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
     }
 
     /**
@@ -2391,7 +2396,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.getLearnedRoutes(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<GatewayRouteListResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<GatewayRouteListResultInner>() { }.getType());
     }
 
     /**
@@ -2550,7 +2555,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.getAdvertisedRoutes(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<GatewayRouteListResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<GatewayRouteListResultInner>() { }.getType());
     }
 
     /**
@@ -2717,7 +2722,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         Validator.validate(vpnclientIpsecParams);
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.setVpnclientIpsecParameters(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), vpnclientIpsecParams, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VpnClientIPsecParametersInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VpnClientIPsecParametersInner>() { }.getType());
     }
 
     /**
@@ -2877,7 +2882,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2018-07-01";
         Observable<Response<ResponseBody>> observable = service.getVpnclientIpsecParameters(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VpnClientIPsecParametersInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VpnClientIPsecParametersInner>() { }.getType());
     }
 
     /**
