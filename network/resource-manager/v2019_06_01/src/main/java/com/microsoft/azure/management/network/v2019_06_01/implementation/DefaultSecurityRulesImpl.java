@@ -54,14 +54,10 @@ class DefaultSecurityRulesImpl extends WrapperImpl<DefaultSecurityRulesInner> im
     public Observable<NetworkSecurityGroupSecurityRuleModel> getAsync(String resourceGroupName, String networkSecurityGroupName, String defaultSecurityRuleName) {
         DefaultSecurityRulesInner client = this.inner();
         return client.getAsync(resourceGroupName, networkSecurityGroupName, defaultSecurityRuleName)
-        .flatMap(new Func1<SecurityRuleInner, Observable<NetworkSecurityGroupSecurityRuleModel>>() {
+        .map(new Func1<SecurityRuleInner, NetworkSecurityGroupSecurityRuleModel>() {
             @Override
-            public Observable<NetworkSecurityGroupSecurityRuleModel> call(SecurityRuleInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((NetworkSecurityGroupSecurityRuleModel)wrapModel(inner));
-                }
+            public NetworkSecurityGroupSecurityRuleModel call(SecurityRuleInner inner) {
+                return wrapModel(inner);
             }
        });
     }
