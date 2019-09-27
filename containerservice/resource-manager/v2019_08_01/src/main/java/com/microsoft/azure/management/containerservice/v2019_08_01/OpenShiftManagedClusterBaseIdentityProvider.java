@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 /**
  * Structure for any Identity provider.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "kind", defaultImpl = OpenShiftManagedClusterBaseIdentityProvider.class)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "kind")
 @JsonTypeName("OpenShiftManagedClusterBaseIdentityProvider")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "AADIdentityProvider", value = OpenShiftManagedClusterAADIdentityProvider.class)
