@@ -42,6 +42,10 @@ import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -1195,7 +1199,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         final String apiVersion = "2017-10-01";
         final String gatewayVip = null;
         Observable<Response<ResponseBody>> observable = service.reset(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), gatewayVip, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
     }
     /**
      * Resets the primary of the virtual network gateway in the specified resource group.
@@ -1265,7 +1269,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2017-10-01";
         Observable<Response<ResponseBody>> observable = service.reset(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), gatewayVip, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VirtualNetworkGatewayInner>() { }.getType());
     }
 
     /**
@@ -1507,7 +1511,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         Validator.validate(parameters);
         final String apiVersion = "2017-10-01";
         Observable<Response<ResponseBody>> observable = service.generatevpnclientpackage(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
     }
 
     /**
@@ -1598,6 +1602,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
     private ServiceResponse<String> beginGeneratevpnclientpackageDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<String, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<String>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1674,7 +1679,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         Validator.validate(parameters);
         final String apiVersion = "2017-10-01";
         Observable<Response<ResponseBody>> observable = service.generateVpnProfile(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
     }
 
     /**
@@ -1834,7 +1839,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2017-10-01";
         Observable<Response<ResponseBody>> observable = service.getVpnProfilePackageUrl(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<String>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
     }
 
     /**
@@ -1987,7 +1992,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         final String apiVersion = "2017-10-01";
         final String peer = null;
         Observable<Response<ResponseBody>> observable = service.getBgpPeerStatus(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
     }
     /**
      * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
@@ -2057,7 +2062,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2017-10-01";
         Observable<Response<ResponseBody>> observable = service.getBgpPeerStatus(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<BgpPeerStatusListResultInner>() { }.getType());
     }
 
     /**
@@ -2375,7 +2380,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2017-10-01";
         Observable<Response<ResponseBody>> observable = service.getLearnedRoutes(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<GatewayRouteListResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<GatewayRouteListResultInner>() { }.getType());
     }
 
     /**
@@ -2534,7 +2539,7 @@ public class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetw
         }
         final String apiVersion = "2017-10-01";
         Observable<Response<ResponseBody>> observable = service.getAdvertisedRoutes(resourceGroupName, virtualNetworkGatewayName, this.client.subscriptionId(), peer, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<GatewayRouteListResultInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<GatewayRouteListResultInner>() { }.getType());
     }
 
     /**
