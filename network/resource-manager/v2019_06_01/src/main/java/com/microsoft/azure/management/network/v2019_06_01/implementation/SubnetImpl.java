@@ -20,6 +20,7 @@ import com.microsoft.azure.management.network.v2019_06_01.Delegation;
 import com.microsoft.azure.management.network.v2019_06_01.NetworkSecurityGroup;
 import java.util.ArrayList;
 import com.microsoft.azure.management.network.v2019_06_01.PrivateEndpoint;
+import com.microsoft.azure.management.network.v2019_06_01.;
 import com.microsoft.azure.management.network.v2019_06_01.RouteTable;
 import com.microsoft.azure.management.network.v2019_06_01.ServiceEndpointPolicy;
 
