@@ -759,14 +759,10 @@ class DatabaseAccountsImpl extends GroupableResourcesCoreImpl<DatabaseAccount, D
     public Observable<SqlContainer> getSqlContainerAsync(String resourceGroupName, String accountName, String databaseName, String containerName) {
         DatabaseAccountsInner client = this.inner();
         return client.getSqlContainerAsync(resourceGroupName, accountName, databaseName, containerName)
-        .flatMap(new Func1<SqlContainerInner, Observable<SqlContainer>>() {
+        .map(new Func1<SqlContainerInner, SqlContainer>() {
             @Override
-            public Observable<SqlContainer> call(SqlContainerInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((SqlContainer)wrapSqlContainerModel(inner));
-                }
+            public SqlContainer call(SqlContainerInner inner) {
+                return wrapSqlContainerModel(inner);
             }
        });
     }
@@ -799,14 +795,10 @@ class DatabaseAccountsImpl extends GroupableResourcesCoreImpl<DatabaseAccount, D
     public Observable<MongoDBCollection> getMongoDBCollectionAsync(String resourceGroupName, String accountName, String databaseName, String collectionName) {
         DatabaseAccountsInner client = this.inner();
         return client.getMongoDBCollectionAsync(resourceGroupName, accountName, databaseName, collectionName)
-        .flatMap(new Func1<MongoDBCollectionInner, Observable<MongoDBCollection>>() {
+        .map(new Func1<MongoDBCollectionInner, MongoDBCollection>() {
             @Override
-            public Observable<MongoDBCollection> call(MongoDBCollectionInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((MongoDBCollection)wrapMongoDBCollectionModel(inner));
-                }
+            public MongoDBCollection call(MongoDBCollectionInner inner) {
+                return wrapMongoDBCollectionModel(inner);
             }
        });
     }
@@ -959,14 +951,10 @@ class DatabaseAccountsImpl extends GroupableResourcesCoreImpl<DatabaseAccount, D
     public Observable<GremlinGraph> getGremlinGraphAsync(String resourceGroupName, String accountName, String databaseName, String graphName) {
         DatabaseAccountsInner client = this.inner();
         return client.getGremlinGraphAsync(resourceGroupName, accountName, databaseName, graphName)
-        .flatMap(new Func1<GremlinGraphInner, Observable<GremlinGraph>>() {
+        .map(new Func1<GremlinGraphInner, GremlinGraph>() {
             @Override
-            public Observable<GremlinGraph> call(GremlinGraphInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((GremlinGraph)wrapGremlinGraphModel(inner));
-                }
+            public GremlinGraph call(GremlinGraphInner inner) {
+                return wrapGremlinGraphModel(inner);
             }
        });
     }
