@@ -29,6 +29,12 @@ public class RunFilter {
     private RunType runType;
 
     /**
+     * The name of task run associated with this run.
+     */
+    @JsonProperty(value = "taskRunName")
+    private String taskRunName;
+
+    /**
      * The current status of the run. Possible values include: 'Queued',
      * 'Started', 'Running', 'Succeeded', 'Failed', 'Canceled', 'Error',
      * 'Timeout'.
@@ -105,6 +111,26 @@ public class RunFilter {
      */
     public RunFilter withRunType(RunType runType) {
         this.runType = runType;
+        return this;
+    }
+
+    /**
+     * Get the name of task run associated with this run.
+     *
+     * @return the taskRunName value
+     */
+    public String taskRunName() {
+        return this.taskRunName;
+    }
+
+    /**
+     * Set the name of task run associated with this run.
+     *
+     * @param taskRunName the taskRunName value to set
+     * @return the RunFilter object itself.
+     */
+    public RunFilter withTaskRunName(String taskRunName) {
+        this.taskRunName = taskRunName;
         return this;
     }
 
