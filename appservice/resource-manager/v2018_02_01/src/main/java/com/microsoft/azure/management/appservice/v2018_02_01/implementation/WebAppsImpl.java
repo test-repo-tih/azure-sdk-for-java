@@ -16,8 +16,6 @@ import rx.functions.Func1;
 import com.microsoft.azure.management.appservice.v2018_02_01.Sites;
 import com.microsoft.azure.Page;
 import rx.Completable;
-
-import java.io.InputStream;
 import java.util.List;
 import com.microsoft.azure.management.appservice.v2018_02_01.CustomHostnameAnalysisResult;
 import com.microsoft.azure.management.appservice.v2018_02_01.BackupItem;
@@ -25,6 +23,8 @@ import com.microsoft.azure.management.appservice.v2018_02_01.SiteConfigResource;
 import com.microsoft.azure.management.appservice.v2018_02_01.BackupRequest;
 import com.microsoft.azure.management.appservice.v2018_02_01.StringDictionary;
 import com.microsoft.azure.management.appservice.v2018_02_01.RestoreRequest;
+import com.microsoft.azure.management.appservice.v2018_02_01.HostKeys;
+import com.microsoft.azure.management.appservice.v2018_02_01.KeyInfo;
 import com.microsoft.azure.management.appservice.v2018_02_01.RelayServiceConnectionEntity;
 import com.microsoft.azure.management.appservice.v2018_02_01.SiteCloneability;
 import com.microsoft.azure.management.appservice.v2018_02_01.FunctionSecrets;
@@ -56,6 +56,9 @@ import com.microsoft.azure.management.appservice.v2018_02_01.MSDeployStatus;
 import com.microsoft.azure.management.appservice.v2018_02_01.MSDeployLog;
 import com.microsoft.azure.management.appservice.v2018_02_01.MSDeploy;
 import com.microsoft.azure.management.appservice.v2018_02_01.FunctionEnvelope;
+import com.microsoft.azure.management.appservice.v2018_02_01.FunctionStatus;
+import com.microsoft.azure.management.appservice.v2018_02_01.HostStatus;
+import com.microsoft.azure.management.appservice.v2018_02_01.MigrateMySqlStatus;
 import com.microsoft.azure.management.appservice.v2018_02_01.HostNameBinding;
 import com.microsoft.azure.management.appservice.v2018_02_01.SiteHybridConnection;
 import com.microsoft.azure.management.appservice.v2018_02_01.HybridConnectionKey;
@@ -65,7 +68,6 @@ import com.microsoft.azure.management.appservice.v2018_02_01.ProcessModuleInfo;
 import com.microsoft.azure.management.appservice.v2018_02_01.ProcessThreadInfo;
 import com.microsoft.azure.management.appservice.v2018_02_01.SiteResourceMetricDefinition;
 import com.microsoft.azure.management.appservice.v2018_02_01.SiteResourceMetric;
-import com.microsoft.azure.management.appservice.v2018_02_01.MigrateMySqlStatus;
 import com.microsoft.azure.management.appservice.v2018_02_01.NetworkFeatures;
 import com.microsoft.azure.management.appservice.v2018_02_01.PerfMonResponse;
 import com.microsoft.azure.management.appservice.v2018_02_01.PremierAddOn;
@@ -83,14 +85,14 @@ import com.microsoft.azure.management.appservice.v2018_02_01.SiteVnetGateway;
 import com.microsoft.azure.management.appservice.v2018_02_01.WebJob;
 
 class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
-    private final AppServiceManager manager;
+    private final CertificateRegistrationManager manager;
 
-    WebAppsImpl(AppServiceManager manager) {
+    WebAppsImpl(CertificateRegistrationManager manager) {
         super(manager.inner().webApps());
         this.manager = manager;
     }
 
-    public AppServiceManager manager() {
+    public CertificateRegistrationManager manager() {
         return this.manager;
     }
 
@@ -112,6 +114,11 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
     @Override
     public FunctionEnvelopeImpl defineFunction(String name) {
         return wrapFunctionModel(name);
+    }
+
+    @Override
+    public KeyInfoImpl defineKey(String name) {
+        return wrapKeyModel(name);
     }
 
     @Override
@@ -168,6 +175,10 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
 
     private FunctionEnvelopeImpl wrapFunctionModel(String name) {
         return new FunctionEnvelopeImpl(name, this.manager());
+    }
+
+    private KeyInfoImpl wrapKeyModel(String name) {
+        return new KeyInfoImpl(name, this.manager());
     }
 
     private HostNameBindingImpl wrapHostNameBindingModel(String name) {
@@ -228,6 +239,10 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
 
     private FunctionEnvelopeImpl wrapFunctionEnvelopeModel(FunctionEnvelopeInner inner) {
         return  new FunctionEnvelopeImpl(inner, manager());
+    }
+
+    private KeyInfoImpl wrapKeyInfoModel(KeyInfoInner inner) {
+        return  new KeyInfoImpl(inner, manager());
     }
 
     private HostNameBindingImpl wrapHostNameBindingModel(HostNameBindingInner inner) {
@@ -686,6 +701,54 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
         WebAppsInner client = this.inner();
         return client.getFunctionsAdminTokenAsync(resourceGroupName, name)
     ;}
+
+    @Override
+    public Observable<HostKeys> listHostKeysAsync(String resourceGroupName, String name) {
+        WebAppsInner client = this.inner();
+        return client.listHostKeysAsync(resourceGroupName, name)
+        .map(new Func1<HostKeysInner, HostKeys>() {
+            @Override
+            public HostKeys call(HostKeysInner inner) {
+                return new HostKeysImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Completable listSyncStatusAsync(String resourceGroupName, String name) {
+        WebAppsInner client = this.inner();
+        return client.listSyncStatusAsync(resourceGroupName, name).toCompletable();
+    }
+
+    @Override
+    public Observable<Object> getHostConfigAsync(String resourceGroupName, String name) {
+        WebAppsInner client = this.inner();
+        return client.getHostConfigAsync(resourceGroupName, name)
+    ;}
+
+    @Override
+    public Completable syncFunctionsAsync(String resourceGroupName, String name) {
+        WebAppsInner client = this.inner();
+        return client.syncFunctionsAsync(resourceGroupName, name).toCompletable();
+    }
+
+    @Override
+    public Observable<KeyInfo> createOrUpdateHostSecretAsync(String resourceGroupName, String name, String keyType, String keyName, KeyInfoInner key) {
+        WebAppsInner client = this.inner();
+        return client.createOrUpdateHostSecretAsync(resourceGroupName, name, keyType, keyName, key)
+        .map(new Func1<KeyInfoInner, KeyInfo>() {
+            @Override
+            public KeyInfo call(KeyInfoInner inner) {
+                return new KeyInfoImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Completable deleteHostSecretAsync(String resourceGroupName, String name, String keyType, String keyName) {
+        WebAppsInner client = this.inner();
+        return client.deleteHostSecretAsync(resourceGroupName, name, keyType, keyName).toCompletable();
+    }
 
     @Override
     public Observable<RelayServiceConnectionEntity> listRelayServiceConnectionsAsync(String resourceGroupName, String name) {
@@ -2074,6 +2137,18 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
     }
 
     @Override
+    public Observable<StringDictionary> listFunctionKeysAsync(String resourceGroupName, String name, String functionName) {
+        WebAppsInner client = this.inner();
+        return client.listFunctionKeysAsync(resourceGroupName, name, functionName)
+        .map(new Func1<StringDictionaryInner, StringDictionary>() {
+            @Override
+            public StringDictionary call(StringDictionaryInner inner) {
+                return new StringDictionaryImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
     public Observable<FunctionSecrets> listFunctionSecretsAsync(String resourceGroupName, String name, String functionName) {
         WebAppsInner client = this.inner();
         return client.listFunctionSecretsAsync(resourceGroupName, name, functionName)
@@ -2084,6 +2159,18 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
             }
         });
     }
+
+    @Override
+    public Observable<String> getFunctionStateAsync(String resourceGroupName, String name, String functionName) {
+        WebAppsInner client = this.inner();
+        return client.getFunctionStateAsync(resourceGroupName, name, functionName)
+    ;}
+
+    @Override
+    public Observable<String> updateFunctionStateAsync(String resourceGroupName, String name, String functionName, String requestEnvelope) {
+        WebAppsInner client = this.inner();
+        return client.updateFunctionStateAsync(resourceGroupName, name, functionName, requestEnvelope)
+    ;}
 
     @Override
     public Observable<FunctionEnvelope> listInstanceFunctionsSlotAsync(final String resourceGroupName, final String name, final String slot) {
@@ -2134,6 +2221,18 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
     }
 
     @Override
+    public Observable<StringDictionary> listFunctionKeysSlotAsync(String resourceGroupName, String name, String functionName, String slot) {
+        WebAppsInner client = this.inner();
+        return client.listFunctionKeysSlotAsync(resourceGroupName, name, functionName, slot)
+        .map(new Func1<StringDictionaryInner, StringDictionary>() {
+            @Override
+            public StringDictionary call(StringDictionaryInner inner) {
+                return new StringDictionaryImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
     public Observable<FunctionSecrets> listFunctionSecretsSlotAsync(String resourceGroupName, String name, String functionName, String slot) {
         WebAppsInner client = this.inner();
         return client.listFunctionSecretsSlotAsync(resourceGroupName, name, functionName, slot)
@@ -2141,6 +2240,114 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
             @Override
             public FunctionSecrets call(FunctionSecretsInner inner) {
                 return new FunctionSecretsImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Observable<String> getFunctionStateSlotAsync(String resourceGroupName, String name, String functionName, String slot) {
+        WebAppsInner client = this.inner();
+        return client.getFunctionStateSlotAsync(resourceGroupName, name, functionName, slot)
+    ;}
+
+    @Override
+    public Observable<String> updateFunctionStateSlotAsync(String resourceGroupName, String name, String functionName, String slot, String requestEnvelope) {
+        WebAppsInner client = this.inner();
+        return client.updateFunctionStateSlotAsync(resourceGroupName, name, functionName, slot, requestEnvelope)
+    ;}
+
+    @Override
+    public Completable deleteFunctionSecretAsync(String resourceGroupName, String name, String functionName, String keyName) {
+        WebAppsInner client = this.inner();
+        return client.deleteFunctionSecretAsync(resourceGroupName, name, functionName, keyName).toCompletable();
+    }
+
+    @Override
+    public Observable<KeyInfo> createOrUpdateFunctionSecretSlotAsync(String resourceGroupName, String name, String functionName, String keyName, String slot, KeyInfoInner key) {
+        WebAppsInner client = this.inner();
+        return client.createOrUpdateFunctionSecretSlotAsync(resourceGroupName, name, functionName, keyName, slot, key)
+        .map(new Func1<KeyInfoInner, KeyInfo>() {
+            @Override
+            public KeyInfo call(KeyInfoInner inner) {
+                return new KeyInfoImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Completable deleteFunctionSecretSlotAsync(String resourceGroupName, String name, String functionName, String keyName, String slot) {
+        WebAppsInner client = this.inner();
+        return client.deleteFunctionSecretSlotAsync(resourceGroupName, name, functionName, keyName, slot).toCompletable();
+    }
+
+    @Override
+    public Observable<FunctionStatus> getFunctionStatusAsync(String resourceGroupName, String name, String functionName) {
+        WebAppsInner client = this.inner();
+        return client.getFunctionStatusAsync(resourceGroupName, name, functionName)
+        .map(new Func1<FunctionStatusInner, FunctionStatus>() {
+            @Override
+            public FunctionStatus call(FunctionStatusInner inner) {
+                return new FunctionStatusImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Observable<HostStatus> getHostStatusAsync(String resourceGroupName, String name) {
+        WebAppsInner client = this.inner();
+        return client.getHostStatusAsync(resourceGroupName, name)
+        .map(new Func1<HostStatusInner, HostStatus>() {
+            @Override
+            public HostStatus call(HostStatusInner inner) {
+                return new HostStatusImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Observable<MigrateMySqlStatus> getMigrateMySqlStatusAsync(String resourceGroupName, String name) {
+        WebAppsInner client = this.inner();
+        return client.getMigrateMySqlStatusAsync(resourceGroupName, name)
+        .map(new Func1<MigrateMySqlStatusInner, MigrateMySqlStatus>() {
+            @Override
+            public MigrateMySqlStatus call(MigrateMySqlStatusInner inner) {
+                return new MigrateMySqlStatusImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Observable<FunctionStatus> getFunctionStatusSlotAsync(String resourceGroupName, String name, String functionName, String slot) {
+        WebAppsInner client = this.inner();
+        return client.getFunctionStatusSlotAsync(resourceGroupName, name, functionName, slot)
+        .map(new Func1<FunctionStatusInner, FunctionStatus>() {
+            @Override
+            public FunctionStatus call(FunctionStatusInner inner) {
+                return new FunctionStatusImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Observable<HostStatus> getHostStatusSlotAsync(String resourceGroupName, String name, String slot) {
+        WebAppsInner client = this.inner();
+        return client.getHostStatusSlotAsync(resourceGroupName, name, slot)
+        .map(new Func1<HostStatusInner, HostStatus>() {
+            @Override
+            public HostStatus call(HostStatusInner inner) {
+                return new HostStatusImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Observable<MigrateMySqlStatus> getMigrateMySqlStatusSlotAsync(String resourceGroupName, String name, String slot) {
+        WebAppsInner client = this.inner();
+        return client.getMigrateMySqlStatusSlotAsync(resourceGroupName, name, slot)
+        .map(new Func1<MigrateMySqlStatusInner, MigrateMySqlStatus>() {
+            @Override
+            public MigrateMySqlStatus call(MigrateMySqlStatusInner inner) {
+                return new MigrateMySqlStatusImpl(inner, manager());
             }
         });
     }
@@ -2842,30 +3049,6 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
     }
 
     @Override
-    public Observable<MigrateMySqlStatus> getMigrateMySqlStatusAsync(String resourceGroupName, String name) {
-        WebAppsInner client = this.inner();
-        return client.getMigrateMySqlStatusAsync(resourceGroupName, name)
-        .map(new Func1<MigrateMySqlStatusInner, MigrateMySqlStatus>() {
-            @Override
-            public MigrateMySqlStatus call(MigrateMySqlStatusInner inner) {
-                return new MigrateMySqlStatusImpl(inner, manager());
-            }
-        });
-    }
-
-    @Override
-    public Observable<MigrateMySqlStatus> getMigrateMySqlStatusSlotAsync(String resourceGroupName, String name, String slot) {
-        WebAppsInner client = this.inner();
-        return client.getMigrateMySqlStatusSlotAsync(resourceGroupName, name, slot)
-        .map(new Func1<MigrateMySqlStatusInner, MigrateMySqlStatus>() {
-            @Override
-            public MigrateMySqlStatus call(MigrateMySqlStatusInner inner) {
-                return new MigrateMySqlStatusImpl(inner, manager());
-            }
-        });
-    }
-
-    @Override
     public Observable<NetworkFeatures> listNetworkFeaturesAsync(String resourceGroupName, String name, String view) {
         WebAppsInner client = this.inner();
         return client.listNetworkFeaturesAsync(resourceGroupName, name, view)
@@ -3530,6 +3713,54 @@ class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
         WebAppsInner client = this.inner();
         return client.getFunctionsAdminTokenSlotAsync(resourceGroupName, name, slot)
     ;}
+
+    @Override
+    public Observable<HostKeys> listHostKeysSlotAsync(String resourceGroupName, String name, String slot) {
+        WebAppsInner client = this.inner();
+        return client.listHostKeysSlotAsync(resourceGroupName, name, slot)
+        .map(new Func1<HostKeysInner, HostKeys>() {
+            @Override
+            public HostKeys call(HostKeysInner inner) {
+                return new HostKeysImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Completable listSyncStatusSlotAsync(String resourceGroupName, String name, String slot) {
+        WebAppsInner client = this.inner();
+        return client.listSyncStatusSlotAsync(resourceGroupName, name, slot).toCompletable();
+    }
+
+    @Override
+    public Observable<Object> getHostConfigSlotAsync(String resourceGroupName, String name, String slot) {
+        WebAppsInner client = this.inner();
+        return client.getHostConfigSlotAsync(resourceGroupName, name, slot)
+    ;}
+
+    @Override
+    public Completable syncFunctionsSlotAsync(String resourceGroupName, String name, String slot) {
+        WebAppsInner client = this.inner();
+        return client.syncFunctionsSlotAsync(resourceGroupName, name, slot).toCompletable();
+    }
+
+    @Override
+    public Observable<KeyInfo> createOrUpdateHostSecretSlotAsync(String resourceGroupName, String name, String keyType, String keyName, String slot, KeyInfoInner key) {
+        WebAppsInner client = this.inner();
+        return client.createOrUpdateHostSecretSlotAsync(resourceGroupName, name, keyType, keyName, slot, key)
+        .map(new Func1<KeyInfoInner, KeyInfo>() {
+            @Override
+            public KeyInfo call(KeyInfoInner inner) {
+                return new KeyInfoImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Completable deleteHostSecretSlotAsync(String resourceGroupName, String name, String keyType, String keyName, String slot) {
+        WebAppsInner client = this.inner();
+        return client.deleteHostSecretSlotAsync(resourceGroupName, name, keyType, keyName, slot).toCompletable();
+    }
 
     @Override
     public Observable<RelayServiceConnectionEntity> listRelayServiceConnectionsSlotAsync(String resourceGroupName, String name, String slot) {

@@ -368,9 +368,61 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> deleteFunction(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps createOrUpdateFunctionSecret" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/keys/{keyName}")
+        Observable<Response<ResponseBody>> createOrUpdateFunctionSecret(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Body KeyInfoInner key, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps deleteFunctionSecret" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/keys/{keyName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> deleteFunctionSecret(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listFunctionKeys" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/listkeys")
+        Observable<Response<ResponseBody>> listFunctionKeys(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listFunctionSecrets" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/listsecrets")
         Observable<Response<ResponseBody>> listFunctionSecrets(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps getFunctionState" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/properties/state")
+        Observable<Response<ResponseBody>> getFunctionState(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps updateFunctionState" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/properties/state")
+        Observable<Response<ResponseBody>> updateFunctionState(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("subscriptionId") String subscriptionId, @Body String requestEnvelope, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps getFunctionStatus" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/properties/status")
+        Observable<Response<ResponseBody>> getFunctionStatus(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listHostKeys" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/listkeys")
+        Observable<Response<ResponseBody>> listHostKeys(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listSyncStatus" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/listsyncstatus")
+        Observable<Response<ResponseBody>> listSyncStatus(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps getHostConfig" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/properties/config")
+        Observable<Response<ResponseBody>> getHostConfig(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps getHostStatus" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/properties/status")
+        Observable<Response<ResponseBody>> getHostStatus(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps syncFunctions" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/sync")
+        Observable<Response<ResponseBody>> syncFunctions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps createOrUpdateHostSecret" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/{keyType}/{keyName}")
+        Observable<Response<ResponseBody>> createOrUpdateHostSecret(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("keyType") String keyType, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Body KeyInfoInner key, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps deleteHostSecret" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/{keyType}/{keyName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> deleteHostSecret(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("keyType") String keyType, @Path("keyName") String keyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listHostNameBindings" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostNameBindings")
@@ -997,9 +1049,61 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> deleteInstanceFunctionSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps createOrUpdateFunctionSecretSlot" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/keys/{keyName}")
+        Observable<Response<ResponseBody>> createOrUpdateFunctionSecretSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("keyName") String keyName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Body KeyInfoInner key, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps deleteFunctionSecretSlot" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/keys/{keyName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> deleteFunctionSecretSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("keyName") String keyName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listFunctionKeysSlot" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/listkeys")
+        Observable<Response<ResponseBody>> listFunctionKeysSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listFunctionSecretsSlot" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/listsecrets")
         Observable<Response<ResponseBody>> listFunctionSecretsSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps getFunctionStateSlot" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/properties/state")
+        Observable<Response<ResponseBody>> getFunctionStateSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps updateFunctionStateSlot" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/properties/state")
+        Observable<Response<ResponseBody>> updateFunctionStateSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Body String requestEnvelope, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps getFunctionStatusSlot" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/properties/status")
+        Observable<Response<ResponseBody>> getFunctionStatusSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("functionName") String functionName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listHostKeysSlot" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/listkeys")
+        Observable<Response<ResponseBody>> listHostKeysSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listSyncStatusSlot" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/listsyncstatus")
+        Observable<Response<ResponseBody>> listSyncStatusSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps getHostConfigSlot" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/properties/config")
+        Observable<Response<ResponseBody>> getHostConfigSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps getHostStatusSlot" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/properties/status")
+        Observable<Response<ResponseBody>> getHostStatusSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps syncFunctionsSlot" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/sync")
+        Observable<Response<ResponseBody>> syncFunctionsSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps createOrUpdateHostSecretSlot" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/{keyType}/{keyName}")
+        Observable<Response<ResponseBody>> createOrUpdateHostSecretSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("keyType") String keyType, @Path("keyName") String keyName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Body KeyInfoInner key, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps deleteHostSecretSlot" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/{keyType}/{keyName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> deleteHostSecretSlot(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("keyType") String keyType, @Path("keyName") String keyName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.v2018_02_01.WebApps listHostNameBindingsSlot" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hostNameBindings")
@@ -1941,9 +2045,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -2149,8 +2253,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all web, mobile, and API apps in the specified resource group.
      * Gets all web, mobile, and API apps in the specified resource group.
      *
-     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteInner>> * @param includeSlots Specify &lt;strong&gt;true&lt;/strong&gt; to include deployment slots in results. The default is false, which only gives you the production slot of all apps.
+    ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteInner>> * @param includeSlots Specify &lt;strong&gt;true&lt;/strong&gt; to include deployment slots in results. The default is false, which only gives you the production slot of all apps.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -2180,9 +2284,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -2270,10 +2374,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -2450,10 +2554,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteInner>() { }.getType())
-            .register(202, new TypeToken<SiteInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteInner>() { }.getType())
+                .register(202, new TypeToken<SiteInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -2632,11 +2736,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -2732,10 +2836,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteInner> updateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteInner>() { }.getType())
-            .register(202, new TypeToken<SiteInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteInner>() { }.getType())
+                .register(202, new TypeToken<SiteInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -2911,9 +3015,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<CustomHostnameAnalysisResultInner> analyzeCustomHostnameDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<CustomHostnameAnalysisResultInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<CustomHostnameAnalysisResultInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<CustomHostnameAnalysisResultInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -3008,9 +3112,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> applySlotConfigToProductionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -3106,9 +3210,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupItemInner> backupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupItemInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupItemInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupItemInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -3200,8 +3304,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets existing backups of an app.
      * Gets existing backups of an app.
      *
-     ServiceResponse<PageImpl<BackupItemInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<BackupItemInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<BackupItemInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<BackupItemInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;BackupItemInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -3234,9 +3338,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<BackupItemInner>> listBackupsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<BackupItemInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<BackupItemInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<BackupItemInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -3331,9 +3435,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupItemInner> getBackupStatusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupItemInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupItemInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupItemInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -3427,10 +3531,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteBackupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -3533,9 +3637,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupItemInner> listBackupStatusSecretsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupItemInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupItemInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupItemInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -3724,10 +3828,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginRestoreDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -3819,8 +3923,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the configurations of an app.
      * List the configurations of an app.
      *
-     ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteConfigResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -3853,9 +3957,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteConfigResourceInner>> listConfigurationsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteConfigResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteConfigResourceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteConfigResourceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -3951,9 +4055,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StringDictionaryInner> updateApplicationSettingsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4041,9 +4145,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StringDictionaryInner> listApplicationSettingsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4139,9 +4243,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteAuthSettingsInner> updateAuthSettingsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteAuthSettingsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteAuthSettingsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteAuthSettingsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4229,9 +4333,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteAuthSettingsInner> getAuthSettingsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteAuthSettingsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteAuthSettingsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteAuthSettingsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4327,9 +4431,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<AzureStoragePropertyDictionaryResourceInner> updateAzureStorageAccountsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<AzureStoragePropertyDictionaryResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<AzureStoragePropertyDictionaryResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<AzureStoragePropertyDictionaryResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4417,9 +4521,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<AzureStoragePropertyDictionaryResourceInner> listAzureStorageAccountsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<AzureStoragePropertyDictionaryResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<AzureStoragePropertyDictionaryResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<AzureStoragePropertyDictionaryResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4515,9 +4619,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupRequestInner> updateBackupConfigurationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupRequestInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupRequestInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupRequestInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4604,9 +4708,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteBackupConfigurationDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -4694,9 +4798,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupRequestInner> getBackupConfigurationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupRequestInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupRequestInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupRequestInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4792,9 +4896,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ConnectionStringDictionaryInner> updateConnectionStringsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ConnectionStringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ConnectionStringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<ConnectionStringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4882,9 +4986,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ConnectionStringDictionaryInner> listConnectionStringsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ConnectionStringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ConnectionStringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<ConnectionStringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -4972,9 +5076,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteLogsConfigInner> getDiagnosticLogsConfigurationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteLogsConfigInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteLogsConfigInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteLogsConfigInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5070,9 +5174,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteLogsConfigInner> updateDiagnosticLogsConfigDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteLogsConfigInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteLogsConfigInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteLogsConfigInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5168,9 +5272,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StringDictionaryInner> updateMetadataDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5258,9 +5362,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StringDictionaryInner> listMetadataDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5421,9 +5525,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<UserInner> beginListPublishingCredentialsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<UserInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<UserInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<UserInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5519,9 +5623,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PushSettingsInner> updateSitePushSettingsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PushSettingsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PushSettingsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PushSettingsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5609,9 +5713,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PushSettingsInner> listSitePushSettingsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PushSettingsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PushSettingsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PushSettingsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5699,9 +5803,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SlotConfigNamesResourceInner> listSlotConfigurationNamesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SlotConfigNamesResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SlotConfigNamesResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SlotConfigNamesResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5797,9 +5901,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SlotConfigNamesResourceInner> updateSlotConfigurationNamesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SlotConfigNamesResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SlotConfigNamesResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SlotConfigNamesResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5887,9 +5991,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteConfigResourceInner> getConfigurationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteConfigResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -5985,9 +6089,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteConfigResourceInner> createOrUpdateConfigurationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteConfigResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -6083,9 +6187,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteConfigResourceInner> updateConfigurationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteConfigResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -6177,8 +6281,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot.
      * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot.
      *
-     ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteConfigurationSnapshotInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -6211,9 +6315,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> listConfigurationSnapshotInfoDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteConfigurationSnapshotInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteConfigurationSnapshotInfoInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteConfigurationSnapshotInfoInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -6308,9 +6412,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteConfigResourceInner> getConfigurationSnapshotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteConfigResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -6404,9 +6508,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> recoverSiteConfigurationSnapshotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -6494,10 +6598,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> getWebSiteContainerLogsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -6585,10 +6689,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> getContainerLogsZipDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -6680,8 +6784,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List continuous web jobs for an app, or a deployment slot.
      * List continuous web jobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param name Site name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ContinuousWebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -6714,9 +6818,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ContinuousWebJobInner>> listContinuousWebJobsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ContinuousWebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ContinuousWebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ContinuousWebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -6811,10 +6915,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ContinuousWebJobInner> getContinuousWebJobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ContinuousWebJobInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ContinuousWebJobInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ContinuousWebJobInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -6908,10 +7012,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteContinuousWebJobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -7005,10 +7109,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> startContinuousWebJobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -7102,10 +7206,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> stopContinuousWebJobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -7197,8 +7301,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List deployments for an app, or a deployment slot.
      * List deployments for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<DeploymentInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<DeploymentInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<DeploymentInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<DeploymentInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;DeploymentInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -7231,9 +7335,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<DeploymentInner>> listDeploymentsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<DeploymentInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<DeploymentInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<DeploymentInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -7328,9 +7432,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<DeploymentInner> getDeploymentDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<DeploymentInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<DeploymentInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -7433,9 +7537,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<DeploymentInner> createDeploymentDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<DeploymentInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<DeploymentInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -7529,10 +7633,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteDeploymentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -7627,9 +7731,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<DeploymentInner> listDeploymentLogDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<DeploymentInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<DeploymentInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -7725,9 +7829,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RestoreRequestInner> discoverBackupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RestoreRequestInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RestoreRequestInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RestoreRequestInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -7819,8 +7923,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Lists ownership identifiers for domain associated with web app.
      * Lists ownership identifiers for domain associated with web app.
      *
-     ServiceResponse<PageImpl<IdentifierInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<IdentifierInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<IdentifierInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<IdentifierInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;IdentifierInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -7853,9 +7957,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<IdentifierInner>> listDomainOwnershipIdentifiersDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<IdentifierInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<IdentifierInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<IdentifierInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -7950,9 +8054,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<IdentifierInner> getDomainOwnershipIdentifierDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<IdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<IdentifierInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<IdentifierInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -8055,9 +8159,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<IdentifierInner> createOrUpdateDomainOwnershipIdentifierDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<IdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<IdentifierInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<IdentifierInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -8151,10 +8255,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteDomainOwnershipIdentifierDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -8257,9 +8361,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<IdentifierInner> updateDomainOwnershipIdentifierDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<IdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<IdentifierInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<IdentifierInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -8347,9 +8451,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployStatusInner> getMSDeployStatusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MSDeployStatusInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<MSDeployStatusInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -8526,10 +8630,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployStatusInner> beginCreateMSDeployOperationDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployStatusInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(201, new TypeToken<MSDeployStatusInner>() { }.getType())
-            .register(409, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(201, new TypeToken<MSDeployStatusInner>() { }.getType())
+                .register(409, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -8617,10 +8721,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployLogInner> getMSDeployLogDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployLogInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MSDeployLogInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<MSDeployLogInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -8712,8 +8816,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the functions for a web site, or a deployment slot.
      * List the functions for a web site, or a deployment slot.
      *
-     ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param name Site name.
+    ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param name Site name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FunctionEnvelopeInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -8746,10 +8850,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<FunctionEnvelopeInner>> listFunctionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FunctionEnvelopeInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<FunctionEnvelopeInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<FunctionEnvelopeInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -8837,9 +8941,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<String> getFunctionsAdminTokenDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<String, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<String>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<String>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -8934,10 +9038,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<FunctionEnvelopeInner> getFunctionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FunctionEnvelopeInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<FunctionEnvelopeInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<FunctionEnvelopeInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -9128,9 +9232,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<FunctionEnvelopeInner> beginCreateFunctionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FunctionEnvelopeInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(201, new TypeToken<FunctionEnvelopeInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(201, new TypeToken<FunctionEnvelopeInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -9224,10 +9328,324 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteFunctionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Add or update a function secret.
+     * Add or update a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the KeyInfoInner object if successful.
+     */
+    public KeyInfoInner createOrUpdateFunctionSecret(String resourceGroupName, String name, String functionName, String keyName, KeyInfoInner key) {
+        return createOrUpdateFunctionSecretWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, key).toBlocking().single().body();
+    }
+
+    /**
+     * Add or update a function secret.
+     * Add or update a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param key The key to create or update
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<KeyInfoInner> createOrUpdateFunctionSecretAsync(String resourceGroupName, String name, String functionName, String keyName, KeyInfoInner key, final ServiceCallback<KeyInfoInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateFunctionSecretWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, key), serviceCallback);
+    }
+
+    /**
+     * Add or update a function secret.
+     * Add or update a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the KeyInfoInner object
+     */
+    public Observable<KeyInfoInner> createOrUpdateFunctionSecretAsync(String resourceGroupName, String name, String functionName, String keyName, KeyInfoInner key) {
+        return createOrUpdateFunctionSecretWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, key).map(new Func1<ServiceResponse<KeyInfoInner>, KeyInfoInner>() {
+            @Override
+            public KeyInfoInner call(ServiceResponse<KeyInfoInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Add or update a function secret.
+     * Add or update a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the KeyInfoInner object
+     */
+    public Observable<ServiceResponse<KeyInfoInner>> createOrUpdateFunctionSecretWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String keyName, KeyInfoInner key) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (keyName == null) {
+            throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (key == null) {
+            throw new IllegalArgumentException("Parameter key is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(key);
+        return service.createOrUpdateFunctionSecret(resourceGroupName, name, functionName, keyName, this.client.subscriptionId(), key, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<KeyInfoInner>>>() {
+                @Override
+                public Observable<ServiceResponse<KeyInfoInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<KeyInfoInner> clientResponse = createOrUpdateFunctionSecretDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<KeyInfoInner> createOrUpdateFunctionSecretDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<KeyInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<KeyInfoInner>() { }.getType())
+                .register(201, new TypeToken<KeyInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Delete a function secret.
+     * Delete a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void deleteFunctionSecret(String resourceGroupName, String name, String functionName, String keyName) {
+        deleteFunctionSecretWithServiceResponseAsync(resourceGroupName, name, functionName, keyName).toBlocking().single().body();
+    }
+
+    /**
+     * Delete a function secret.
+     * Delete a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> deleteFunctionSecretAsync(String resourceGroupName, String name, String functionName, String keyName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteFunctionSecretWithServiceResponseAsync(resourceGroupName, name, functionName, keyName), serviceCallback);
+    }
+
+    /**
+     * Delete a function secret.
+     * Delete a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> deleteFunctionSecretAsync(String resourceGroupName, String name, String functionName, String keyName) {
+        return deleteFunctionSecretWithServiceResponseAsync(resourceGroupName, name, functionName, keyName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Delete a function secret.
+     * Delete a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> deleteFunctionSecretWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String keyName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (keyName == null) {
+            throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.deleteFunctionSecret(resourceGroupName, name, functionName, keyName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = deleteFunctionSecretDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> deleteFunctionSecretDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Get function keys for a function in a web site, or a deployment slot.
+     * Get function keys for a function in a web site, or a deployment slot.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the StringDictionaryInner object if successful.
+     */
+    public StringDictionaryInner listFunctionKeys(String resourceGroupName, String name, String functionName) {
+        return listFunctionKeysWithServiceResponseAsync(resourceGroupName, name, functionName).toBlocking().single().body();
+    }
+
+    /**
+     * Get function keys for a function in a web site, or a deployment slot.
+     * Get function keys for a function in a web site, or a deployment slot.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<StringDictionaryInner> listFunctionKeysAsync(String resourceGroupName, String name, String functionName, final ServiceCallback<StringDictionaryInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listFunctionKeysWithServiceResponseAsync(resourceGroupName, name, functionName), serviceCallback);
+    }
+
+    /**
+     * Get function keys for a function in a web site, or a deployment slot.
+     * Get function keys for a function in a web site, or a deployment slot.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the StringDictionaryInner object
+     */
+    public Observable<StringDictionaryInner> listFunctionKeysAsync(String resourceGroupName, String name, String functionName) {
+        return listFunctionKeysWithServiceResponseAsync(resourceGroupName, name, functionName).map(new Func1<ServiceResponse<StringDictionaryInner>, StringDictionaryInner>() {
+            @Override
+            public StringDictionaryInner call(ServiceResponse<StringDictionaryInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get function keys for a function in a web site, or a deployment slot.
+     * Get function keys for a function in a web site, or a deployment slot.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the StringDictionaryInner object
+     */
+    public Observable<ServiceResponse<StringDictionaryInner>> listFunctionKeysWithServiceResponseAsync(String resourceGroupName, String name, String functionName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listFunctionKeys(resourceGroupName, name, functionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StringDictionaryInner>>>() {
+                @Override
+                public Observable<ServiceResponse<StringDictionaryInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<StringDictionaryInner> clientResponse = listFunctionKeysDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<StringDictionaryInner> listFunctionKeysDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -9322,9 +9740,975 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<FunctionSecretsInner> listFunctionSecretsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FunctionSecretsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<FunctionSecretsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<FunctionSecretsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get the enablement state for a function.
+     * Get the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String getFunctionState(String resourceGroupName, String name, String functionName) {
+        return getFunctionStateWithServiceResponseAsync(resourceGroupName, name, functionName).toBlocking().single().body();
+    }
+
+    /**
+     * Get the enablement state for a function.
+     * Get the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> getFunctionStateAsync(String resourceGroupName, String name, String functionName, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(getFunctionStateWithServiceResponseAsync(resourceGroupName, name, functionName), serviceCallback);
+    }
+
+    /**
+     * Get the enablement state for a function.
+     * Get the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<String> getFunctionStateAsync(String resourceGroupName, String name, String functionName) {
+        return getFunctionStateWithServiceResponseAsync(resourceGroupName, name, functionName).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get the enablement state for a function.
+     * Get the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<ServiceResponse<String>> getFunctionStateWithServiceResponseAsync(String resourceGroupName, String name, String functionName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getFunctionState(resourceGroupName, name, functionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
+                @Override
+                public Observable<ServiceResponse<String>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<String> clientResponse = getFunctionStateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<String> getFunctionStateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<String, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<String>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Set the enablement state for a function.
+     * Set the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param requestEnvelope the String value
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String updateFunctionState(String resourceGroupName, String name, String functionName, String requestEnvelope) {
+        return updateFunctionStateWithServiceResponseAsync(resourceGroupName, name, functionName, requestEnvelope).toBlocking().single().body();
+    }
+
+    /**
+     * Set the enablement state for a function.
+     * Set the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param requestEnvelope the String value
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> updateFunctionStateAsync(String resourceGroupName, String name, String functionName, String requestEnvelope, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(updateFunctionStateWithServiceResponseAsync(resourceGroupName, name, functionName, requestEnvelope), serviceCallback);
+    }
+
+    /**
+     * Set the enablement state for a function.
+     * Set the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param requestEnvelope the String value
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<String> updateFunctionStateAsync(String resourceGroupName, String name, String functionName, String requestEnvelope) {
+        return updateFunctionStateWithServiceResponseAsync(resourceGroupName, name, functionName, requestEnvelope).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Set the enablement state for a function.
+     * Set the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param requestEnvelope the String value
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<ServiceResponse<String>> updateFunctionStateWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String requestEnvelope) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (requestEnvelope == null) {
+            throw new IllegalArgumentException("Parameter requestEnvelope is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.updateFunctionState(resourceGroupName, name, functionName, this.client.subscriptionId(), requestEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
+                @Override
+                public Observable<ServiceResponse<String>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<String> clientResponse = updateFunctionStateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<String> updateFunctionStateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<String, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<String>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get function status.
+     * Get function status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the FunctionStatusInner object if successful.
+     */
+    public FunctionStatusInner getFunctionStatus(String resourceGroupName, String name, String functionName) {
+        return getFunctionStatusWithServiceResponseAsync(resourceGroupName, name, functionName).toBlocking().single().body();
+    }
+
+    /**
+     * Get function status.
+     * Get function status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<FunctionStatusInner> getFunctionStatusAsync(String resourceGroupName, String name, String functionName, final ServiceCallback<FunctionStatusInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getFunctionStatusWithServiceResponseAsync(resourceGroupName, name, functionName), serviceCallback);
+    }
+
+    /**
+     * Get function status.
+     * Get function status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the FunctionStatusInner object
+     */
+    public Observable<FunctionStatusInner> getFunctionStatusAsync(String resourceGroupName, String name, String functionName) {
+        return getFunctionStatusWithServiceResponseAsync(resourceGroupName, name, functionName).map(new Func1<ServiceResponse<FunctionStatusInner>, FunctionStatusInner>() {
+            @Override
+            public FunctionStatusInner call(ServiceResponse<FunctionStatusInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get function status.
+     * Get function status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the FunctionStatusInner object
+     */
+    public Observable<ServiceResponse<FunctionStatusInner>> getFunctionStatusWithServiceResponseAsync(String resourceGroupName, String name, String functionName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getFunctionStatus(resourceGroupName, name, functionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FunctionStatusInner>>>() {
+                @Override
+                public Observable<ServiceResponse<FunctionStatusInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<FunctionStatusInner> clientResponse = getFunctionStatusDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<FunctionStatusInner> getFunctionStatusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<FunctionStatusInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<FunctionStatusInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Get host secrets for a function app.
+     * Get host secrets for a function app.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the HostKeysInner object if successful.
+     */
+    public HostKeysInner listHostKeys(String resourceGroupName, String name) {
+        return listHostKeysWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    }
+
+    /**
+     * Get host secrets for a function app.
+     * Get host secrets for a function app.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<HostKeysInner> listHostKeysAsync(String resourceGroupName, String name, final ServiceCallback<HostKeysInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listHostKeysWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    }
+
+    /**
+     * Get host secrets for a function app.
+     * Get host secrets for a function app.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the HostKeysInner object
+     */
+    public Observable<HostKeysInner> listHostKeysAsync(String resourceGroupName, String name) {
+        return listHostKeysWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<HostKeysInner>, HostKeysInner>() {
+            @Override
+            public HostKeysInner call(ServiceResponse<HostKeysInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get host secrets for a function app.
+     * Get host secrets for a function app.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the HostKeysInner object
+     */
+    public Observable<ServiceResponse<HostKeysInner>> listHostKeysWithServiceResponseAsync(String resourceGroupName, String name) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listHostKeys(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HostKeysInner>>>() {
+                @Override
+                public Observable<ServiceResponse<HostKeysInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<HostKeysInner> clientResponse = listHostKeysDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<HostKeysInner> listHostKeysDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<HostKeysInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<HostKeysInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * This is to allow calling via powershell and ARM template.
+     * This is to allow calling via powershell and ARM template.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void listSyncStatus(String resourceGroupName, String name) {
+        listSyncStatusWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    }
+
+    /**
+     * This is to allow calling via powershell and ARM template.
+     * This is to allow calling via powershell and ARM template.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> listSyncStatusAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(listSyncStatusWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    }
+
+    /**
+     * This is to allow calling via powershell and ARM template.
+     * This is to allow calling via powershell and ARM template.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> listSyncStatusAsync(String resourceGroupName, String name) {
+        return listSyncStatusWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * This is to allow calling via powershell and ARM template.
+     * This is to allow calling via powershell and ARM template.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> listSyncStatusWithServiceResponseAsync(String resourceGroupName, String name) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSyncStatus(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = listSyncStatusDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> listSyncStatusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get the host configuration (host.json).
+     * Get the host configuration (host.json).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the Object object if successful.
+     */
+    public Object getHostConfig(String resourceGroupName, String name) {
+        return getHostConfigWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    }
+
+    /**
+     * Get the host configuration (host.json).
+     * Get the host configuration (host.json).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Object> getHostConfigAsync(String resourceGroupName, String name, final ServiceCallback<Object> serviceCallback) {
+        return ServiceFuture.fromResponse(getHostConfigWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    }
+
+    /**
+     * Get the host configuration (host.json).
+     * Get the host configuration (host.json).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the Object object
+     */
+    public Observable<Object> getHostConfigAsync(String resourceGroupName, String name) {
+        return getHostConfigWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<Object>, Object>() {
+            @Override
+            public Object call(ServiceResponse<Object> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get the host configuration (host.json).
+     * Get the host configuration (host.json).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the Object object
+     */
+    public Observable<ServiceResponse<Object>> getHostConfigWithServiceResponseAsync(String resourceGroupName, String name) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getHostConfig(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Object>>>() {
+                @Override
+                public Observable<ServiceResponse<Object>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Object> clientResponse = getHostConfigDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Object> getHostConfigDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Object, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Object>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get the host status.
+     * Get the host status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the HostStatusInner object if successful.
+     */
+    public HostStatusInner getHostStatus(String resourceGroupName, String name) {
+        return getHostStatusWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    }
+
+    /**
+     * Get the host status.
+     * Get the host status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<HostStatusInner> getHostStatusAsync(String resourceGroupName, String name, final ServiceCallback<HostStatusInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getHostStatusWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    }
+
+    /**
+     * Get the host status.
+     * Get the host status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the HostStatusInner object
+     */
+    public Observable<HostStatusInner> getHostStatusAsync(String resourceGroupName, String name) {
+        return getHostStatusWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<HostStatusInner>, HostStatusInner>() {
+            @Override
+            public HostStatusInner call(ServiceResponse<HostStatusInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get the host status.
+     * Get the host status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the HostStatusInner object
+     */
+    public Observable<ServiceResponse<HostStatusInner>> getHostStatusWithServiceResponseAsync(String resourceGroupName, String name) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getHostStatus(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HostStatusInner>>>() {
+                @Override
+                public Observable<ServiceResponse<HostStatusInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<HostStatusInner> clientResponse = getHostStatusDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<HostStatusInner> getHostStatusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<HostStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<HostStatusInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void syncFunctions(String resourceGroupName, String name) {
+        syncFunctionsWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    }
+
+    /**
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> syncFunctionsAsync(String resourceGroupName, String name, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(syncFunctionsWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    }
+
+    /**
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> syncFunctionsAsync(String resourceGroupName, String name) {
+        return syncFunctionsWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> syncFunctionsWithServiceResponseAsync(String resourceGroupName, String name) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.syncFunctions(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = syncFunctionsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> syncFunctionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Add or update a host level secret.
+     * Add or update a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the KeyInfoInner object if successful.
+     */
+    public KeyInfoInner createOrUpdateHostSecret(String resourceGroupName, String name, String keyType, String keyName, KeyInfoInner key) {
+        return createOrUpdateHostSecretWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, key).toBlocking().single().body();
+    }
+
+    /**
+     * Add or update a host level secret.
+     * Add or update a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param key The key to create or update
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<KeyInfoInner> createOrUpdateHostSecretAsync(String resourceGroupName, String name, String keyType, String keyName, KeyInfoInner key, final ServiceCallback<KeyInfoInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateHostSecretWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, key), serviceCallback);
+    }
+
+    /**
+     * Add or update a host level secret.
+     * Add or update a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the KeyInfoInner object
+     */
+    public Observable<KeyInfoInner> createOrUpdateHostSecretAsync(String resourceGroupName, String name, String keyType, String keyName, KeyInfoInner key) {
+        return createOrUpdateHostSecretWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, key).map(new Func1<ServiceResponse<KeyInfoInner>, KeyInfoInner>() {
+            @Override
+            public KeyInfoInner call(ServiceResponse<KeyInfoInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Add or update a host level secret.
+     * Add or update a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the KeyInfoInner object
+     */
+    public Observable<ServiceResponse<KeyInfoInner>> createOrUpdateHostSecretWithServiceResponseAsync(String resourceGroupName, String name, String keyType, String keyName, KeyInfoInner key) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (keyType == null) {
+            throw new IllegalArgumentException("Parameter keyType is required and cannot be null.");
+        }
+        if (keyName == null) {
+            throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (key == null) {
+            throw new IllegalArgumentException("Parameter key is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(key);
+        return service.createOrUpdateHostSecret(resourceGroupName, name, keyType, keyName, this.client.subscriptionId(), key, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<KeyInfoInner>>>() {
+                @Override
+                public Observable<ServiceResponse<KeyInfoInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<KeyInfoInner> clientResponse = createOrUpdateHostSecretDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<KeyInfoInner> createOrUpdateHostSecretDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<KeyInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<KeyInfoInner>() { }.getType())
+                .register(201, new TypeToken<KeyInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Delete a host level secret.
+     * Delete a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void deleteHostSecret(String resourceGroupName, String name, String keyType, String keyName) {
+        deleteHostSecretWithServiceResponseAsync(resourceGroupName, name, keyType, keyName).toBlocking().single().body();
+    }
+
+    /**
+     * Delete a host level secret.
+     * Delete a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> deleteHostSecretAsync(String resourceGroupName, String name, String keyType, String keyName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteHostSecretWithServiceResponseAsync(resourceGroupName, name, keyType, keyName), serviceCallback);
+    }
+
+    /**
+     * Delete a host level secret.
+     * Delete a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> deleteHostSecretAsync(String resourceGroupName, String name, String keyType, String keyName) {
+        return deleteHostSecretWithServiceResponseAsync(resourceGroupName, name, keyType, keyName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Delete a host level secret.
+     * Delete a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> deleteHostSecretWithServiceResponseAsync(String resourceGroupName, String name, String keyType, String keyName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (keyType == null) {
+            throw new IllegalArgumentException("Parameter keyType is required and cannot be null.");
+        }
+        if (keyName == null) {
+            throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.deleteHostSecret(resourceGroupName, name, keyType, keyName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = deleteHostSecretDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> deleteHostSecretDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -9416,8 +10800,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get hostname bindings for an app or a deployment slot.
      * Get hostname bindings for an app or a deployment slot.
      *
-     ServiceResponse<PageImpl<HostNameBindingInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<HostNameBindingInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<HostNameBindingInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<HostNameBindingInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;HostNameBindingInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -9450,9 +10834,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<HostNameBindingInner>> listHostNameBindingsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<HostNameBindingInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<HostNameBindingInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<HostNameBindingInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -9547,9 +10931,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HostNameBindingInner> getHostNameBindingDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HostNameBindingInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HostNameBindingInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HostNameBindingInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -9652,9 +11036,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HostNameBindingInner> createOrUpdateHostNameBindingDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HostNameBindingInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HostNameBindingInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HostNameBindingInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -9748,10 +11132,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteHostNameBindingDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -9853,9 +11237,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionInner> getHybridConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -9965,9 +11349,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionInner> createOrUpdateHybridConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -10068,10 +11452,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteHybridConnectionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -10181,9 +11565,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionInner> updateHybridConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -10285,9 +11669,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionKeyInner> listHybridConnectionKeysDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionKeyInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionKeyInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionKeyInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -10375,9 +11759,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionInner> listHybridConnectionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -10465,9 +11849,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RelayServiceConnectionEntityInner> listRelayServiceConnectionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RelayServiceConnectionEntityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -10562,9 +11946,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RelayServiceConnectionEntityInner> getRelayServiceConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RelayServiceConnectionEntityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -10667,9 +12051,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RelayServiceConnectionEntityInner> createOrUpdateRelayServiceConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RelayServiceConnectionEntityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -10763,10 +12147,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteRelayServiceConnectionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -10869,9 +12253,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RelayServiceConnectionEntityInner> updateRelayServiceConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RelayServiceConnectionEntityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -10963,8 +12347,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all scale-out instances of an app.
      * Gets all scale-out instances of an app.
      *
-     ServiceResponse<PageImpl<SiteInstanceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteInstanceInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SiteInstanceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteInstanceInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInstanceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -10997,9 +12381,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInstanceInner>> listInstanceIdentifiersDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInstanceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInstanceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInstanceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -11094,9 +12478,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployStatusInner> getInstanceMsDeployStatusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MSDeployStatusInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<MSDeployStatusInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -11287,10 +12671,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployStatusInner> beginCreateInstanceMSDeployOperationDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployStatusInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(201, new TypeToken<MSDeployStatusInner>() { }.getType())
-            .register(409, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(201, new TypeToken<MSDeployStatusInner>() { }.getType())
+                .register(409, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -11385,10 +12769,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployLogInner> getInstanceMSDeployLogDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployLogInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MSDeployLogInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<MSDeployLogInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -11484,9 +12868,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -11522,10 +12906,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessInfoInner>> listInstanceProcessesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -11627,10 +13011,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessInfoInner> getInstanceProcessDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -11731,10 +13115,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteInstanceProcessDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -11836,10 +13220,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> getInstanceProcessDumpDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -11939,10 +13323,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param processId PID.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param processId PID.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessModuleInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -11981,10 +13365,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessModuleInfoInner>> listInstanceProcessModulesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessModuleInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -12093,10 +13477,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessModuleInfoInner> getInstanceProcessModuleDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessModuleInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessModuleInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessModuleInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -12196,10 +13580,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param processId PID.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param processId PID.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessThreadInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -12238,10 +13622,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessThreadInfoInner>> listInstanceProcessThreadsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessThreadInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -12350,10 +13734,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessThreadInfoInner> getInstanceProcessThreadDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessThreadInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessThreadInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessThreadInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -12441,9 +13825,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteCloneabilityInner> isCloneableDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteCloneabilityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteCloneabilityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteCloneabilityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -12531,9 +13915,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<FunctionSecretsInner> listSyncFunctionTriggersDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FunctionSecretsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<FunctionSecretsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<FunctionSecretsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -12625,8 +14009,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all metric definitions of an app (or deployment slot, if specified).
      * Gets all metric definitions of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -12659,9 +14043,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMetricDefinitionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -12884,10 +14268,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets performance metrics of an app (or deployment slot, if specified).
      * Gets performance metrics of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify "true" to include metric details in the response. It is "false" by default.
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only metrics specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify "true" to include metric details in the response. It is "false" by default.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only metrics specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -12920,9 +14304,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -13113,9 +14497,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StorageMigrationResponseInner> beginMigrateStorageDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StorageMigrationResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StorageMigrationResponseInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StorageMigrationResponseInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -13292,9 +14676,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<OperationInner> beginMigrateMySqlDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<OperationInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<OperationInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<OperationInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -13382,9 +14766,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MigrateMySqlStatusInner> getMigrateMySqlStatusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MigrateMySqlStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MigrateMySqlStatusInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<MigrateMySqlStatusInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -13472,9 +14856,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SwiftVirtualNetworkInner> getSwiftVirtualNetworkConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SwiftVirtualNetworkInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -13578,9 +14962,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SwiftVirtualNetworkInner> createOrUpdateSwiftVirtualNetworkConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SwiftVirtualNetworkInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -13667,10 +15051,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteSwiftVirtualNetworkDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -13774,9 +15158,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SwiftVirtualNetworkInner> updateSwiftVirtualNetworkConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SwiftVirtualNetworkInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -13871,10 +15255,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<NetworkFeaturesInner> listNetworkFeaturesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<NetworkFeaturesInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<NetworkFeaturesInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<NetworkFeaturesInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -13969,10 +15353,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> getNetworkTraceOperationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -14158,9 +15542,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<String> startWebSiteNetworkTraceDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<String, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<String>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<String>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -14506,10 +15890,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> beginStartWebSiteNetworkTraceOperationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -14596,10 +15980,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> stopWebSiteNetworkTraceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -14694,9 +16078,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> getNetworkTracesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -14791,10 +16175,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> getNetworkTraceOperationV2Delegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -14889,9 +16273,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> getNetworkTracesV2Delegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -14978,10 +16362,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> generateNewSitePublishingPasswordDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -15199,9 +16583,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets perfmon counters for web app.
      * Gets perfmon counters for web app.
      *
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param name Name of web app.
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param name Name of web app.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PerfMonResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -15234,9 +16618,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<PerfMonResponseInner>> listPerfMonCountersDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PerfMonResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<PerfMonResponseInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<PerfMonResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -15324,9 +16708,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SitePhpErrorLogFlagInner> getSitePhpErrorLogFlagDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SitePhpErrorLogFlagInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SitePhpErrorLogFlagInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SitePhpErrorLogFlagInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -15414,9 +16798,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PremierAddOnInner> listPremierAddOnsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PremierAddOnInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -15511,9 +16895,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PremierAddOnInner> getPremierAddOnDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PremierAddOnInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -15616,9 +17000,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PremierAddOnInner> addPremierAddOnDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PremierAddOnInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -15712,9 +17096,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deletePremierAddOnDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -15817,9 +17201,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PremierAddOnInner> updatePremierAddOnDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PremierAddOnInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -15907,9 +17291,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PrivateAccessInner> getPrivateAccessDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PrivateAccessInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PrivateAccessInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PrivateAccessInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -16005,9 +17389,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PrivateAccessInner> putPrivateAccessVnetDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PrivateAccessInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PrivateAccessInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PrivateAccessInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -16099,8 +17483,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param name Site name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -16133,10 +17517,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessInfoInner>> listProcessesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -16231,10 +17615,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessInfoInner> getProcessDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -16328,10 +17712,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteProcessDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -16426,10 +17810,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> getProcessDumpDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -16525,9 +17909,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param processId PID.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param processId PID.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessModuleInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -16563,10 +17947,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessModuleInfoInner>> listProcessModulesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessModuleInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -16668,10 +18052,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessModuleInfoInner> getProcessModuleDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessModuleInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessModuleInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessModuleInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -16767,9 +18151,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param processId PID.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param processId PID.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessThreadInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -16805,10 +18189,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessThreadInfoInner>> listProcessThreadsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessThreadInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -16910,10 +18294,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessThreadInfoInner> getProcessThreadDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessThreadInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessThreadInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessThreadInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -17005,8 +18389,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get public certificates for an app or a deployment slot.
      * Get public certificates for an app or a deployment slot.
      *
-     ServiceResponse<PageImpl<PublicCertificateInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<PublicCertificateInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<PublicCertificateInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<PublicCertificateInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PublicCertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -17039,9 +18423,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<PublicCertificateInner>> listPublicCertificatesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PublicCertificateInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<PublicCertificateInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<PublicCertificateInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -17136,9 +18520,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PublicCertificateInner> getPublicCertificateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PublicCertificateInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PublicCertificateInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PublicCertificateInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -17241,9 +18625,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PublicCertificateInner> createOrUpdatePublicCertificateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PublicCertificateInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PublicCertificateInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PublicCertificateInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -17337,10 +18721,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deletePublicCertificateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -17436,9 +18820,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> listPublishingProfileXmlWithSecretsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -17525,9 +18909,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> resetProductionSlotConfigDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -17706,9 +19090,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> restartDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -17883,10 +19267,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginRestoreFromBackupBlobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -18061,10 +19445,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginRestoreFromDeletedAppDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -18239,10 +19623,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginRestoreSnapshotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -18334,8 +19718,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of siteextensions for a web site, or a deployment slot.
      * Get list of siteextensions for a web site, or a deployment slot.
      *
-     ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param name Site name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteExtensionInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -18368,10 +19752,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteExtensionInfoInner>> listSiteExtensionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteExtensionInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteExtensionInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteExtensionInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -18466,10 +19850,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteExtensionInfoInner> getSiteExtensionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteExtensionInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteExtensionInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteExtensionInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -18644,11 +20028,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteExtensionInfoInner> beginInstallSiteExtensionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteExtensionInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteExtensionInfoInner>() { }.getType())
-            .register(201, new TypeToken<SiteExtensionInfoInner>() { }.getType())
-            .register(429, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteExtensionInfoInner>() { }.getType())
+                .register(201, new TypeToken<SiteExtensionInfoInner>() { }.getType())
+                .register(429, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -18742,10 +20126,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteSiteExtensionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -18837,8 +20221,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets an app's deployment slots.
      * Gets an app's deployment slots.
      *
-     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteInner>> * @param name Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -18871,9 +20255,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInner>> listSlotsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -18968,10 +20352,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteInner> getSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -19162,10 +20546,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteInner> beginCreateOrUpdateSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteInner>() { }.getType())
-            .register(202, new TypeToken<SiteInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteInner>() { }.getType())
+                .register(202, new TypeToken<SiteInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -19358,11 +20742,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -19465,10 +20849,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteInner> updateSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteInner>() { }.getType())
-            .register(202, new TypeToken<SiteInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteInner>() { }.getType())
+                .register(202, new TypeToken<SiteInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -19658,9 +21042,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<CustomHostnameAnalysisResultInner> analyzeCustomHostnameSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<CustomHostnameAnalysisResultInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<CustomHostnameAnalysisResultInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<CustomHostnameAnalysisResultInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -19762,9 +21146,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> applySlotConfigurationSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -19867,9 +21251,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupItemInner> backupSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupItemInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupItemInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupItemInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -19965,9 +21349,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets existing backups of an app.
      * Gets existing backups of an app.
      *
-     ServiceResponse<PageImpl<BackupItemInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<BackupItemInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<BackupItemInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will get backups of the production slot.
+    ServiceResponse<PageImpl<BackupItemInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<BackupItemInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<BackupItemInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will get backups of the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;BackupItemInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -20003,9 +21387,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<BackupItemInner>> listBackupsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<BackupItemInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<BackupItemInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<BackupItemInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -20107,9 +21491,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupItemInner> getBackupStatusSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupItemInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupItemInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupItemInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -20210,10 +21594,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteBackupSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -20323,9 +21707,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupItemInner> listBackupStatusSecretsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupItemInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupItemInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupItemInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -20528,10 +21912,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginRestoreSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -20627,9 +22011,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the configurations of an app.
      * List the configurations of an app.
      *
-     ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will return configuration for the production slot.
+    ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will return configuration for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteConfigResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -20665,9 +22049,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteConfigResourceInner>> listConfigurationsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteConfigResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteConfigResourceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteConfigResourceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -20770,9 +22154,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StringDictionaryInner> updateApplicationSettingsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -20867,9 +22251,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StringDictionaryInner> listApplicationSettingsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -20972,9 +22356,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteAuthSettingsInner> updateAuthSettingsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteAuthSettingsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteAuthSettingsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteAuthSettingsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21069,9 +22453,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteAuthSettingsInner> getAuthSettingsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteAuthSettingsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteAuthSettingsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteAuthSettingsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21174,9 +22558,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<AzureStoragePropertyDictionaryResourceInner> updateAzureStorageAccountsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<AzureStoragePropertyDictionaryResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<AzureStoragePropertyDictionaryResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<AzureStoragePropertyDictionaryResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21271,9 +22655,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<AzureStoragePropertyDictionaryResourceInner> listAzureStorageAccountsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<AzureStoragePropertyDictionaryResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<AzureStoragePropertyDictionaryResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<AzureStoragePropertyDictionaryResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21376,9 +22760,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupRequestInner> updateBackupConfigurationSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupRequestInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupRequestInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupRequestInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21472,9 +22856,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteBackupConfigurationSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -21569,9 +22953,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<BackupRequestInner> getBackupConfigurationSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BackupRequestInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<BackupRequestInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<BackupRequestInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21674,9 +23058,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ConnectionStringDictionaryInner> updateConnectionStringsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ConnectionStringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ConnectionStringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<ConnectionStringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21771,9 +23155,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ConnectionStringDictionaryInner> listConnectionStringsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ConnectionStringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ConnectionStringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<ConnectionStringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21868,9 +23252,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteLogsConfigInner> getDiagnosticLogsConfigurationSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteLogsConfigInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteLogsConfigInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteLogsConfigInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -21973,9 +23357,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteLogsConfigInner> updateDiagnosticLogsConfigSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteLogsConfigInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteLogsConfigInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteLogsConfigInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22078,9 +23462,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StringDictionaryInner> updateMetadataSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22175,9 +23559,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<StringDictionaryInner> listMetadataSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22352,9 +23736,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<UserInner> beginListPublishingCredentialsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<UserInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<UserInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<UserInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22457,9 +23841,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PushSettingsInner> updateSitePushSettingsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PushSettingsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PushSettingsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PushSettingsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22554,9 +23938,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PushSettingsInner> listSitePushSettingsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PushSettingsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PushSettingsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PushSettingsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22651,9 +24035,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteConfigResourceInner> getConfigurationSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteConfigResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22756,9 +24140,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteConfigResourceInner> createOrUpdateConfigurationSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteConfigResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22861,9 +24245,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteConfigResourceInner> updateConfigurationSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteConfigResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -22959,9 +24343,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot.
      * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot.
      *
-     ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will return configuration for the production slot.
+    ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will return configuration for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteConfigurationSnapshotInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -22997,9 +24381,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> listConfigurationSnapshotInfoSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteConfigurationSnapshotInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteConfigurationSnapshotInfoInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteConfigurationSnapshotInfoInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -23101,9 +24485,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteConfigResourceInner> getConfigurationSnapshotSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteConfigResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteConfigResourceInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -23204,9 +24588,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> recoverSiteConfigurationSnapshotSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -23301,10 +24685,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> getWebSiteContainerLogsSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -23399,10 +24783,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> getContainerLogsZipSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -23498,9 +24882,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List continuous web jobs for an app, or a deployment slot.
      * List continuous web jobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+    ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ContinuousWebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -23536,9 +24920,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ContinuousWebJobInner>> listContinuousWebJobsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ContinuousWebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ContinuousWebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ContinuousWebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -23640,10 +25024,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ContinuousWebJobInner> getContinuousWebJobSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ContinuousWebJobInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ContinuousWebJobInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ContinuousWebJobInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -23744,10 +25128,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteContinuousWebJobSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -23848,10 +25232,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> startContinuousWebJobSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -23952,10 +25336,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> stopContinuousWebJobSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -24051,9 +25435,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List deployments for an app, or a deployment slot.
      * List deployments for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<DeploymentInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<DeploymentInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<DeploymentInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+    ServiceResponse<PageImpl<DeploymentInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<DeploymentInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<DeploymentInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;DeploymentInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -24089,9 +25473,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<DeploymentInner>> listDeploymentsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<DeploymentInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<DeploymentInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<DeploymentInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -24193,9 +25577,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<DeploymentInner> getDeploymentSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<DeploymentInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<DeploymentInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -24305,9 +25689,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<DeploymentInner> createDeploymentSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<DeploymentInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<DeploymentInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -24408,10 +25792,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteDeploymentSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -24513,9 +25897,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<DeploymentInner> listDeploymentLogSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<DeploymentInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<DeploymentInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -24618,9 +26002,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RestoreRequestInner> discoverBackupSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RestoreRequestInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RestoreRequestInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RestoreRequestInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -24716,9 +26100,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Lists ownership identifiers for domain associated with web app.
      * Lists ownership identifiers for domain associated with web app.
      *
-     ServiceResponse<PageImpl<IdentifierInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<IdentifierInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<IdentifierInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the binding for the production slot.
+    ServiceResponse<PageImpl<IdentifierInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<IdentifierInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<IdentifierInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the binding for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;IdentifierInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -24754,9 +26138,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<IdentifierInner>> listDomainOwnershipIdentifiersSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<IdentifierInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<IdentifierInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<IdentifierInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -24858,9 +26242,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<IdentifierInner> getDomainOwnershipIdentifierSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<IdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<IdentifierInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<IdentifierInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -24970,9 +26354,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<IdentifierInner> createOrUpdateDomainOwnershipIdentifierSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<IdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<IdentifierInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<IdentifierInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -25073,10 +26457,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteDomainOwnershipIdentifierSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -25186,9 +26570,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<IdentifierInner> updateDomainOwnershipIdentifierSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<IdentifierInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<IdentifierInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<IdentifierInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -25283,9 +26667,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployStatusInner> getMSDeployStatusSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MSDeployStatusInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<MSDeployStatusInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -25476,10 +26860,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployStatusInner> beginCreateMSDeployOperationSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployStatusInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(201, new TypeToken<MSDeployStatusInner>() { }.getType())
-            .register(409, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(201, new TypeToken<MSDeployStatusInner>() { }.getType())
+                .register(409, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -25574,10 +26958,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployLogInner> getMSDeployLogSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployLogInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MSDeployLogInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<MSDeployLogInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -25586,7 +26970,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -25608,7 +26992,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -25631,7 +27015,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FunctionEnvelopeInner&gt; object
      */
@@ -25651,7 +27035,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FunctionEnvelopeInner&gt; object
      */
@@ -25673,9 +27057,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the functions for a web site, or a deployment slot.
      * List the functions for a web site, or a deployment slot.
      *
-     ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param name Site name.
-     ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+    ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param name Site name.
+    ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FunctionEnvelopeInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -25711,10 +27095,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<FunctionEnvelopeInner>> listInstanceFunctionsSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FunctionEnvelopeInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<FunctionEnvelopeInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<FunctionEnvelopeInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -25809,9 +27193,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<String> getFunctionsAdminTokenSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<String, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<String>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<String>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -25821,7 +27205,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -25838,7 +27222,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -25854,7 +27238,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FunctionEnvelopeInner object
      */
@@ -25874,7 +27258,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FunctionEnvelopeInner object
      */
@@ -25913,10 +27297,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<FunctionEnvelopeInner> getInstanceFunctionSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FunctionEnvelopeInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<FunctionEnvelopeInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<FunctionEnvelopeInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -25926,7 +27310,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param functionEnvelope Function details.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -25944,7 +27328,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param functionEnvelope Function details.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -25961,7 +27345,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param functionEnvelope Function details.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
@@ -25982,7 +27366,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param functionEnvelope Function details.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
@@ -26021,7 +27405,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param functionEnvelope Function details.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -26039,7 +27423,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param functionEnvelope Function details.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -26056,7 +27440,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param functionEnvelope Function details.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FunctionEnvelopeInner object
@@ -26077,7 +27461,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param functionEnvelope Function details.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FunctionEnvelopeInner object
@@ -26121,9 +27505,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<FunctionEnvelopeInner> beginCreateInstanceFunctionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FunctionEnvelopeInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(201, new TypeToken<FunctionEnvelopeInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(201, new TypeToken<FunctionEnvelopeInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -26133,7 +27517,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -26149,7 +27533,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -26165,7 +27549,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -26185,7 +27569,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -26224,10 +27608,345 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteInstanceFunctionSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Add or update a function secret.
+     * Add or update a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the KeyInfoInner object if successful.
+     */
+    public KeyInfoInner createOrUpdateFunctionSecretSlot(String resourceGroupName, String name, String functionName, String keyName, String slot, KeyInfoInner key) {
+        return createOrUpdateFunctionSecretSlotWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, slot, key).toBlocking().single().body();
+    }
+
+    /**
+     * Add or update a function secret.
+     * Add or update a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param key The key to create or update
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<KeyInfoInner> createOrUpdateFunctionSecretSlotAsync(String resourceGroupName, String name, String functionName, String keyName, String slot, KeyInfoInner key, final ServiceCallback<KeyInfoInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateFunctionSecretSlotWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, slot, key), serviceCallback);
+    }
+
+    /**
+     * Add or update a function secret.
+     * Add or update a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the KeyInfoInner object
+     */
+    public Observable<KeyInfoInner> createOrUpdateFunctionSecretSlotAsync(String resourceGroupName, String name, String functionName, String keyName, String slot, KeyInfoInner key) {
+        return createOrUpdateFunctionSecretSlotWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, slot, key).map(new Func1<ServiceResponse<KeyInfoInner>, KeyInfoInner>() {
+            @Override
+            public KeyInfoInner call(ServiceResponse<KeyInfoInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Add or update a function secret.
+     * Add or update a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the KeyInfoInner object
+     */
+    public Observable<ServiceResponse<KeyInfoInner>> createOrUpdateFunctionSecretSlotWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String keyName, String slot, KeyInfoInner key) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (keyName == null) {
+            throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (key == null) {
+            throw new IllegalArgumentException("Parameter key is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(key);
+        return service.createOrUpdateFunctionSecretSlot(resourceGroupName, name, functionName, keyName, slot, this.client.subscriptionId(), key, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<KeyInfoInner>>>() {
+                @Override
+                public Observable<ServiceResponse<KeyInfoInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<KeyInfoInner> clientResponse = createOrUpdateFunctionSecretSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<KeyInfoInner> createOrUpdateFunctionSecretSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<KeyInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<KeyInfoInner>() { }.getType())
+                .register(201, new TypeToken<KeyInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Delete a function secret.
+     * Delete a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void deleteFunctionSecretSlot(String resourceGroupName, String name, String functionName, String keyName, String slot) {
+        deleteFunctionSecretSlotWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Delete a function secret.
+     * Delete a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> deleteFunctionSecretSlotAsync(String resourceGroupName, String name, String functionName, String keyName, String slot, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteFunctionSecretSlotWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, slot), serviceCallback);
+    }
+
+    /**
+     * Delete a function secret.
+     * Delete a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> deleteFunctionSecretSlotAsync(String resourceGroupName, String name, String functionName, String keyName, String slot) {
+        return deleteFunctionSecretSlotWithServiceResponseAsync(resourceGroupName, name, functionName, keyName, slot).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Delete a function secret.
+     * Delete a function secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName The name of the function.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> deleteFunctionSecretSlotWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String keyName, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (keyName == null) {
+            throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.deleteFunctionSecretSlot(resourceGroupName, name, functionName, keyName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = deleteFunctionSecretSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> deleteFunctionSecretSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Get function keys for a function in a web site, or a deployment slot.
+     * Get function keys for a function in a web site, or a deployment slot.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the StringDictionaryInner object if successful.
+     */
+    public StringDictionaryInner listFunctionKeysSlot(String resourceGroupName, String name, String functionName, String slot) {
+        return listFunctionKeysSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Get function keys for a function in a web site, or a deployment slot.
+     * Get function keys for a function in a web site, or a deployment slot.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<StringDictionaryInner> listFunctionKeysSlotAsync(String resourceGroupName, String name, String functionName, String slot, final ServiceCallback<StringDictionaryInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listFunctionKeysSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot), serviceCallback);
+    }
+
+    /**
+     * Get function keys for a function in a web site, or a deployment slot.
+     * Get function keys for a function in a web site, or a deployment slot.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the StringDictionaryInner object
+     */
+    public Observable<StringDictionaryInner> listFunctionKeysSlotAsync(String resourceGroupName, String name, String functionName, String slot) {
+        return listFunctionKeysSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot).map(new Func1<ServiceResponse<StringDictionaryInner>, StringDictionaryInner>() {
+            @Override
+            public StringDictionaryInner call(ServiceResponse<StringDictionaryInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get function keys for a function in a web site, or a deployment slot.
+     * Get function keys for a function in a web site, or a deployment slot.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the StringDictionaryInner object
+     */
+    public Observable<ServiceResponse<StringDictionaryInner>> listFunctionKeysSlotWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listFunctionKeysSlot(resourceGroupName, name, functionName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StringDictionaryInner>>>() {
+                @Override
+                public Observable<ServiceResponse<StringDictionaryInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<StringDictionaryInner> clientResponse = listFunctionKeysSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<StringDictionaryInner> listFunctionKeysSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<StringDictionaryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<StringDictionaryInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -26237,7 +27956,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -26254,7 +27973,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -26270,7 +27989,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FunctionSecretsInner object
      */
@@ -26290,7 +28009,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site name.
      * @param functionName Function name.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FunctionSecretsInner object
      */
@@ -26329,9 +28048,1045 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<FunctionSecretsInner> listFunctionSecretsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FunctionSecretsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<FunctionSecretsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<FunctionSecretsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get the enablement state for a function.
+     * Get the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String getFunctionStateSlot(String resourceGroupName, String name, String functionName, String slot) {
+        return getFunctionStateSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Get the enablement state for a function.
+     * Get the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> getFunctionStateSlotAsync(String resourceGroupName, String name, String functionName, String slot, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(getFunctionStateSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot), serviceCallback);
+    }
+
+    /**
+     * Get the enablement state for a function.
+     * Get the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<String> getFunctionStateSlotAsync(String resourceGroupName, String name, String functionName, String slot) {
+        return getFunctionStateSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get the enablement state for a function.
+     * Get the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<ServiceResponse<String>> getFunctionStateSlotWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getFunctionStateSlot(resourceGroupName, name, functionName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
+                @Override
+                public Observable<ServiceResponse<String>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<String> clientResponse = getFunctionStateSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<String> getFunctionStateSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<String, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<String>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Set the enablement state for a function.
+     * Set the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @param requestEnvelope the String value
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String updateFunctionStateSlot(String resourceGroupName, String name, String functionName, String slot, String requestEnvelope) {
+        return updateFunctionStateSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot, requestEnvelope).toBlocking().single().body();
+    }
+
+    /**
+     * Set the enablement state for a function.
+     * Set the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @param requestEnvelope the String value
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> updateFunctionStateSlotAsync(String resourceGroupName, String name, String functionName, String slot, String requestEnvelope, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(updateFunctionStateSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot, requestEnvelope), serviceCallback);
+    }
+
+    /**
+     * Set the enablement state for a function.
+     * Set the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @param requestEnvelope the String value
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<String> updateFunctionStateSlotAsync(String resourceGroupName, String name, String functionName, String slot, String requestEnvelope) {
+        return updateFunctionStateSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot, requestEnvelope).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Set the enablement state for a function.
+     * Set the enablement state for a function.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @param requestEnvelope the String value
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<ServiceResponse<String>> updateFunctionStateSlotWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String slot, String requestEnvelope) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (requestEnvelope == null) {
+            throw new IllegalArgumentException("Parameter requestEnvelope is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.updateFunctionStateSlot(resourceGroupName, name, functionName, slot, this.client.subscriptionId(), requestEnvelope, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
+                @Override
+                public Observable<ServiceResponse<String>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<String> clientResponse = updateFunctionStateSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<String> updateFunctionStateSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<String, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<String>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get function status.
+     * Get function status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the FunctionStatusInner object if successful.
+     */
+    public FunctionStatusInner getFunctionStatusSlot(String resourceGroupName, String name, String functionName, String slot) {
+        return getFunctionStatusSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Get function status.
+     * Get function status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<FunctionStatusInner> getFunctionStatusSlotAsync(String resourceGroupName, String name, String functionName, String slot, final ServiceCallback<FunctionStatusInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getFunctionStatusSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot), serviceCallback);
+    }
+
+    /**
+     * Get function status.
+     * Get function status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the FunctionStatusInner object
+     */
+    public Observable<FunctionStatusInner> getFunctionStatusSlotAsync(String resourceGroupName, String name, String functionName, String slot) {
+        return getFunctionStatusSlotWithServiceResponseAsync(resourceGroupName, name, functionName, slot).map(new Func1<ServiceResponse<FunctionStatusInner>, FunctionStatusInner>() {
+            @Override
+            public FunctionStatusInner call(ServiceResponse<FunctionStatusInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get function status.
+     * Get function status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param functionName Function name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the FunctionStatusInner object
+     */
+    public Observable<ServiceResponse<FunctionStatusInner>> getFunctionStatusSlotWithServiceResponseAsync(String resourceGroupName, String name, String functionName, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (functionName == null) {
+            throw new IllegalArgumentException("Parameter functionName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getFunctionStatusSlot(resourceGroupName, name, functionName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<FunctionStatusInner>>>() {
+                @Override
+                public Observable<ServiceResponse<FunctionStatusInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<FunctionStatusInner> clientResponse = getFunctionStatusSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<FunctionStatusInner> getFunctionStatusSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<FunctionStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<FunctionStatusInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get host secrets for a function app.
+     * Get host secrets for a function app.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the HostKeysInner object if successful.
+     */
+    public HostKeysInner listHostKeysSlot(String resourceGroupName, String name, String slot) {
+        return listHostKeysSlotWithServiceResponseAsync(resourceGroupName, name, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Get host secrets for a function app.
+     * Get host secrets for a function app.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<HostKeysInner> listHostKeysSlotAsync(String resourceGroupName, String name, String slot, final ServiceCallback<HostKeysInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listHostKeysSlotWithServiceResponseAsync(resourceGroupName, name, slot), serviceCallback);
+    }
+
+    /**
+     * Get host secrets for a function app.
+     * Get host secrets for a function app.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the HostKeysInner object
+     */
+    public Observable<HostKeysInner> listHostKeysSlotAsync(String resourceGroupName, String name, String slot) {
+        return listHostKeysSlotWithServiceResponseAsync(resourceGroupName, name, slot).map(new Func1<ServiceResponse<HostKeysInner>, HostKeysInner>() {
+            @Override
+            public HostKeysInner call(ServiceResponse<HostKeysInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get host secrets for a function app.
+     * Get host secrets for a function app.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the HostKeysInner object
+     */
+    public Observable<ServiceResponse<HostKeysInner>> listHostKeysSlotWithServiceResponseAsync(String resourceGroupName, String name, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listHostKeysSlot(resourceGroupName, name, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HostKeysInner>>>() {
+                @Override
+                public Observable<ServiceResponse<HostKeysInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<HostKeysInner> clientResponse = listHostKeysSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<HostKeysInner> listHostKeysSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<HostKeysInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<HostKeysInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * This is to allow calling via powershell and ARM template.
+     * This is to allow calling via powershell and ARM template.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void listSyncStatusSlot(String resourceGroupName, String name, String slot) {
+        listSyncStatusSlotWithServiceResponseAsync(resourceGroupName, name, slot).toBlocking().single().body();
+    }
+
+    /**
+     * This is to allow calling via powershell and ARM template.
+     * This is to allow calling via powershell and ARM template.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> listSyncStatusSlotAsync(String resourceGroupName, String name, String slot, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(listSyncStatusSlotWithServiceResponseAsync(resourceGroupName, name, slot), serviceCallback);
+    }
+
+    /**
+     * This is to allow calling via powershell and ARM template.
+     * This is to allow calling via powershell and ARM template.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> listSyncStatusSlotAsync(String resourceGroupName, String name, String slot) {
+        return listSyncStatusSlotWithServiceResponseAsync(resourceGroupName, name, slot).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * This is to allow calling via powershell and ARM template.
+     * This is to allow calling via powershell and ARM template.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> listSyncStatusSlotWithServiceResponseAsync(String resourceGroupName, String name, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSyncStatusSlot(resourceGroupName, name, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = listSyncStatusSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> listSyncStatusSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get the host configuration (host.json).
+     * Get the host configuration (host.json).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the Object object if successful.
+     */
+    public Object getHostConfigSlot(String resourceGroupName, String name, String slot) {
+        return getHostConfigSlotWithServiceResponseAsync(resourceGroupName, name, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Get the host configuration (host.json).
+     * Get the host configuration (host.json).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Object> getHostConfigSlotAsync(String resourceGroupName, String name, String slot, final ServiceCallback<Object> serviceCallback) {
+        return ServiceFuture.fromResponse(getHostConfigSlotWithServiceResponseAsync(resourceGroupName, name, slot), serviceCallback);
+    }
+
+    /**
+     * Get the host configuration (host.json).
+     * Get the host configuration (host.json).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the Object object
+     */
+    public Observable<Object> getHostConfigSlotAsync(String resourceGroupName, String name, String slot) {
+        return getHostConfigSlotWithServiceResponseAsync(resourceGroupName, name, slot).map(new Func1<ServiceResponse<Object>, Object>() {
+            @Override
+            public Object call(ServiceResponse<Object> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get the host configuration (host.json).
+     * Get the host configuration (host.json).
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the Object object
+     */
+    public Observable<ServiceResponse<Object>> getHostConfigSlotWithServiceResponseAsync(String resourceGroupName, String name, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getHostConfigSlot(resourceGroupName, name, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Object>>>() {
+                @Override
+                public Observable<ServiceResponse<Object>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Object> clientResponse = getHostConfigSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Object> getHostConfigSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Object, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Object>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get the host status.
+     * Get the host status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the HostStatusInner object if successful.
+     */
+    public HostStatusInner getHostStatusSlot(String resourceGroupName, String name, String slot) {
+        return getHostStatusSlotWithServiceResponseAsync(resourceGroupName, name, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Get the host status.
+     * Get the host status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<HostStatusInner> getHostStatusSlotAsync(String resourceGroupName, String name, String slot, final ServiceCallback<HostStatusInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getHostStatusSlotWithServiceResponseAsync(resourceGroupName, name, slot), serviceCallback);
+    }
+
+    /**
+     * Get the host status.
+     * Get the host status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the HostStatusInner object
+     */
+    public Observable<HostStatusInner> getHostStatusSlotAsync(String resourceGroupName, String name, String slot) {
+        return getHostStatusSlotWithServiceResponseAsync(resourceGroupName, name, slot).map(new Func1<ServiceResponse<HostStatusInner>, HostStatusInner>() {
+            @Override
+            public HostStatusInner call(ServiceResponse<HostStatusInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get the host status.
+     * Get the host status.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the HostStatusInner object
+     */
+    public Observable<ServiceResponse<HostStatusInner>> getHostStatusSlotWithServiceResponseAsync(String resourceGroupName, String name, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getHostStatusSlot(resourceGroupName, name, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HostStatusInner>>>() {
+                @Override
+                public Observable<ServiceResponse<HostStatusInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<HostStatusInner> clientResponse = getHostStatusSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<HostStatusInner> getHostStatusSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<HostStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<HostStatusInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void syncFunctionsSlot(String resourceGroupName, String name, String slot) {
+        syncFunctionsSlotWithServiceResponseAsync(resourceGroupName, name, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> syncFunctionsSlotAsync(String resourceGroupName, String name, String slot, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(syncFunctionsSlotWithServiceResponseAsync(resourceGroupName, name, slot), serviceCallback);
+    }
+
+    /**
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> syncFunctionsSlotAsync(String resourceGroupName, String name, String slot) {
+        return syncFunctionsSlotWithServiceResponseAsync(resourceGroupName, name, slot).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Name of the app.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> syncFunctionsSlotWithServiceResponseAsync(String resourceGroupName, String name, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.syncFunctionsSlot(resourceGroupName, name, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = syncFunctionsSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> syncFunctionsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Add or update a host level secret.
+     * Add or update a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the KeyInfoInner object if successful.
+     */
+    public KeyInfoInner createOrUpdateHostSecretSlot(String resourceGroupName, String name, String keyType, String keyName, String slot, KeyInfoInner key) {
+        return createOrUpdateHostSecretSlotWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, slot, key).toBlocking().single().body();
+    }
+
+    /**
+     * Add or update a host level secret.
+     * Add or update a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param key The key to create or update
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<KeyInfoInner> createOrUpdateHostSecretSlotAsync(String resourceGroupName, String name, String keyType, String keyName, String slot, KeyInfoInner key, final ServiceCallback<KeyInfoInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateHostSecretSlotWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, slot, key), serviceCallback);
+    }
+
+    /**
+     * Add or update a host level secret.
+     * Add or update a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the KeyInfoInner object
+     */
+    public Observable<KeyInfoInner> createOrUpdateHostSecretSlotAsync(String resourceGroupName, String name, String keyType, String keyName, String slot, KeyInfoInner key) {
+        return createOrUpdateHostSecretSlotWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, slot, key).map(new Func1<ServiceResponse<KeyInfoInner>, KeyInfoInner>() {
+            @Override
+            public KeyInfoInner call(ServiceResponse<KeyInfoInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Add or update a host level secret.
+     * Add or update a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param key The key to create or update
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the KeyInfoInner object
+     */
+    public Observable<ServiceResponse<KeyInfoInner>> createOrUpdateHostSecretSlotWithServiceResponseAsync(String resourceGroupName, String name, String keyType, String keyName, String slot, KeyInfoInner key) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (keyType == null) {
+            throw new IllegalArgumentException("Parameter keyType is required and cannot be null.");
+        }
+        if (keyName == null) {
+            throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (key == null) {
+            throw new IllegalArgumentException("Parameter key is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(key);
+        return service.createOrUpdateHostSecretSlot(resourceGroupName, name, keyType, keyName, slot, this.client.subscriptionId(), key, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<KeyInfoInner>>>() {
+                @Override
+                public Observable<ServiceResponse<KeyInfoInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<KeyInfoInner> clientResponse = createOrUpdateHostSecretSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<KeyInfoInner> createOrUpdateHostSecretSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<KeyInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<KeyInfoInner>() { }.getType())
+                .register(201, new TypeToken<KeyInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Delete a host level secret.
+     * Delete a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void deleteHostSecretSlot(String resourceGroupName, String name, String keyType, String keyName, String slot) {
+        deleteHostSecretSlotWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Delete a host level secret.
+     * Delete a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> deleteHostSecretSlotAsync(String resourceGroupName, String name, String keyType, String keyName, String slot, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteHostSecretSlotWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, slot), serviceCallback);
+    }
+
+    /**
+     * Delete a host level secret.
+     * Delete a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> deleteHostSecretSlotAsync(String resourceGroupName, String name, String keyType, String keyName, String slot) {
+        return deleteHostSecretSlotWithServiceResponseAsync(resourceGroupName, name, keyType, keyName, slot).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Delete a host level secret.
+     * Delete a host level secret.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site name.
+     * @param keyType The type of host key.
+     * @param keyName The name of the key.
+     * @param slot Name of the deployment slot.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> deleteHostSecretSlotWithServiceResponseAsync(String resourceGroupName, String name, String keyType, String keyName, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (keyType == null) {
+            throw new IllegalArgumentException("Parameter keyType is required and cannot be null.");
+        }
+        if (keyName == null) {
+            throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.deleteHostSecretSlot(resourceGroupName, name, keyType, keyName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = deleteHostSecretSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> deleteHostSecretSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -26427,9 +29182,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get hostname bindings for an app or a deployment slot.
      * Get hostname bindings for an app or a deployment slot.
      *
-     ServiceResponse<PageImpl<HostNameBindingInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<HostNameBindingInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<HostNameBindingInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API gets hostname bindings for the production slot.
+    ServiceResponse<PageImpl<HostNameBindingInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<HostNameBindingInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<HostNameBindingInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API gets hostname bindings for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;HostNameBindingInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -26465,9 +29220,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<HostNameBindingInner>> listHostNameBindingsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<HostNameBindingInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<HostNameBindingInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<HostNameBindingInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -26569,9 +29324,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HostNameBindingInner> getHostNameBindingSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HostNameBindingInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HostNameBindingInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HostNameBindingInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -26681,9 +29436,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HostNameBindingInner> createOrUpdateHostNameBindingSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HostNameBindingInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HostNameBindingInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HostNameBindingInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -26784,10 +29539,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteHostNameBindingSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -26896,9 +29651,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionInner> getHybridConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -27015,9 +29770,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionInner> createOrUpdateHybridConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -27125,10 +29880,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteHybridConnectionSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -27245,9 +30000,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionInner> updateHybridConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -27356,9 +30111,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionKeyInner> listHybridConnectionKeysSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionKeyInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionKeyInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionKeyInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -27453,9 +30208,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<HybridConnectionInner> listHybridConnectionsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<HybridConnectionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<HybridConnectionInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -27550,9 +30305,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RelayServiceConnectionEntityInner> listRelayServiceConnectionsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RelayServiceConnectionEntityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -27654,9 +30409,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RelayServiceConnectionEntityInner> getRelayServiceConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RelayServiceConnectionEntityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -27766,9 +30521,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RelayServiceConnectionEntityInner> createOrUpdateRelayServiceConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RelayServiceConnectionEntityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -27869,10 +30624,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteRelayServiceConnectionSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -27982,9 +30737,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<RelayServiceConnectionEntityInner> updateRelayServiceConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<RelayServiceConnectionEntityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<RelayServiceConnectionEntityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -28080,9 +30835,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all scale-out instances of an app.
      * Gets all scale-out instances of an app.
      *
-     ServiceResponse<PageImpl<SiteInstanceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteInstanceInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<SiteInstanceInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API gets the production slot instances.
+    ServiceResponse<PageImpl<SiteInstanceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteInstanceInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SiteInstanceInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API gets the production slot instances.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInstanceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -28118,9 +30873,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInstanceInner>> listInstanceIdentifiersSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInstanceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInstanceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInstanceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -28222,9 +30977,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployStatusInner> getInstanceMsDeployStatusSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MSDeployStatusInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<MSDeployStatusInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -28429,10 +31184,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployStatusInner> beginCreateInstanceMSDeployOperationSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployStatusInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(201, new TypeToken<MSDeployStatusInner>() { }.getType())
-            .register(409, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(201, new TypeToken<MSDeployStatusInner>() { }.getType())
+                .register(409, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -28534,10 +31289,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MSDeployLogInner> getInstanceMSDeployLogSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MSDeployLogInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MSDeployLogInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<MSDeployLogInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -28637,10 +31392,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -28679,10 +31434,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessInfoInner>> listInstanceProcessesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -28791,10 +31546,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessInfoInner> getInstanceProcessSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -28902,10 +31657,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteInstanceProcessSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -29014,10 +31769,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> getInstanceProcessDumpSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -29121,11 +31876,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param processId PID.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param processId PID.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessModuleInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -29167,10 +31922,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessModuleInfoInner>> listInstanceProcessModulesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessModuleInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -29286,10 +32041,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessModuleInfoInner> getInstanceProcessModuleSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessModuleInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessModuleInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessModuleInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -29393,11 +32148,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param processId PID.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param processId PID.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessThreadInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -29439,10 +32194,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessThreadInfoInner>> listInstanceProcessThreadsSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessThreadInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -29558,10 +32313,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessThreadInfoInner> getInstanceProcessThreadSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessThreadInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessThreadInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessThreadInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -29656,9 +32411,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteCloneabilityInner> isCloneableSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteCloneabilityInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteCloneabilityInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteCloneabilityInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -29667,7 +32422,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup of the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -29683,7 +32438,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup of the production slot.
+     * @param slot Name of the deployment slot.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -29698,7 +32453,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup of the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FunctionSecretsInner object
      */
@@ -29717,7 +32472,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup of the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FunctionSecretsInner object
      */
@@ -29753,9 +32508,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<FunctionSecretsInner> listSyncFunctionTriggersSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<FunctionSecretsInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<FunctionSecretsInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<FunctionSecretsInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -29851,9 +32606,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all metric definitions of an app (or deployment slot, if specified).
      * Gets all metric definitions of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will get metric definitions of the production slot.
+    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will get metric definitions of the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -29889,9 +32644,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMetricDefinitionsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -30126,11 +32881,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets performance metrics of an app (or deployment slot, if specified).
      * Gets performance metrics of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will get metrics of the production slot.
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify "true" to include metric details in the response. It is "false" by default.
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only metrics specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will get metrics of the production slot.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify "true" to include metric details in the response. It is "false" by default.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only metrics specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -30166,9 +32921,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -30263,9 +33018,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<MigrateMySqlStatusInner> getMigrateMySqlStatusSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<MigrateMySqlStatusInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<MigrateMySqlStatusInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<MigrateMySqlStatusInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -30360,9 +33115,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SwiftVirtualNetworkInner> getSwiftVirtualNetworkConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SwiftVirtualNetworkInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -30473,9 +33228,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SwiftVirtualNetworkInner> createOrUpdateSwiftVirtualNetworkConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SwiftVirtualNetworkInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -30569,10 +33324,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteSwiftVirtualNetworkSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -30683,9 +33438,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SwiftVirtualNetworkInner> updateSwiftVirtualNetworkConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SwiftVirtualNetworkInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SwiftVirtualNetworkInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -30787,10 +33542,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<NetworkFeaturesInner> listNetworkFeaturesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<NetworkFeaturesInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<NetworkFeaturesInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<NetworkFeaturesInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -30892,10 +33647,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> getNetworkTraceOperationSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -31095,9 +33850,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<String> startWebSiteNetworkTraceSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<String, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<String>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<String>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -31471,10 +34226,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> beginStartWebSiteNetworkTraceOperationSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -31568,10 +34323,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> stopWebSiteNetworkTraceSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -31673,9 +34428,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> getNetworkTracesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -31777,10 +34532,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> getNetworkTraceOperationSlotV2Delegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -31882,9 +34637,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> getNetworkTracesSlotV2Delegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -31978,10 +34733,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> generateNewSitePublishingPasswordSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -32211,10 +34966,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets perfmon counters for web app.
      * Gets perfmon counters for web app.
      *
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param name Name of web app.
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param slot Name of web app slot. If not specified then will default to production slot.
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param name Name of web app.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param slot Name of web app slot. If not specified then will default to production slot.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PerfMonResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -32250,9 +35005,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<PerfMonResponseInner>> listPerfMonCountersSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PerfMonResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<PerfMonResponseInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<PerfMonResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -32347,9 +35102,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SitePhpErrorLogFlagInner> getSitePhpErrorLogFlagSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SitePhpErrorLogFlagInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SitePhpErrorLogFlagInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SitePhpErrorLogFlagInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -32444,9 +35199,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PremierAddOnInner> listPremierAddOnsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PremierAddOnInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -32548,9 +35303,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PremierAddOnInner> getPremierAddOnSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PremierAddOnInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -32660,9 +35415,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PremierAddOnInner> addPremierAddOnSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PremierAddOnInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -32763,9 +35518,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deletePremierAddOnSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -32875,9 +35630,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PremierAddOnInner> updatePremierAddOnSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PremierAddOnInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PremierAddOnInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -32972,9 +35727,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PrivateAccessInner> getPrivateAccessSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PrivateAccessInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PrivateAccessInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PrivateAccessInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -33077,9 +35832,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PrivateAccessInner> putPrivateAccessVnetSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PrivateAccessInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PrivateAccessInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PrivateAccessInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -33175,9 +35930,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -33213,10 +35968,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessInfoInner>> listProcessesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -33318,10 +36073,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessInfoInner> getProcessSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -33422,10 +36177,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteProcessSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -33527,10 +36282,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> getProcessDumpSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -33630,10 +36385,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param processId PID.
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param processId PID.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessModuleInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -33672,10 +36427,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessModuleInfoInner>> listProcessModulesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessModuleInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -33784,10 +36539,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessModuleInfoInner> getProcessModuleSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessModuleInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessModuleInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessModuleInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -33887,10 +36642,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param processId PID.
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param processId PID.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessThreadInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -33929,10 +36684,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessThreadInfoInner>> listProcessThreadsSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessThreadInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -34041,10 +36796,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<ProcessThreadInfoInner> getProcessThreadSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ProcessThreadInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<ProcessThreadInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<ProcessThreadInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -34140,9 +36895,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get public certificates for an app or a deployment slot.
      * Get public certificates for an app or a deployment slot.
      *
-     ServiceResponse<PageImpl<PublicCertificateInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<PublicCertificateInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<PublicCertificateInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API gets hostname bindings for the production slot.
+    ServiceResponse<PageImpl<PublicCertificateInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<PublicCertificateInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<PublicCertificateInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API gets hostname bindings for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PublicCertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -34178,9 +36933,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<PublicCertificateInner>> listPublicCertificatesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PublicCertificateInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<PublicCertificateInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<PublicCertificateInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -34282,9 +37037,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PublicCertificateInner> getPublicCertificateSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PublicCertificateInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PublicCertificateInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PublicCertificateInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -34394,9 +37149,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PublicCertificateInner> createOrUpdatePublicCertificateSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PublicCertificateInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PublicCertificateInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PublicCertificateInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -34497,10 +37252,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deletePublicCertificateSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -34603,9 +37358,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<InputStream> listPublishingProfileXmlWithSecretsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<InputStream, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<InputStream>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<InputStream>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -34699,9 +37454,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> resetSlotConfigurationSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -34894,9 +37649,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> restartSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -35085,10 +37840,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginRestoreFromBackupBlobSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -35277,10 +38032,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginRestoreFromDeletedAppSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -35469,10 +38224,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginRestoreSnapshotSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -35568,9 +38323,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of siteextensions for a web site, or a deployment slot.
      * Get list of siteextensions for a web site, or a deployment slot.
      *
-     ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param name Site name.
-     ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+    ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param name Site name.
+    ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteExtensionInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -35606,10 +38361,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteExtensionInfoInner>> listSiteExtensionsSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteExtensionInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteExtensionInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteExtensionInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -35711,10 +38466,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteExtensionInfoInner> getSiteExtensionSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteExtensionInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteExtensionInfoInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteExtensionInfoInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -35903,11 +38658,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteExtensionInfoInner> beginInstallSiteExtensionSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteExtensionInfoInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteExtensionInfoInner>() { }.getType())
-            .register(201, new TypeToken<SiteExtensionInfoInner>() { }.getType())
-            .register(429, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteExtensionInfoInner>() { }.getType())
+                .register(201, new TypeToken<SiteExtensionInfoInner>() { }.getType())
+                .register(429, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -36008,10 +38763,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteSiteExtensionSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -36111,10 +38866,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get the difference in configuration settings between two web app slots.
      * Get the difference in configuration settings between two web app slots.
      *
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param slot Name of the source slot. If a slot is not specified, the production slot is used as the source slot.
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param slotSwapEntity JSON object that contains the target slot name. See example.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param slot Name of the source slot. If a slot is not specified, the production slot is used as the source slot.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param slotSwapEntity JSON object that contains the target slot name. See example.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SlotDifferenceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -36154,9 +38909,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SlotDifferenceInner>> listSlotDifferencesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SlotDifferenceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SlotDifferenceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SlotDifferenceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -36345,10 +39100,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginSwapSlotSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -36444,9 +39199,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Returns all Snapshots to the user.
      * Returns all Snapshots to the user.
      *
-     ServiceResponse<PageImpl<SnapshotInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SnapshotInner>> * @param name Website Name.
-     ServiceResponse<PageImpl<SnapshotInner>> * @param slot Website Slot.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param name Website Name.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param slot Website Slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -36482,9 +39237,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SnapshotInner>> listSnapshotsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SnapshotInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -36580,9 +39335,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Returns all Snapshots to the user from DRSecondary endpoint.
      * Returns all Snapshots to the user from DRSecondary endpoint.
      *
-     ServiceResponse<PageImpl<SnapshotInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SnapshotInner>> * @param name Website Name.
-     ServiceResponse<PageImpl<SnapshotInner>> * @param slot Website Slot.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param name Website Name.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param slot Website Slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -36618,9 +39373,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SnapshotInner>> listSnapshotsFromDRSecondarySlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SnapshotInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -36715,11 +39470,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteSourceControlInner> getSourceControlSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteSourceControlInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -36910,11 +39665,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteSourceControlInner> beginCreateOrUpdateSourceControlSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteSourceControlInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -37008,11 +39763,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteSourceControlSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -37115,11 +39870,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteSourceControlInner> updateSourceControlSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteSourceControlInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -37213,9 +39968,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> startSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -37589,10 +40344,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> beginStartNetworkTraceSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -37686,9 +40441,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> stopSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -37782,10 +40537,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> stopNetworkTraceSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -37879,18 +40634,18 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> syncRepositorySlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
-     * Syncs function trigger metadata to the scale controller.
-     * Syncs function trigger metadata to the scale controller.
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup of the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -37900,12 +40655,12 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
     }
 
     /**
-     * Syncs function trigger metadata to the scale controller.
-     * Syncs function trigger metadata to the scale controller.
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup of the production slot.
+     * @param slot Name of the deployment slot.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -37915,12 +40670,12 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
     }
 
     /**
-     * Syncs function trigger metadata to the scale controller.
-     * Syncs function trigger metadata to the scale controller.
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup of the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -37934,12 +40689,12 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
     }
 
     /**
-     * Syncs function trigger metadata to the scale controller.
-     * Syncs function trigger metadata to the scale controller.
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
-     * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup of the production slot.
+     * @param slot Name of the deployment slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -37975,9 +40730,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> syncFunctionTriggersSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -38073,9 +40828,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List triggered web jobs for an app, or a deployment slot.
      * List triggered web jobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param name Site name.
-     ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+    ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param name Site name.
+    ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TriggeredWebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -38111,9 +40866,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<TriggeredWebJobInner>> listTriggeredWebJobsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<TriggeredWebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<TriggeredWebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<TriggeredWebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -38215,10 +40970,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<TriggeredWebJobInner> getTriggeredWebJobSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<TriggeredWebJobInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<TriggeredWebJobInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<TriggeredWebJobInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -38319,10 +41074,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteTriggeredWebJobSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -38422,10 +41177,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List a triggered web job's history for an app, or a deployment slot.
      * List a triggered web job's history for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param name Site name.
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param webJobName Name of Web Job.
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param name Site name.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param webJobName Name of Web Job.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TriggeredJobHistoryInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -38464,10 +41219,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<TriggeredJobHistoryInner>> listTriggeredWebJobHistorySlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<TriggeredJobHistoryInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<TriggeredJobHistoryInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<TriggeredJobHistoryInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -38576,10 +41331,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<TriggeredJobHistoryInner> getTriggeredWebJobHistorySlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<TriggeredJobHistoryInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<TriggeredJobHistoryInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<TriggeredJobHistoryInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -38680,10 +41435,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> runTriggeredWebJobSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -38913,10 +41668,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets the quota usage information of an app (or deployment slot, if specified).
      * Gets the quota usage information of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will get quota information of the production slot.
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param filter Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API will get quota information of the production slot.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param filter Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CsmUsageQuotaInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -38952,9 +41707,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<CsmUsageQuotaInner>> listUsagesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<CsmUsageQuotaInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -39049,9 +41804,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<VnetInfoInner>> listVnetConnectionsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<VnetInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<VnetInfoInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<VnetInfoInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -39153,9 +41908,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetInfoInner> getVnetConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetInfoInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -39265,9 +42020,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetInfoInner> createOrUpdateVnetConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetInfoInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -39368,10 +42123,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteVnetConnectionSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -39481,9 +42236,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetInfoInner> updateVnetConnectionSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetInfoInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -39592,10 +42347,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetGatewayInner> getVnetConnectionGatewaySlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetGatewayInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -39712,9 +42467,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetGatewayInner> createOrUpdateVnetConnectionGatewaySlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetGatewayInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -39831,9 +42586,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetGatewayInner> updateVnetConnectionGatewaySlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetGatewayInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -39929,9 +42684,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List webjobs for an app, or a deployment slot.
      * List webjobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<WebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<WebJobInner>> * @param name Site name.
-     ServiceResponse<PageImpl<WebJobInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
+    ServiceResponse<PageImpl<WebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<WebJobInner>> * @param name Site name.
+    ServiceResponse<PageImpl<WebJobInner>> * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;WebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -39967,9 +42722,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<WebJobInner>> listWebJobsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<WebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<WebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<WebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -40071,9 +42826,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<WebJobInner> getWebJobSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<WebJobInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<WebJobInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<WebJobInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -40169,9 +42924,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get the difference in configuration settings between two web app slots.
      * Get the difference in configuration settings between two web app slots.
      *
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param slotSwapEntity JSON object that contains the target slot name. See example.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param slotSwapEntity JSON object that contains the target slot name. See example.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SlotDifferenceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -40208,9 +42963,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SlotDifferenceInner>> listSlotDifferencesFromProductionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SlotDifferenceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SlotDifferenceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SlotDifferenceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -40385,10 +43140,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> beginSwapSlotWithProductionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -40480,8 +43235,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Returns all Snapshots to the user.
      * Returns all Snapshots to the user.
      *
-     ServiceResponse<PageImpl<SnapshotInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SnapshotInner>> * @param name Website Name.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param name Website Name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -40514,9 +43269,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SnapshotInner>> listSnapshotsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SnapshotInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -40608,8 +43363,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Returns all Snapshots to the user from DRSecondary endpoint.
      * Returns all Snapshots to the user from DRSecondary endpoint.
      *
-     ServiceResponse<PageImpl<SnapshotInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<SnapshotInner>> * @param name Website Name.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param name Website Name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -40642,9 +43397,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SnapshotInner>> listSnapshotsFromDRSecondaryDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SnapshotInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -40732,11 +43487,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteSourceControlInner> getSourceControlDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteSourceControlInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -40913,11 +43668,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteSourceControlInner> beginCreateOrUpdateSourceControlDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteSourceControlInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -41004,11 +43759,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteSourceControlDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(202, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -41104,11 +43859,11 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<SiteSourceControlInner> updateSourceControlDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<SiteSourceControlInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(201, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .register(202, new TypeToken<SiteSourceControlInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -41195,9 +43950,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> startDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -41543,10 +44298,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<NetworkTraceInner>> beginStartNetworkTraceDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<NetworkTraceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .register(202, new TypeToken<List<NetworkTraceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -41633,9 +44388,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> stopDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -41722,10 +44477,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> stopNetworkTraceDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -41812,14 +44567,14 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> syncRepositoryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
-     * Syncs function trigger metadata to the scale controller.
-     * Syncs function trigger metadata to the scale controller.
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
@@ -41832,8 +44587,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
     }
 
     /**
-     * Syncs function trigger metadata to the scale controller.
-     * Syncs function trigger metadata to the scale controller.
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
@@ -41846,8 +44601,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
     }
 
     /**
-     * Syncs function trigger metadata to the scale controller.
-     * Syncs function trigger metadata to the scale controller.
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
@@ -41864,8 +44619,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
     }
 
     /**
-     * Syncs function trigger metadata to the scale controller.
-     * Syncs function trigger metadata to the scale controller.
+     * Syncs function trigger metadata to the management database.
+     * Syncs function trigger metadata to the management database.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app.
@@ -41901,9 +44656,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> syncFunctionTriggersDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -41995,8 +44750,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List triggered web jobs for an app, or a deployment slot.
      * List triggered web jobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param name Site name.
+    ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param name Site name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TriggeredWebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -42029,9 +44784,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<TriggeredWebJobInner>> listTriggeredWebJobsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<TriggeredWebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<TriggeredWebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<TriggeredWebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -42126,10 +44881,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<TriggeredWebJobInner> getTriggeredWebJobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<TriggeredWebJobInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<TriggeredWebJobInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<TriggeredWebJobInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -42223,10 +44978,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteTriggeredWebJobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(204, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -42322,9 +45077,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List a triggered web job's history for an app, or a deployment slot.
      * List a triggered web job's history for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param name Site name.
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param webJobName Name of Web Job.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param name Site name.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param webJobName Name of Web Job.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TriggeredJobHistoryInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -42360,10 +45115,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<TriggeredJobHistoryInner>> listTriggeredWebJobHistoryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<TriggeredJobHistoryInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<TriggeredJobHistoryInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<TriggeredJobHistoryInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -42465,10 +45220,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<TriggeredJobHistoryInner> getTriggeredWebJobHistoryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<TriggeredJobHistoryInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<TriggeredJobHistoryInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<TriggeredJobHistoryInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -42562,10 +45317,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> runTriggeredWebJobDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -42783,9 +45538,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets the quota usage information of an app (or deployment slot, if specified).
      * Gets the quota usage information of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param name Name of the app.
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param filter Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param name Name of the app.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param filter Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CsmUsageQuotaInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -42818,9 +45573,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<CsmUsageQuotaInner>> listUsagesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<CsmUsageQuotaInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -42908,9 +45663,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<List<VnetInfoInner>> listVnetConnectionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<List<VnetInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<List<VnetInfoInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<List<VnetInfoInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -43005,9 +45760,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetInfoInner> getVnetConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetInfoInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -43110,9 +45865,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetInfoInner> createOrUpdateVnetConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetInfoInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -43206,10 +45961,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> deleteVnetConnectionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<Void>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -43312,9 +46067,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetInfoInner> updateVnetConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetInfoInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetInfoInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -43416,10 +46171,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetGatewayInner> getVnetConnectionGatewayDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetGatewayInner, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -43529,9 +46284,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetGatewayInner> createOrUpdateVnetConnectionGatewayDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetGatewayInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -43641,9 +46396,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<VnetGatewayInner> updateVnetConnectionGatewayDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VnetGatewayInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<VnetGatewayInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -43735,8 +46490,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List webjobs for an app, or a deployment slot.
      * List webjobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<WebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-     ServiceResponse<PageImpl<WebJobInner>> * @param name Site name.
+    ServiceResponse<PageImpl<WebJobInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<WebJobInner>> * @param name Site name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;WebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -43769,9 +46524,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<WebJobInner>> listWebJobsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<WebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<WebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<WebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -43866,9 +46621,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<WebJobInner> getWebJobDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<WebJobInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<WebJobInner>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<WebJobInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -43957,7 +46712,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get all apps for a subscription.
      * Get all apps for a subscription.
      *
-     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -43982,9 +46737,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -44073,7 +46828,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all web, mobile, and API apps in the specified resource group.
      * Gets all web, mobile, and API apps in the specified resource group.
      *
-     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -44098,9 +46853,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -44189,7 +46944,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets existing backups of an app.
      * Gets existing backups of an app.
      *
-     ServiceResponse<PageImpl<BackupItemInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<BackupItemInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;BackupItemInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -44214,9 +46969,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<BackupItemInner>> listBackupsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<BackupItemInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<BackupItemInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<BackupItemInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -44305,7 +47060,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the configurations of an app.
      * List the configurations of an app.
      *
-     ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteConfigResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -44330,9 +47085,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteConfigResourceInner>> listConfigurationsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteConfigResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteConfigResourceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteConfigResourceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -44421,7 +47176,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot.
      * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot.
      *
-     ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteConfigurationSnapshotInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -44446,9 +47201,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> listConfigurationSnapshotInfoNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteConfigurationSnapshotInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteConfigurationSnapshotInfoInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteConfigurationSnapshotInfoInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -44537,7 +47292,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List continuous web jobs for an app, or a deployment slot.
      * List continuous web jobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ContinuousWebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -44562,9 +47317,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ContinuousWebJobInner>> listContinuousWebJobsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ContinuousWebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ContinuousWebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ContinuousWebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -44653,7 +47408,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List deployments for an app, or a deployment slot.
      * List deployments for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<DeploymentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<DeploymentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;DeploymentInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -44678,9 +47433,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<DeploymentInner>> listDeploymentsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<DeploymentInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<DeploymentInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<DeploymentInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -44769,7 +47524,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Lists ownership identifiers for domain associated with web app.
      * Lists ownership identifiers for domain associated with web app.
      *
-     ServiceResponse<PageImpl<IdentifierInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<IdentifierInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;IdentifierInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -44794,9 +47549,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<IdentifierInner>> listDomainOwnershipIdentifiersNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<IdentifierInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<IdentifierInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<IdentifierInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -44885,7 +47640,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the functions for a web site, or a deployment slot.
      * List the functions for a web site, or a deployment slot.
      *
-     ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FunctionEnvelopeInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -44910,10 +47665,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<FunctionEnvelopeInner>> listFunctionsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FunctionEnvelopeInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<FunctionEnvelopeInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<FunctionEnvelopeInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -45002,7 +47757,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get hostname bindings for an app or a deployment slot.
      * Get hostname bindings for an app or a deployment slot.
      *
-     ServiceResponse<PageImpl<HostNameBindingInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<HostNameBindingInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;HostNameBindingInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45027,9 +47782,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<HostNameBindingInner>> listHostNameBindingsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<HostNameBindingInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<HostNameBindingInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<HostNameBindingInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -45118,7 +47873,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all scale-out instances of an app.
      * Gets all scale-out instances of an app.
      *
-     ServiceResponse<PageImpl<SiteInstanceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteInstanceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInstanceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45143,9 +47898,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInstanceInner>> listInstanceIdentifiersNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInstanceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInstanceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInstanceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -45234,7 +47989,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45259,10 +48014,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessInfoInner>> listInstanceProcessesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -45351,7 +48106,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessModuleInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45376,10 +48131,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessModuleInfoInner>> listInstanceProcessModulesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessModuleInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -45468,7 +48223,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessThreadInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45493,10 +48248,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessThreadInfoInner>> listInstanceProcessThreadsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessThreadInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -45585,7 +48340,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all metric definitions of an app (or deployment slot, if specified).
      * Gets all metric definitions of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45610,9 +48365,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMetricDefinitionsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -45701,7 +48456,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets performance metrics of an app (or deployment slot, if specified).
      * Gets performance metrics of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45726,9 +48481,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -45817,7 +48572,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets perfmon counters for web app.
      * Gets perfmon counters for web app.
      *
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PerfMonResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45842,9 +48597,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<PerfMonResponseInner>> listPerfMonCountersNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PerfMonResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<PerfMonResponseInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<PerfMonResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -45933,7 +48688,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -45958,10 +48713,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessInfoInner>> listProcessesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -46050,7 +48805,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessModuleInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -46075,10 +48830,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessModuleInfoInner>> listProcessModulesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessModuleInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -46167,7 +48922,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessThreadInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -46192,10 +48947,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessThreadInfoInner>> listProcessThreadsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessThreadInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -46284,7 +49039,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get public certificates for an app or a deployment slot.
      * Get public certificates for an app or a deployment slot.
      *
-     ServiceResponse<PageImpl<PublicCertificateInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<PublicCertificateInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PublicCertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -46309,9 +49064,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<PublicCertificateInner>> listPublicCertificatesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PublicCertificateInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<PublicCertificateInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<PublicCertificateInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -46400,7 +49155,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of siteextensions for a web site, or a deployment slot.
      * Get list of siteextensions for a web site, or a deployment slot.
      *
-     ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteExtensionInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -46425,10 +49180,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteExtensionInfoInner>> listSiteExtensionsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteExtensionInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteExtensionInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteExtensionInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -46517,7 +49272,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets an app's deployment slots.
      * Gets an app's deployment slots.
      *
-     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -46542,9 +49297,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInner>> listSlotsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -46633,7 +49388,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets existing backups of an app.
      * Gets existing backups of an app.
      *
-     ServiceResponse<PageImpl<BackupItemInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<BackupItemInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;BackupItemInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -46658,9 +49413,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<BackupItemInner>> listBackupsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<BackupItemInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<BackupItemInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<BackupItemInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -46749,7 +49504,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the configurations of an app.
      * List the configurations of an app.
      *
-     ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteConfigResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteConfigResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -46774,9 +49529,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteConfigResourceInner>> listConfigurationsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteConfigResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteConfigResourceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteConfigResourceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -46865,7 +49620,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot.
      * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot.
      *
-     ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteConfigurationSnapshotInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -46890,9 +49645,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteConfigurationSnapshotInfoInner>> listConfigurationSnapshotInfoSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteConfigurationSnapshotInfoInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteConfigurationSnapshotInfoInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteConfigurationSnapshotInfoInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -46981,7 +49736,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List continuous web jobs for an app, or a deployment slot.
      * List continuous web jobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ContinuousWebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ContinuousWebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47006,9 +49761,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ContinuousWebJobInner>> listContinuousWebJobsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ContinuousWebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ContinuousWebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ContinuousWebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -47097,7 +49852,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List deployments for an app, or a deployment slot.
      * List deployments for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<DeploymentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<DeploymentInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;DeploymentInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47122,9 +49877,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<DeploymentInner>> listDeploymentsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<DeploymentInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<DeploymentInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<DeploymentInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -47213,7 +49968,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Lists ownership identifiers for domain associated with web app.
      * Lists ownership identifiers for domain associated with web app.
      *
-     ServiceResponse<PageImpl<IdentifierInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<IdentifierInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;IdentifierInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47238,9 +49993,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<IdentifierInner>> listDomainOwnershipIdentifiersSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<IdentifierInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<IdentifierInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<IdentifierInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -47329,7 +50084,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the functions for a web site, or a deployment slot.
      * List the functions for a web site, or a deployment slot.
      *
-     ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<FunctionEnvelopeInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;FunctionEnvelopeInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47354,10 +50109,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<FunctionEnvelopeInner>> listInstanceFunctionsSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<FunctionEnvelopeInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<FunctionEnvelopeInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<FunctionEnvelopeInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -47446,7 +50201,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get hostname bindings for an app or a deployment slot.
      * Get hostname bindings for an app or a deployment slot.
      *
-     ServiceResponse<PageImpl<HostNameBindingInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<HostNameBindingInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;HostNameBindingInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47471,9 +50226,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<HostNameBindingInner>> listHostNameBindingsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<HostNameBindingInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<HostNameBindingInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<HostNameBindingInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -47562,7 +50317,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all scale-out instances of an app.
      * Gets all scale-out instances of an app.
      *
-     ServiceResponse<PageImpl<SiteInstanceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteInstanceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteInstanceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47587,9 +50342,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteInstanceInner>> listInstanceIdentifiersSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteInstanceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteInstanceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteInstanceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -47678,7 +50433,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47703,10 +50458,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessInfoInner>> listInstanceProcessesSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -47795,7 +50550,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessModuleInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47820,10 +50575,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessModuleInfoInner>> listInstanceProcessModulesSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessModuleInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -47912,7 +50667,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessThreadInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -47937,10 +50692,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessThreadInfoInner>> listInstanceProcessThreadsSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessThreadInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -48029,7 +50784,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets all metric definitions of an app (or deployment slot, if specified).
      * Gets all metric definitions of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48054,9 +50809,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMetricDefinitionsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -48145,7 +50900,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets performance metrics of an app (or deployment slot, if specified).
      * Gets performance metrics of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48170,9 +50925,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -48261,7 +51016,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets perfmon counters for web app.
      * Gets perfmon counters for web app.
      *
-     ServiceResponse<PageImpl<PerfMonResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<PerfMonResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PerfMonResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48286,9 +51041,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<PerfMonResponseInner>> listPerfMonCountersSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PerfMonResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<PerfMonResponseInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<PerfMonResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -48377,7 +51132,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48402,10 +51157,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessInfoInner>> listProcessesSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -48494,7 +51249,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      * List module information for a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessModuleInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessModuleInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48519,10 +51274,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessModuleInfoInner>> listProcessModulesSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessModuleInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessModuleInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -48611,7 +51366,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      * List the threads in a process by its ID for a specific scaled-out instance in a web site.
      *
-     ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ProcessThreadInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ProcessThreadInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48636,10 +51391,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<ProcessThreadInfoInner>> listProcessThreadsSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProcessThreadInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<ProcessThreadInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -48728,7 +51483,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get public certificates for an app or a deployment slot.
      * Get public certificates for an app or a deployment slot.
      *
-     ServiceResponse<PageImpl<PublicCertificateInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<PublicCertificateInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PublicCertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48753,9 +51508,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<PublicCertificateInner>> listPublicCertificatesSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PublicCertificateInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<PublicCertificateInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<PublicCertificateInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -48844,7 +51599,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get list of siteextensions for a web site, or a deployment slot.
      * Get list of siteextensions for a web site, or a deployment slot.
      *
-     ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SiteExtensionInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SiteExtensionInfoInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48869,10 +51624,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SiteExtensionInfoInner>> listSiteExtensionsSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SiteExtensionInfoInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SiteExtensionInfoInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SiteExtensionInfoInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -48961,7 +51716,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get the difference in configuration settings between two web app slots.
      * Get the difference in configuration settings between two web app slots.
      *
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SlotDifferenceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -48986,9 +51741,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SlotDifferenceInner>> listSlotDifferencesSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SlotDifferenceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SlotDifferenceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SlotDifferenceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -49077,7 +51832,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Returns all Snapshots to the user.
      * Returns all Snapshots to the user.
      *
-     ServiceResponse<PageImpl<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -49102,9 +51857,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SnapshotInner>> listSnapshotsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SnapshotInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -49193,7 +51948,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Returns all Snapshots to the user from DRSecondary endpoint.
      * Returns all Snapshots to the user from DRSecondary endpoint.
      *
-     ServiceResponse<PageImpl<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -49218,9 +51973,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SnapshotInner>> listSnapshotsFromDRSecondarySlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SnapshotInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -49309,7 +52064,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List triggered web jobs for an app, or a deployment slot.
      * List triggered web jobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TriggeredWebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -49334,9 +52089,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<TriggeredWebJobInner>> listTriggeredWebJobsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<TriggeredWebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<TriggeredWebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<TriggeredWebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -49425,7 +52180,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List a triggered web job's history for an app, or a deployment slot.
      * List a triggered web job's history for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TriggeredJobHistoryInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -49450,10 +52205,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<TriggeredJobHistoryInner>> listTriggeredWebJobHistorySlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<TriggeredJobHistoryInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<TriggeredJobHistoryInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<TriggeredJobHistoryInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -49542,7 +52297,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets the quota usage information of an app (or deployment slot, if specified).
      * Gets the quota usage information of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CsmUsageQuotaInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -49567,9 +52322,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<CsmUsageQuotaInner>> listUsagesSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<CsmUsageQuotaInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -49658,7 +52413,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List webjobs for an app, or a deployment slot.
      * List webjobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<WebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<WebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;WebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -49683,9 +52438,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<WebJobInner>> listWebJobsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<WebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<WebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<WebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -49774,7 +52529,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Get the difference in configuration settings between two web app slots.
      * Get the difference in configuration settings between two web app slots.
      *
-     ServiceResponse<PageImpl<SlotDifferenceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SlotDifferenceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SlotDifferenceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -49799,9 +52554,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SlotDifferenceInner>> listSlotDifferencesFromProductionNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SlotDifferenceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SlotDifferenceInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SlotDifferenceInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -49890,7 +52645,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Returns all Snapshots to the user.
      * Returns all Snapshots to the user.
      *
-     ServiceResponse<PageImpl<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -49915,9 +52670,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SnapshotInner>> listSnapshotsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SnapshotInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -50006,7 +52761,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Returns all Snapshots to the user from DRSecondary endpoint.
      * Returns all Snapshots to the user from DRSecondary endpoint.
      *
-     ServiceResponse<PageImpl<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<SnapshotInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SnapshotInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -50031,9 +52786,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<SnapshotInner>> listSnapshotsFromDRSecondaryNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<SnapshotInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<SnapshotInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -50122,7 +52877,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List triggered web jobs for an app, or a deployment slot.
      * List triggered web jobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<TriggeredWebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TriggeredWebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -50147,9 +52902,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<TriggeredWebJobInner>> listTriggeredWebJobsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<TriggeredWebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<TriggeredWebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<TriggeredWebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -50238,7 +52993,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List a triggered web job's history for an app, or a deployment slot.
      * List a triggered web job's history for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<TriggeredJobHistoryInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TriggeredJobHistoryInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -50263,10 +53018,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<TriggeredJobHistoryInner>> listTriggeredWebJobHistoryNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<TriggeredJobHistoryInner>, CloudException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<TriggeredJobHistoryInner>>() { }.getType())
-            .register(404, new TypeToken<Void>() { }.getType())
-            .registerError(CloudException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<TriggeredJobHistoryInner>>() { }.getType())
+                .register(404, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -50355,7 +53110,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * Gets the quota usage information of an app (or deployment slot, if specified).
      * Gets the quota usage information of an app (or deployment slot, if specified).
      *
-     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CsmUsageQuotaInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -50380,9 +53135,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<CsmUsageQuotaInner>> listUsagesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<CsmUsageQuotaInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<CsmUsageQuotaInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
     /**
@@ -50471,7 +53226,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * List webjobs for an app, or a deployment slot.
      * List webjobs for an app, or a deployment slot.
      *
-     ServiceResponse<PageImpl<WebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<WebJobInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;WebJobInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -50496,9 +53251,9 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<PageImpl<WebJobInner>> listWebJobsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<WebJobInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-            .register(200, new TypeToken<PageImpl<WebJobInner>>() { }.getType())
-            .registerError(DefaultErrorResponseException.class)
-            .build(response);
+                .register(200, new TypeToken<PageImpl<WebJobInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
     }
 
 }
