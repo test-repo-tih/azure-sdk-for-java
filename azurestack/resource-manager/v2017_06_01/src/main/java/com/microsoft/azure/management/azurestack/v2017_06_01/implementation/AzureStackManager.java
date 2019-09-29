@@ -18,6 +18,7 @@ import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
 import com.microsoft.azure.management.azurestack.v2017_06_01.Operations;
 import com.microsoft.azure.management.azurestack.v2017_06_01.Products;
+import com.microsoft.azure.management.azurestack.v2017_06_01.GetProducts;
 import com.microsoft.azure.management.azurestack.v2017_06_01.Registrations;
 import com.microsoft.azure.management.azurestack.v2017_06_01.CustomerSubscriptions;
 import com.microsoft.azure.arm.resources.implementation.AzureConfigurableCoreImpl;
@@ -29,6 +30,7 @@ import com.microsoft.azure.arm.resources.implementation.ManagerCore;
 public final class AzureStackManager extends ManagerCore<AzureStackManager, AzureStackManagementClientImpl> {
     private Operations operations;
     private Products products;
+    private GetProducts getProducts;
     private Registrations registrations;
     private CustomerSubscriptions customerSubscriptions;
     /**
@@ -96,6 +98,16 @@ public final class AzureStackManager extends ManagerCore<AzureStackManager, Azur
             this.products = new ProductsImpl(this);
         }
         return this.products;
+    }
+
+    /**
+     * @return Entry point to manage GetProducts.
+     */
+    public GetProducts getProducts() {
+        if (this.getProducts == null) {
+            this.getProducts = new GetProductsImpl(this);
+        }
+        return this.getProducts;
     }
 
     /**
