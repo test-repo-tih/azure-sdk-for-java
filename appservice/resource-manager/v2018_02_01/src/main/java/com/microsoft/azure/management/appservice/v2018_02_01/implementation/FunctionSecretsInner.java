@@ -9,24 +9,21 @@
 package com.microsoft.azure.management.appservice.v2018_02_01.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.management.appservice.v2018_02_01.ProxyOnlyResource;
 
 /**
  * Function secrets.
  */
-@JsonFlatten
-public class FunctionSecretsInner extends ProxyOnlyResource {
+public class FunctionSecretsInner {
     /**
      * Secret key.
      */
-    @JsonProperty(value = "properties.key")
+    @JsonProperty(value = "key")
     private String key;
 
     /**
      * Trigger URL.
      */
-    @JsonProperty(value = "properties.trigger_url")
+    @JsonProperty(value = "trigger_url")
     private String triggerUrl;
 
     /**
