@@ -64,14 +64,10 @@ class AvailabilityGroupListenersImpl extends WrapperImpl<AvailabilityGroupListen
     public Observable<AvailabilityGroupListener> getAsync(String resourceGroupName, String sqlVirtualMachineGroupName, String availabilityGroupListenerName) {
         AvailabilityGroupListenersInner client = this.inner();
         return client.getAsync(resourceGroupName, sqlVirtualMachineGroupName, availabilityGroupListenerName)
-        .flatMap(new Func1<AvailabilityGroupListenerInner, Observable<AvailabilityGroupListener>>() {
+        .map(new Func1<AvailabilityGroupListenerInner, AvailabilityGroupListener>() {
             @Override
-            public Observable<AvailabilityGroupListener> call(AvailabilityGroupListenerInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((AvailabilityGroupListener)wrapModel(inner));
-                }
+            public AvailabilityGroupListener call(AvailabilityGroupListenerInner inner) {
+                return wrapModel(inner);
             }
        });
     }
