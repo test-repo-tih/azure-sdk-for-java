@@ -64,14 +64,10 @@ class FirewallPolicyRuleGroupsImpl extends WrapperImpl<FirewallPolicyRuleGroupsI
     public Observable<FirewallPolicyRuleGroup> getAsync(String resourceGroupName, String firewallPolicyName, String ruleGroupName) {
         FirewallPolicyRuleGroupsInner client = this.inner();
         return client.getAsync(resourceGroupName, firewallPolicyName, ruleGroupName)
-        .flatMap(new Func1<FirewallPolicyRuleGroupInner, Observable<FirewallPolicyRuleGroup>>() {
+        .map(new Func1<FirewallPolicyRuleGroupInner, FirewallPolicyRuleGroup>() {
             @Override
-            public Observable<FirewallPolicyRuleGroup> call(FirewallPolicyRuleGroupInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((FirewallPolicyRuleGroup)wrapModel(inner));
-                }
+            public FirewallPolicyRuleGroup call(FirewallPolicyRuleGroupInner inner) {
+                return wrapModel(inner);
             }
        });
     }
