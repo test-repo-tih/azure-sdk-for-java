@@ -58,14 +58,10 @@ class ExpressRouteConnectionsImpl extends WrapperImpl<ExpressRouteConnectionsInn
     public Observable<ExpressRouteConnection> getAsync(String resourceGroupName, String expressRouteGatewayName, String connectionName) {
         ExpressRouteConnectionsInner client = this.inner();
         return client.getAsync(resourceGroupName, expressRouteGatewayName, connectionName)
-        .flatMap(new Func1<ExpressRouteConnectionInner, Observable<ExpressRouteConnection>>() {
+        .map(new Func1<ExpressRouteConnectionInner, ExpressRouteConnection>() {
             @Override
-            public Observable<ExpressRouteConnection> call(ExpressRouteConnectionInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((ExpressRouteConnection)wrapModel(inner));
-                }
+            public ExpressRouteConnection call(ExpressRouteConnectionInner inner) {
+                return wrapModel(inner);
             }
        });
     }
