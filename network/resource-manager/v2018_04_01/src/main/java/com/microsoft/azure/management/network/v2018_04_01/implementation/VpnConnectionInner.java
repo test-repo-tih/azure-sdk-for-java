@@ -15,15 +15,12 @@ import com.microsoft.azure.management.network.v2018_04_01.IpsecPolicy;
 import com.microsoft.azure.management.network.v2018_04_01.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
 
 /**
  * VpnConnection Resource.
  */
 @JsonFlatten
-@SkipParentValidation
-public class VpnConnectionInner extends Resource {
+public class VpnConnectionInner extends SubResource {
     /**
      * Id of the connected vpn site.
      */
@@ -87,17 +84,18 @@ public class VpnConnectionInner extends Resource {
     private ProvisioningState provisioningState;
 
     /**
+     * The name of the resource that is unique within a resource group. This
+     * name can be used to access the resource.
+     */
+    @JsonProperty(value = "name")
+    private String name;
+
+    /**
      * Gets a unique read-only string that changes whenever the resource is
      * updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
-
-    /**
-     * Resource ID.
-     */
-    @JsonProperty(value = "id")
-    private String id;
 
     /**
      * Get id of the connected vpn site.
@@ -267,32 +265,32 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Set the name of the resource that is unique within a resource group. This name can be used to access the resource.
+     *
+     * @param name the name value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
      * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Get resource ID.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Set resource ID.
-     *
-     * @param id the id value to set
-     * @return the VpnConnectionInner object itself.
-     */
-    public VpnConnectionInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
 }
