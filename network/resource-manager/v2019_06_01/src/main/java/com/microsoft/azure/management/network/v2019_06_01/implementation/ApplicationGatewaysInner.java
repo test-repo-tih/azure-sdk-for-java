@@ -10,7 +10,6 @@ package com.microsoft.azure.management.network.v2019_06_01.implementation;
 
 import com.microsoft.azure.arm.collection.InnerSupportsGet;
 import com.microsoft.azure.arm.collection.InnerSupportsDelete;
-import com.microsoft.azure.arm.collection.InnerSupportsListing;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
@@ -45,12 +44,14 @@ import rx.functions.Func1;
 import rx.Observable;
 import com.microsoft.azure.LongRunningFinalState;
 import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
  * in ApplicationGateways.
  */
-public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGatewayInner>, InnerSupportsDelete<Void>, InnerSupportsListing<ApplicationGatewayInner> {
+public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGatewayInner>, InnerSupportsDelete<Void> {
     /** The Retrofit service to perform REST calls. */
     private ApplicationGatewaysService service;
     /** The service client containing this operation class. */
@@ -104,9 +105,9 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways")
         Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.v2019_06_01.ApplicationGateways list" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.v2019_06_01.ApplicationGateways listAll" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listAll(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.v2019_06_01.ApplicationGateways start" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start")
@@ -172,9 +173,9 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         @GET
         Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.v2019_06_01.ApplicationGateways listNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.v2019_06_01.ApplicationGateways listAllNext" })
         @GET
-        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listAllNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.v2019_06_01.ApplicationGateways listAvailableSslPredefinedPoliciesNext" })
         @GET
@@ -1020,12 +1021,12 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object if successful.
      */
-    public PagedList<ApplicationGatewayInner> list() {
-        ServiceResponse<Page<ApplicationGatewayInner>> response = listSinglePageAsync().toBlocking().single();
+    public PagedList<ApplicationGatewayInner> listAll() {
+        ServiceResponse<Page<ApplicationGatewayInner>> response = listAllSinglePageAsync().toBlocking().single();
         return new PagedList<ApplicationGatewayInner>(response.body()) {
             @Override
             public Page<ApplicationGatewayInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listAllNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -1037,13 +1038,13 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationGatewayInner>> listAsync(final ListOperationCallback<ApplicationGatewayInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationGatewayInner>> listAllAsync(final ListOperationCallback<ApplicationGatewayInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listSinglePageAsync(),
+            listAllSinglePageAsync(),
             new Func1<String, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+                    return listAllNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -1055,8 +1056,8 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object
      */
-    public Observable<Page<ApplicationGatewayInner>> listAsync() {
-        return listWithServiceResponseAsync()
+    public Observable<Page<ApplicationGatewayInner>> listAllAsync() {
+        return listAllWithServiceResponseAsync()
             .map(new Func1<ServiceResponse<Page<ApplicationGatewayInner>>, Page<ApplicationGatewayInner>>() {
                 @Override
                 public Page<ApplicationGatewayInner> call(ServiceResponse<Page<ApplicationGatewayInner>> response) {
@@ -1071,8 +1072,8 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listWithServiceResponseAsync() {
-        return listSinglePageAsync()
+    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listAllWithServiceResponseAsync() {
+        return listAllSinglePageAsync()
             .concatMap(new Func1<ServiceResponse<Page<ApplicationGatewayInner>>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(ServiceResponse<Page<ApplicationGatewayInner>> page) {
@@ -1080,7 +1081,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listAllNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -1091,17 +1092,17 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listSinglePageAsync() {
+    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listAllSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2019-06-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listAll(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationGatewayInner>> result = listDelegate(response);
+                        ServiceResponse<PageImpl<ApplicationGatewayInner>> result = listAllDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ApplicationGatewayInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1110,7 +1111,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
             });
     }
 
-    private ServiceResponse<PageImpl<ApplicationGatewayInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<ApplicationGatewayInner>> listAllDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationGatewayInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ApplicationGatewayInner>>() { }.getType())
                 .registerError(CloudException.class)
@@ -2711,12 +2712,12 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object if successful.
      */
-    public PagedList<ApplicationGatewayInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ApplicationGatewayInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
+    public PagedList<ApplicationGatewayInner> listAllNext(final String nextPageLink) {
+        ServiceResponse<Page<ApplicationGatewayInner>> response = listAllNextSinglePageAsync(nextPageLink).toBlocking().single();
         return new PagedList<ApplicationGatewayInner>(response.body()) {
             @Override
             public Page<ApplicationGatewayInner> nextPage(String nextPageLink) {
-                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listAllNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -2730,13 +2731,13 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationGatewayInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationGatewayInner>> serviceFuture, final ListOperationCallback<ApplicationGatewayInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationGatewayInner>> listAllNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationGatewayInner>> serviceFuture, final ListOperationCallback<ApplicationGatewayInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listNextSinglePageAsync(nextPageLink),
+            listAllNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(String nextPageLink) {
-                    return listNextSinglePageAsync(nextPageLink);
+                    return listAllNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -2749,8 +2750,8 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object
      */
-    public Observable<Page<ApplicationGatewayInner>> listNextAsync(final String nextPageLink) {
-        return listNextWithServiceResponseAsync(nextPageLink)
+    public Observable<Page<ApplicationGatewayInner>> listAllNextAsync(final String nextPageLink) {
+        return listAllNextWithServiceResponseAsync(nextPageLink)
             .map(new Func1<ServiceResponse<Page<ApplicationGatewayInner>>, Page<ApplicationGatewayInner>>() {
                 @Override
                 public Page<ApplicationGatewayInner> call(ServiceResponse<Page<ApplicationGatewayInner>> response) {
@@ -2766,8 +2767,8 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
-        return listNextSinglePageAsync(nextPageLink)
+    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listAllNextWithServiceResponseAsync(final String nextPageLink) {
+        return listAllNextSinglePageAsync(nextPageLink)
             .concatMap(new Func1<ServiceResponse<Page<ApplicationGatewayInner>>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(ServiceResponse<Page<ApplicationGatewayInner>> page) {
@@ -2775,7 +2776,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listAllNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -2787,17 +2788,17 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listAllNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listAllNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationGatewayInner>> result = listNextDelegate(response);
+                        ServiceResponse<PageImpl<ApplicationGatewayInner>> result = listAllNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ApplicationGatewayInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2806,7 +2807,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
             });
     }
 
-    private ServiceResponse<PageImpl<ApplicationGatewayInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<ApplicationGatewayInner>> listAllNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationGatewayInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ApplicationGatewayInner>>() { }.getType())
                 .registerError(CloudException.class)
