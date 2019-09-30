@@ -64,14 +64,10 @@ class SecurityRulesImpl extends WrapperImpl<SecurityRulesInner> implements Secur
     public Observable<NetworkSecurityGroupSecurityRule> getAsync(String resourceGroupName, String networkSecurityGroupName, String securityRuleName) {
         SecurityRulesInner client = this.inner();
         return client.getAsync(resourceGroupName, networkSecurityGroupName, securityRuleName)
-        .flatMap(new Func1<SecurityRuleInner, Observable<NetworkSecurityGroupSecurityRule>>() {
+        .map(new Func1<SecurityRuleInner, NetworkSecurityGroupSecurityRule>() {
             @Override
-            public Observable<NetworkSecurityGroupSecurityRule> call(SecurityRuleInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((NetworkSecurityGroupSecurityRule)wrapModel(inner));
-                }
+            public NetworkSecurityGroupSecurityRule call(SecurityRuleInner inner) {
+                return wrapModel(inner);
             }
        });
     }
