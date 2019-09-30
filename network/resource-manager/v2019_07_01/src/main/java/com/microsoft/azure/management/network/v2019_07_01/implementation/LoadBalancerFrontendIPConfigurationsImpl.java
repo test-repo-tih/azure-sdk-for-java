@@ -54,14 +54,10 @@ class LoadBalancerFrontendIPConfigurationsImpl extends WrapperImpl<LoadBalancerF
     public Observable<FrontendIPConfiguration> getAsync(String resourceGroupName, String loadBalancerName, String frontendIPConfigurationName) {
         LoadBalancerFrontendIPConfigurationsInner client = this.inner();
         return client.getAsync(resourceGroupName, loadBalancerName, frontendIPConfigurationName)
-        .flatMap(new Func1<FrontendIPConfigurationInner, Observable<FrontendIPConfiguration>>() {
+        .map(new Func1<FrontendIPConfigurationInner, FrontendIPConfiguration>() {
             @Override
-            public Observable<FrontendIPConfiguration> call(FrontendIPConfigurationInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((FrontendIPConfiguration)wrapModel(inner));
-                }
+            public FrontendIPConfiguration call(FrontendIPConfigurationInner inner) {
+                return wrapModel(inner);
             }
        });
     }
