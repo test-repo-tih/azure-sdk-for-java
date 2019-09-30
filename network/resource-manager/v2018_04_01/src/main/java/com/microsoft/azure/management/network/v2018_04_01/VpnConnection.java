@@ -17,7 +17,6 @@ import com.microsoft.azure.arm.model.Appliable;
 import com.microsoft.azure.arm.model.Creatable;
 import com.microsoft.azure.arm.resources.models.HasManager;
 import com.microsoft.azure.management.network.v2018_04_01.implementation.NetworkManager;
-import java.util.Map;
 import com.microsoft.azure.SubResource;
 import java.util.List;
 
@@ -66,11 +65,6 @@ public interface VpnConnection extends HasInner<VpnConnectionInner>, Indexable, 
     List<IpsecPolicy> ipsecPolicies();
 
     /**
-     * @return the location value.
-     */
-    String location();
-
-    /**
      * @return the name value.
      */
     String name();
@@ -94,16 +88,6 @@ public interface VpnConnection extends HasInner<VpnConnectionInner>, Indexable, 
      * @return the sharedKey value.
      */
     String sharedKey();
-
-    /**
-     * @return the tags value.
-     */
-    Map<String, String> tags();
-
-    /**
-     * @return the type value.
-     */
-    String type();
 
     /**
      * The entirety of the VpnConnection definition.
@@ -183,15 +167,15 @@ public interface VpnConnection extends HasInner<VpnConnectionInner>, Indexable, 
         }
 
         /**
-         * The stage of the vpnconnection definition allowing to specify Location.
+         * The stage of the vpnconnection definition allowing to specify Name.
          */
-        interface WithLocation {
+        interface WithName {
             /**
-             * Specifies location.
-             * @param location Resource location
+             * Specifies name.
+             * @param name The name of the resource that is unique within a resource group. This name can be used to access the resource
              * @return the next definition stage
              */
-            WithCreate withLocation(String location);
+            WithCreate withName(String name);
         }
 
         /**
@@ -243,29 +227,17 @@ public interface VpnConnection extends HasInner<VpnConnectionInner>, Indexable, 
         }
 
         /**
-         * The stage of the vpnconnection definition allowing to specify Tags.
-         */
-        interface WithTags {
-            /**
-             * Specifies tags.
-             * @param tags Resource tags
-             * @return the next definition stage
-             */
-            WithCreate withTags(Map<String, String> tags);
-        }
-
-        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
-        interface WithCreate extends Creatable<VpnConnection>, DefinitionStages.WithConnectionStatus, DefinitionStages.WithEnableBgp, DefinitionStages.WithId, DefinitionStages.WithIpsecPolicies, DefinitionStages.WithLocation, DefinitionStages.WithProvisioningState, DefinitionStages.WithRemoteVpnSite, DefinitionStages.WithRoutingWeight, DefinitionStages.WithSharedKey, DefinitionStages.WithTags {
+        interface WithCreate extends Creatable<VpnConnection>, DefinitionStages.WithConnectionStatus, DefinitionStages.WithEnableBgp, DefinitionStages.WithId, DefinitionStages.WithIpsecPolicies, DefinitionStages.WithName, DefinitionStages.WithProvisioningState, DefinitionStages.WithRemoteVpnSite, DefinitionStages.WithRoutingWeight, DefinitionStages.WithSharedKey {
         }
     }
     /**
      * The template for a VpnConnection update operation, containing all the settings that can be modified.
      */
-    interface Update extends Appliable<VpnConnection>, UpdateStages.WithConnectionStatus, UpdateStages.WithEnableBgp, UpdateStages.WithId, UpdateStages.WithIpsecPolicies, UpdateStages.WithLocation, UpdateStages.WithProvisioningState, UpdateStages.WithRemoteVpnSite, UpdateStages.WithRoutingWeight, UpdateStages.WithSharedKey, UpdateStages.WithTags {
+    interface Update extends Appliable<VpnConnection>, UpdateStages.WithConnectionStatus, UpdateStages.WithEnableBgp, UpdateStages.WithId, UpdateStages.WithIpsecPolicies, UpdateStages.WithName, UpdateStages.WithProvisioningState, UpdateStages.WithRemoteVpnSite, UpdateStages.WithRoutingWeight, UpdateStages.WithSharedKey {
     }
 
     /**
@@ -321,15 +293,15 @@ public interface VpnConnection extends HasInner<VpnConnectionInner>, Indexable, 
         }
 
         /**
-         * The stage of the vpnconnection update allowing to specify Location.
+         * The stage of the vpnconnection update allowing to specify Name.
          */
-        interface WithLocation {
+        interface WithName {
             /**
-             * Specifies location.
-             * @param location Resource location
+             * Specifies name.
+             * @param name The name of the resource that is unique within a resource group. This name can be used to access the resource
              * @return the next update stage
              */
-            Update withLocation(String location);
+            Update withName(String name);
         }
 
         /**
@@ -378,18 +350,6 @@ public interface VpnConnection extends HasInner<VpnConnectionInner>, Indexable, 
              * @return the next update stage
              */
             Update withSharedKey(String sharedKey);
-        }
-
-        /**
-         * The stage of the vpnconnection update allowing to specify Tags.
-         */
-        interface WithTags {
-            /**
-             * Specifies tags.
-             * @param tags Resource tags
-             * @return the next update stage
-             */
-            Update withTags(Map<String, String> tags);
         }
 
     }
