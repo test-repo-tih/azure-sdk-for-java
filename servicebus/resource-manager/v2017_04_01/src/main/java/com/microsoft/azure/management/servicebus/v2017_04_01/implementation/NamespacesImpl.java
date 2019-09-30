@@ -172,6 +172,10 @@ class NamespacesImpl extends GroupableResourcesCoreImpl<SBNamespace, SBNamespace
         return  new NamespaceSBAuthorizationRuleImpl(inner, manager());
     }
 
+    private NetworkRuleSetImpl wrapNetworkRuleSetModel(NetworkRuleSetInner inner) {
+        return  new NetworkRuleSetImpl(inner, manager());
+    }
+
     private Observable<SBAuthorizationRuleInner> getSBAuthorizationRuleInnerUsingNamespacesInnerAsync(String id) {
         String resourceGroupName = IdParsingUtils.getValueFromIdByName(id, "resourceGroups");
         String namespaceName = IdParsingUtils.getValueFromIdByName(id, "namespaces");
@@ -236,6 +240,24 @@ class NamespacesImpl extends GroupableResourcesCoreImpl<SBNamespace, SBNamespace
             @Override
             public AccessKeys call(AccessKeysInner inner) {
                 return new AccessKeysImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Observable<NetworkRuleSet> listNetworkRuleSetsAsync(final String resourceGroupName, final String namespaceName) {
+        NamespacesInner client = this.inner();
+        return client.listNetworkRuleSetsAsync(resourceGroupName, namespaceName)
+        .flatMapIterable(new Func1<Page<NetworkRuleSetInner>, Iterable<NetworkRuleSetInner>>() {
+            @Override
+            public Iterable<NetworkRuleSetInner> call(Page<NetworkRuleSetInner> page) {
+                return page.items();
+            }
+        })
+        .map(new Func1<NetworkRuleSetInner, NetworkRuleSet>() {
+            @Override
+            public NetworkRuleSet call(NetworkRuleSetInner inner) {
+                return wrapNetworkRuleSetModel(inner);
             }
         });
     }
