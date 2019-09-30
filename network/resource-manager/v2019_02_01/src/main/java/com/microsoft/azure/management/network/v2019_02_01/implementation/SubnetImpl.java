@@ -16,12 +16,11 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.v2019_02_01.ServiceEndpointPropertiesFormat;
 import com.microsoft.azure.management.network.v2019_02_01.IPConfiguration;
 import com.microsoft.azure.management.network.v2019_02_01.IPConfigurationProfile;
-import com.microsoft.azure.management.network.v2019_02_01.ResourceNavigationLink;
-import com.microsoft.azure.management.network.v2019_02_01.ServiceAssociationLink;
 import com.microsoft.azure.management.network.v2019_02_01.Delegation;
 import java.util.ArrayList;
 import com.microsoft.azure.management.network.v2019_02_01.InterfaceEndpoint;
 import com.microsoft.azure.management.network.v2019_02_01.NetworkSecurityGroup;
+import com.microsoft.azure.management.network.v2019_02_01.;
 import com.microsoft.azure.management.network.v2019_02_01.RouteTable;
 import com.microsoft.azure.management.network.v2019_02_01.ServiceEndpointPolicy;
 
@@ -159,7 +158,7 @@ class SubnetImpl extends CreatableUpdatableImpl<Subnet, SubnetInner, SubnetImpl>
     }
 
     @Override
-    public List<ResourceNavigationLink> resourceNavigationLinks() {
+    public List<ResourceNavigationLinkInner> resourceNavigationLinks() {
         return this.inner().resourceNavigationLinks();
     }
 
@@ -174,7 +173,7 @@ class SubnetImpl extends CreatableUpdatableImpl<Subnet, SubnetInner, SubnetImpl>
     }
 
     @Override
-    public List<ServiceAssociationLink> serviceAssociationLinks() {
+    public List<ServiceAssociationLinkInner> serviceAssociationLinks() {
         return this.inner().serviceAssociationLinks();
     }
 
@@ -256,7 +255,7 @@ class SubnetImpl extends CreatableUpdatableImpl<Subnet, SubnetInner, SubnetImpl>
     }
 
     @Override
-    public SubnetImpl withResourceNavigationLinks(List<ResourceNavigationLink> resourceNavigationLinks) {
+    public SubnetImpl withResourceNavigationLinks(List<ResourceNavigationLinkInner> resourceNavigationLinks) {
         this.inner().withResourceNavigationLinks(resourceNavigationLinks);
         return this;
     }
@@ -268,7 +267,7 @@ class SubnetImpl extends CreatableUpdatableImpl<Subnet, SubnetInner, SubnetImpl>
     }
 
     @Override
-    public SubnetImpl withServiceAssociationLinks(List<ServiceAssociationLink> serviceAssociationLinks) {
+    public SubnetImpl withServiceAssociationLinks(List<ServiceAssociationLinkInner> serviceAssociationLinks) {
         this.inner().withServiceAssociationLinks(serviceAssociationLinks);
         return this;
     }
