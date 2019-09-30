@@ -22,14 +22,14 @@ import com.microsoft.azure.management.appservice.v2018_02_01.DiagnosticAnalysis;
 import com.microsoft.azure.management.appservice.v2018_02_01.AnalysisDefinition;
 
 class DiagnosticsImpl extends WrapperImpl<DiagnosticsInner> implements Diagnostics {
-    private final AppServiceManager manager;
+    private final CertificateRegistrationManager manager;
 
-    DiagnosticsImpl(AppServiceManager manager) {
+    DiagnosticsImpl(CertificateRegistrationManager manager) {
         super(manager.inner().diagnostics());
         this.manager = manager;
     }
 
-    public AppServiceManager manager() {
+    public CertificateRegistrationManager manager() {
         return this.manager;
     }
 
