@@ -867,6 +867,32 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The ResourceNavigationLinksInner object to access its operations.
+     */
+    private ResourceNavigationLinksInner resourceNavigationLinks;
+
+    /**
+     * Gets the ResourceNavigationLinksInner object to access its operations.
+     * @return the ResourceNavigationLinksInner object.
+     */
+    public ResourceNavigationLinksInner resourceNavigationLinks() {
+        return this.resourceNavigationLinks;
+    }
+
+    /**
+     * The ServiceAssociationLinksInner object to access its operations.
+     */
+    private ServiceAssociationLinksInner serviceAssociationLinks;
+
+    /**
+     * Gets the ServiceAssociationLinksInner object to access its operations.
+     * @return the ServiceAssociationLinksInner object.
+     */
+    public ServiceAssociationLinksInner serviceAssociationLinks() {
+        return this.serviceAssociationLinks;
+    }
+
+    /**
      * The VirtualNetworkPeeringsInner object to access its operations.
      */
     private VirtualNetworkPeeringsInner virtualNetworkPeerings;
@@ -1151,6 +1177,8 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.usages = new UsagesInner(restClient().retrofit(), this);
         this.virtualNetworks = new VirtualNetworksInner(restClient().retrofit(), this);
         this.subnets = new SubnetsInner(restClient().retrofit(), this);
+        this.resourceNavigationLinks = new ResourceNavigationLinksInner(restClient().retrofit(), this);
+        this.serviceAssociationLinks = new ServiceAssociationLinksInner(restClient().retrofit(), this);
         this.virtualNetworkPeerings = new VirtualNetworkPeeringsInner(restClient().retrofit(), this);
         this.virtualNetworkGateways = new VirtualNetworkGatewaysInner(restClient().retrofit(), this);
         this.virtualNetworkGatewayConnections = new VirtualNetworkGatewayConnectionsInner(restClient().retrofit(), this);
