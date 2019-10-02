@@ -35,14 +35,10 @@ class VpnSiteLinkConnectionsImpl extends WrapperImpl<VpnSiteLinkConnectionsInner
     public Observable<VpnConnectionVpnGatewayVpnSiteLinkConnection> getAsync(String resourceGroupName, String gatewayName, String connectionName, String linkConnectionName) {
         VpnSiteLinkConnectionsInner client = this.inner();
         return client.getAsync(resourceGroupName, gatewayName, connectionName, linkConnectionName)
-        .flatMap(new Func1<VpnSiteLinkConnectionInner, Observable<VpnConnectionVpnGatewayVpnSiteLinkConnection>>() {
+        .map(new Func1<VpnSiteLinkConnectionInner, VpnConnectionVpnGatewayVpnSiteLinkConnection>() {
             @Override
-            public Observable<VpnConnectionVpnGatewayVpnSiteLinkConnection> call(VpnSiteLinkConnectionInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((VpnConnectionVpnGatewayVpnSiteLinkConnection)wrapModel(inner));
-                }
+            public VpnConnectionVpnGatewayVpnSiteLinkConnection call(VpnSiteLinkConnectionInner inner) {
+                return wrapModel(inner);
             }
        });
     }
