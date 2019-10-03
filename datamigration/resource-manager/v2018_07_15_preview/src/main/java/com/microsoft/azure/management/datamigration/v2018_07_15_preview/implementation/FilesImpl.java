@@ -89,14 +89,10 @@ class FilesImpl extends WrapperImpl<FilesInner> implements Files {
     public Observable<ProjectFile> getAsync(String groupName, String serviceName, String projectName, String fileName) {
         FilesInner client = this.inner();
         return client.getAsync(groupName, serviceName, projectName, fileName)
-        .flatMap(new Func1<ProjectFileInner, Observable<ProjectFile>>() {
+        .map(new Func1<ProjectFileInner, ProjectFile>() {
             @Override
-            public Observable<ProjectFile> call(ProjectFileInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((ProjectFile)wrapModel(inner));
-                }
+            public ProjectFile call(ProjectFileInner inner) {
+                return wrapModel(inner);
             }
        });
     }
