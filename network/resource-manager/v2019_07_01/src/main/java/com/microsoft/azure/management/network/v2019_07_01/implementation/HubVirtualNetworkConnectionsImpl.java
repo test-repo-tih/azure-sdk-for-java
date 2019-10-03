@@ -54,14 +54,10 @@ class HubVirtualNetworkConnectionsImpl extends WrapperImpl<HubVirtualNetworkConn
     public Observable<HubVirtualNetworkConnection> getAsync(String resourceGroupName, String virtualHubName, String connectionName) {
         HubVirtualNetworkConnectionsInner client = this.inner();
         return client.getAsync(resourceGroupName, virtualHubName, connectionName)
-        .flatMap(new Func1<HubVirtualNetworkConnectionInner, Observable<HubVirtualNetworkConnection>>() {
+        .map(new Func1<HubVirtualNetworkConnectionInner, HubVirtualNetworkConnection>() {
             @Override
-            public Observable<HubVirtualNetworkConnection> call(HubVirtualNetworkConnectionInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((HubVirtualNetworkConnection)wrapModel(inner));
-                }
+            public HubVirtualNetworkConnection call(HubVirtualNetworkConnectionInner inner) {
+                return wrapModel(inner);
             }
        });
     }

@@ -67,14 +67,10 @@ class NetworkInterfacesImpl extends WrapperImpl<NetworkInterfacesInner> implemen
 
     @Override
     public Observable<NetworkInterface> getByResourceGroupAsync(String resourceGroupName, String name) {
-        return this.getNetworkInterfaceInnerUsingNetworkInterfacesInnerAsync(resourceGroupName, name).flatMap(new Func1<NetworkInterfaceInner, Observable<NetworkInterface>> () {
+        return this.getNetworkInterfaceInnerUsingNetworkInterfacesInnerAsync(resourceGroupName, name).map(new Func1<NetworkInterfaceInner, NetworkInterface> () {
             @Override
-            public Observable<NetworkInterface> call(NetworkInterfaceInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return  Observable.just((NetworkInterface)wrapNetworkInterfaceModel(inner));
-                }
+            public NetworkInterface call(NetworkInterfaceInner inner) {
+                return wrapNetworkInterfaceModel(inner);
             }
         });
     }
@@ -196,14 +192,10 @@ class NetworkInterfacesImpl extends WrapperImpl<NetworkInterfacesInner> implemen
     public Observable<VirtualMachineScaleSetNetworkInterfaceIPConfiguration> getVirtualMachineScaleSetIpConfigurationAsync(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String ipConfigurationName) {
         NetworkInterfacesInner client = this.inner();
         return client.getVirtualMachineScaleSetIpConfigurationAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName)
-        .flatMap(new Func1<NetworkInterfaceIPConfigurationInner, Observable<VirtualMachineScaleSetNetworkInterfaceIPConfiguration>>() {
+        .map(new Func1<NetworkInterfaceIPConfigurationInner, VirtualMachineScaleSetNetworkInterfaceIPConfiguration>() {
             @Override
-            public Observable<VirtualMachineScaleSetNetworkInterfaceIPConfiguration> call(NetworkInterfaceIPConfigurationInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((VirtualMachineScaleSetNetworkInterfaceIPConfiguration)wrapVirtualMachineScaleSetNetworkInterfaceIPConfigurationModel(inner));
-                }
+            public VirtualMachineScaleSetNetworkInterfaceIPConfiguration call(NetworkInterfaceIPConfigurationInner inner) {
+                return wrapVirtualMachineScaleSetNetworkInterfaceIPConfigurationModel(inner);
             }
        });
     }
