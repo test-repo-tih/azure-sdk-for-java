@@ -17,6 +17,7 @@ import com.microsoft.azure.management.sqlvirtualmachine.v2017_03_01_preview.Auto
 import com.microsoft.azure.management.sqlvirtualmachine.v2017_03_01_preview.AutoBackupSettings;
 import com.microsoft.azure.management.sqlvirtualmachine.v2017_03_01_preview.KeyVaultCredentialSettings;
 import com.microsoft.azure.management.sqlvirtualmachine.v2017_03_01_preview.ServerConfigurationsManagementSettings;
+import com.microsoft.azure.management.sqlvirtualmachine.v2017_03_01_preview.StorageConfigurationSettings;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -109,6 +110,12 @@ public class SqlVirtualMachineInner extends Resource {
      */
     @JsonProperty(value = "properties.serverConfigurationsManagementSettings")
     private ServerConfigurationsManagementSettings serverConfigurationsManagementSettings;
+
+    /**
+     * Storage Configuration Settings.
+     */
+    @JsonProperty(value = "properties.storageConfigurationSettings")
+    private StorageConfigurationSettings storageConfigurationSettings;
 
     /**
      * Get azure Active Directory identity of the server.
@@ -356,6 +363,26 @@ public class SqlVirtualMachineInner extends Resource {
      */
     public SqlVirtualMachineInner withServerConfigurationsManagementSettings(ServerConfigurationsManagementSettings serverConfigurationsManagementSettings) {
         this.serverConfigurationsManagementSettings = serverConfigurationsManagementSettings;
+        return this;
+    }
+
+    /**
+     * Get storage Configuration Settings.
+     *
+     * @return the storageConfigurationSettings value
+     */
+    public StorageConfigurationSettings storageConfigurationSettings() {
+        return this.storageConfigurationSettings;
+    }
+
+    /**
+     * Set storage Configuration Settings.
+     *
+     * @param storageConfigurationSettings the storageConfigurationSettings value to set
+     * @return the SqlVirtualMachineInner object itself.
+     */
+    public SqlVirtualMachineInner withStorageConfigurationSettings(StorageConfigurationSettings storageConfigurationSettings) {
+        this.storageConfigurationSettings = storageConfigurationSettings;
         return this;
     }
 
