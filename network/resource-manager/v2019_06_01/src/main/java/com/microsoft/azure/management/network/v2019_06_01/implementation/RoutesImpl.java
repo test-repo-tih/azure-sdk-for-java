@@ -64,14 +64,10 @@ class RoutesImpl extends WrapperImpl<RoutesInner> implements Routes {
     public Observable<Route> getAsync(String resourceGroupName, String routeTableName, String routeName) {
         RoutesInner client = this.inner();
         return client.getAsync(resourceGroupName, routeTableName, routeName)
-        .flatMap(new Func1<RouteInner, Observable<Route>>() {
+        .map(new Func1<RouteInner, Route>() {
             @Override
-            public Observable<Route> call(RouteInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((Route)wrapModel(inner));
-                }
+            public Route call(RouteInner inner) {
+                return wrapModel(inner);
             }
        });
     }
