@@ -70,21 +70,19 @@ import com.microsoft.azure.management.appservice.v2016_08_01.TriggeredWebJob;
 import com.microsoft.azure.management.appservice.v2016_08_01.TriggeredJobHistory;
 import com.microsoft.azure.management.appservice.v2016_08_01.CsmUsageQuota;
 import com.microsoft.azure.management.appservice.v2016_08_01.VnetInfo;
-
-import java.io.InputStream;
 import java.util.List;
 import com.microsoft.azure.management.appservice.v2016_08_01.VnetGateway;
 import com.microsoft.azure.management.appservice.v2016_08_01.WebJob;
 
 class WebAppsImpl extends WrapperImpl<WebAppsInner> implements WebApps {
-    private final AppServiceManager manager;
+    private final WebManager manager;
 
-    WebAppsImpl(AppServiceManager manager) {
+    WebAppsImpl(WebManager manager) {
         super(manager.inner().webApps());
         this.manager = manager;
     }
 
-    public AppServiceManager manager() {
+    public WebManager manager() {
         return this.manager;
     }
 
