@@ -54,14 +54,10 @@ class PeerExpressRouteCircuitConnectionsImpl extends WrapperImpl<PeerExpressRout
     public Observable<PeerExpressRouteCircuitConnection> getAsync(String resourceGroupName, String circuitName, String peeringName, String connectionName) {
         PeerExpressRouteCircuitConnectionsInner client = this.inner();
         return client.getAsync(resourceGroupName, circuitName, peeringName, connectionName)
-        .flatMap(new Func1<PeerExpressRouteCircuitConnectionInner, Observable<PeerExpressRouteCircuitConnection>>() {
+        .map(new Func1<PeerExpressRouteCircuitConnectionInner, PeerExpressRouteCircuitConnection>() {
             @Override
-            public Observable<PeerExpressRouteCircuitConnection> call(PeerExpressRouteCircuitConnectionInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((PeerExpressRouteCircuitConnection)wrapModel(inner));
-                }
+            public PeerExpressRouteCircuitConnection call(PeerExpressRouteCircuitConnectionInner inner) {
+                return wrapModel(inner);
             }
        });
     }
