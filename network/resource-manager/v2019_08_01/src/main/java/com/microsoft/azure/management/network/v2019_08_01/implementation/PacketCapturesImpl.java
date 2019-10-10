@@ -83,14 +83,10 @@ class PacketCapturesImpl extends WrapperImpl<PacketCapturesInner> implements Pac
     public Observable<PacketCaptureResult> getAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName) {
         PacketCapturesInner client = this.inner();
         return client.getAsync(resourceGroupName, networkWatcherName, packetCaptureName)
-        .flatMap(new Func1<PacketCaptureResultInner, Observable<PacketCaptureResult>>() {
+        .map(new Func1<PacketCaptureResultInner, PacketCaptureResult>() {
             @Override
-            public Observable<PacketCaptureResult> call(PacketCaptureResultInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((PacketCaptureResult)wrapModel(inner));
-                }
+            public PacketCaptureResult call(PacketCaptureResultInner inner) {
+                return wrapModel(inner);
             }
        });
     }
