@@ -66,14 +66,10 @@ class AgentPoolsImpl extends WrapperImpl<AgentPoolsInner> implements AgentPools 
     public Observable<AgentPool> getAsync(String resourceGroupName, String resourceName, String agentPoolName) {
         AgentPoolsInner client = this.inner();
         return client.getAsync(resourceGroupName, resourceName, agentPoolName)
-        .flatMap(new Func1<AgentPoolInner, Observable<AgentPool>>() {
+        .map(new Func1<AgentPoolInner, AgentPool>() {
             @Override
-            public Observable<AgentPool> call(AgentPoolInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((AgentPool)wrapModel(inner));
-                }
+            public AgentPool call(AgentPoolInner inner) {
+                return wrapModel(inner);
             }
        });
     }
@@ -97,9 +93,9 @@ class AgentPoolsImpl extends WrapperImpl<AgentPoolsInner> implements AgentPools 
     }
 
     @Override
-    public Observable<AgentPoolAvailableVersions> getAvailableAgentPoolVersionsAsync(String resourceGroupName, String resourceName, String agentPoolName) {
+    public Observable<AgentPoolAvailableVersions> getAvailableAgentPoolVersionsAsync(String resourceGroupName, String resourceName) {
         AgentPoolsInner client = this.inner();
-        return client.getAvailableAgentPoolVersionsAsync(resourceGroupName, resourceName, agentPoolName)
+        return client.getAvailableAgentPoolVersionsAsync(resourceGroupName, resourceName)
         .map(new Func1<AgentPoolAvailableVersionsInner, AgentPoolAvailableVersions>() {
             @Override
             public AgentPoolAvailableVersions call(AgentPoolAvailableVersionsInner inner) {
