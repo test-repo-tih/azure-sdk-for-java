@@ -45,14 +45,10 @@ class PeeringServicePrefixesImpl extends WrapperImpl<PeeringServicePrefixesInner
     public Observable<PeeringServicePeeringServicePrefix> getAsync(String resourceGroupName, String peeringServiceName, String prefixName) {
         PeeringServicePrefixesInner client = this.inner();
         return client.getAsync(resourceGroupName, peeringServiceName, prefixName)
-        .flatMap(new Func1<PeeringServicePrefixInner, Observable<PeeringServicePeeringServicePrefix>>() {
+        .map(new Func1<PeeringServicePrefixInner, PeeringServicePeeringServicePrefix>() {
             @Override
-            public Observable<PeeringServicePeeringServicePrefix> call(PeeringServicePrefixInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((PeeringServicePeeringServicePrefix)wrapModel(inner));
-                }
+            public PeeringServicePeeringServicePrefix call(PeeringServicePrefixInner inner) {
+                return wrapModel(inner);
             }
        });
     }
