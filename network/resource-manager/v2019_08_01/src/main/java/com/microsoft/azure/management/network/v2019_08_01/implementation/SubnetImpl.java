@@ -21,6 +21,7 @@ import com.microsoft.azure.management.network.v2019_08_01.ProvisioningState;
 import com.microsoft.azure.management.network.v2019_08_01.NetworkSecurityGroup;
 import java.util.ArrayList;
 import com.microsoft.azure.management.network.v2019_08_01.PrivateEndpoint;
+import com.microsoft.azure.management.network.v2019_08_01.;
 import com.microsoft.azure.management.network.v2019_08_01.RouteTable;
 import com.microsoft.azure.management.network.v2019_08_01.ServiceEndpointPolicy;
 
