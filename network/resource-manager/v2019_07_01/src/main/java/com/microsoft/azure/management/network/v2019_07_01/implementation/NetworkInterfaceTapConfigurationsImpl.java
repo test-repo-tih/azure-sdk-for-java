@@ -64,14 +64,10 @@ class NetworkInterfaceTapConfigurationsImpl extends WrapperImpl<NetworkInterface
     public Observable<NetworkInterfaceTapConfiguration> getAsync(String resourceGroupName, String networkInterfaceName, String tapConfigurationName) {
         NetworkInterfaceTapConfigurationsInner client = this.inner();
         return client.getAsync(resourceGroupName, networkInterfaceName, tapConfigurationName)
-        .flatMap(new Func1<NetworkInterfaceTapConfigurationInner, Observable<NetworkInterfaceTapConfiguration>>() {
+        .map(new Func1<NetworkInterfaceTapConfigurationInner, NetworkInterfaceTapConfiguration>() {
             @Override
-            public Observable<NetworkInterfaceTapConfiguration> call(NetworkInterfaceTapConfigurationInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((NetworkInterfaceTapConfiguration)wrapModel(inner));
-                }
+            public NetworkInterfaceTapConfiguration call(NetworkInterfaceTapConfigurationInner inner) {
+                return wrapModel(inner);
             }
        });
     }
