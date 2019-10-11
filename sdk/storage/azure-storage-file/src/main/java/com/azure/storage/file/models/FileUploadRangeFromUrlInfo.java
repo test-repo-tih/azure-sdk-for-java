@@ -19,14 +19,14 @@ public final class FileUploadRangeFromUrlInfo {
     /**
      * @return The entity tag that corresponds to the directory.
      */
-    public String getETag() {
+    public String eTag() {
         return eTag;
     }
 
     /**
      * @return The last time the share was modified.
      */
-    public OffsetDateTime getLastModified() {
+    public OffsetDateTime lastModified() {
         return lastModified;
     }
 
