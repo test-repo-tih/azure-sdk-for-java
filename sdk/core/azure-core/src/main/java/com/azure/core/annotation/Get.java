@@ -3,10 +3,9 @@
 
 package com.azure.core.annotation;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
@@ -29,8 +28,8 @@ import java.lang.annotation.Target;
  * {@literal @}Get({nextLink})
  * {@literal List<VirtualMachine>} listNext(@PathParam("nextLink") String nextLink);</pre>
  */
-@Retention(RUNTIME)
-@Target(METHOD)
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Get {
     /**
      * Get the relative path of the annotated method's GET URL.
