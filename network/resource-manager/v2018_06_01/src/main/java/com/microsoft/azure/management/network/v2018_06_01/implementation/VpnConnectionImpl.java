@@ -11,7 +11,6 @@ package com.microsoft.azure.management.network.v2018_06_01.implementation;
 import com.microsoft.azure.management.network.v2018_06_01.VpnConnection;
 import com.microsoft.azure.arm.model.implementation.CreatableUpdatableImpl;
 import rx.Observable;
-import java.util.Map;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.v2018_06_01.VpnConnectionStatus;
 import java.util.List;
@@ -116,11 +115,6 @@ class VpnConnectionImpl extends CreatableUpdatableImpl<VpnConnection, VpnConnect
     }
 
     @Override
-    public String location() {
-        return this.inner().location();
-    }
-
-    @Override
     public String name() {
         return this.inner().name();
     }
@@ -143,16 +137,6 @@ class VpnConnectionImpl extends CreatableUpdatableImpl<VpnConnection, VpnConnect
     @Override
     public String sharedKey() {
         return this.inner().sharedKey();
-    }
-
-    @Override
-    public Map<String, String> tags() {
-        return this.inner().getTags();
-    }
-
-    @Override
-    public String type() {
-        return this.inner().type();
     }
 
     @Override
@@ -187,8 +171,8 @@ class VpnConnectionImpl extends CreatableUpdatableImpl<VpnConnection, VpnConnect
     }
 
     @Override
-    public VpnConnectionImpl withLocation(String location) {
-        this.inner().withLocation(location);
+    public VpnConnectionImpl withName(String name) {
+        this.inner().withName(name);
         return this;
     }
 
@@ -213,12 +197,6 @@ class VpnConnectionImpl extends CreatableUpdatableImpl<VpnConnection, VpnConnect
     @Override
     public VpnConnectionImpl withSharedKey(String sharedKey) {
         this.inner().withSharedKey(sharedKey);
-        return this;
-    }
-
-    @Override
-    public VpnConnectionImpl withTags(Map<String, String> tags) {
-        this.inner().withTags(tags);
         return this;
     }
 
