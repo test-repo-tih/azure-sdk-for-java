@@ -3,7 +3,7 @@
 
 package com.azure.identity;
 
-import com.azure.core.credential.TokenRequestContext;
+import com.azure.core.credentials.TokenRequest;
 import com.azure.identity.implementation.IdentityClient;
 import com.azure.identity.util.TestUtils;
 import com.microsoft.aad.msal4j.MsalServiceException;
@@ -40,18 +40,18 @@ public class UsernamePasswordCredentialTest {
         String password = "P@ssw0rd";
         String token1 = "token1";
         String token2 = "token2";
-        TokenRequestContext request1 = new TokenRequestContext().addScopes("https://management.azure.com");
-        TokenRequestContext request2 = new TokenRequestContext().addScopes("https://vault.azure.net");
-        OffsetDateTime expiresAt = OffsetDateTime.now(ZoneOffset.UTC).plusHours(1);
+        TokenRequest request1 = new TokenRequest().addScopes("https://management.azure.com");
+        TokenRequest request2 = new TokenRequest().addScopes("https://vault.azure.net");
+        OffsetDateTime expiresOn = OffsetDateTime.now(ZoneOffset.UTC).plusHours(1);
 
         // mock
         IdentityClient identityClient = PowerMockito.mock(IdentityClient.class);
-        when(identityClient.authenticateWithUsernamePassword(request1, username, password)).thenReturn(TestUtils.getMockMsalToken(token1, expiresAt));
+        when(identityClient.authenticateWithUsernamePassword(request1, username, password)).thenReturn(TestUtils.getMockMsalToken(token1, expiresOn));
         when(identityClient.authenticateWithUserRefreshToken(any(), any()))
             .thenAnswer(invocation -> {
                 TokenRequestContext argument = (TokenRequestContext) invocation.getArguments()[0];
                 if (argument.getScopes().size() == 1 && argument.getScopes().get(0).equals(request2.getScopes().get(0))) {
-                    return TestUtils.getMockMsalToken(token2, expiresAt);
+                    return TestUtils.getMockMsalToken(token2, expiresOn);
                 } else if (argument.getScopes().size() == 1 && argument.getScopes().get(0).equals(request1.getScopes().get(0))) {
                     return Mono.error(new UnsupportedOperationException("nothing cached"));
                 } else {
@@ -65,11 +65,11 @@ public class UsernamePasswordCredentialTest {
             new UsernamePasswordCredentialBuilder().clientId(clientId).username(username).password(password).build();
         StepVerifier.create(credential.getToken(request1))
             .expectNextMatches(accessToken -> token1.equals(accessToken.getToken())
-                && expiresAt.getSecond() == accessToken.getExpiresAt().getSecond())
+                && expiresOn.getSecond() == accessToken.getExpiresOn().getSecond())
             .verifyComplete();
         StepVerifier.create(credential.getToken(request2))
             .expectNextMatches(accessToken -> token2.equals(accessToken.getToken())
-                && expiresAt.getSecond() == accessToken.getExpiresAt().getSecond())
+                && expiresOn.getSecond() == accessToken.getExpiresOn().getSecond())
             .verifyComplete();
     }
 
