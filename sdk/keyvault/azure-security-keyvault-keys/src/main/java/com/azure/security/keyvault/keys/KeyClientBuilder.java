@@ -68,7 +68,6 @@ public final class KeyClientBuilder {
     private HttpLogOptions httpLogOptions;
     private final RetryPolicy retryPolicy;
     private Configuration configuration;
-    private KeyServiceVersion version;
 
     /**
      * The constructor with defaults.
@@ -121,10 +120,9 @@ public final class KeyClientBuilder {
                 .logExceptionAsError(new IllegalStateException(KeyVaultErrorCodeStrings
                     .getErrorString(KeyVaultErrorCodeStrings.VAULT_END_POINT_REQUIRED)));
         }
-        KeyServiceVersion serviceVersion = version != null ? version : KeyServiceVersion.getLatest();
 
         if (pipeline != null) {
-            return new KeyAsyncClient(endpoint, pipeline, serviceVersion);
+            return new KeyAsyncClient(endpoint, pipeline);
         }
 
         if (credential == null) {
@@ -136,7 +134,7 @@ public final class KeyClientBuilder {
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(new UserAgentPolicy(AzureKeyVaultConfiguration.SDK_NAME, AzureKeyVaultConfiguration.SDK_VERSION,
-            buildConfiguration, serviceVersion));
+            buildConfiguration));
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);
         policies.add(new KeyVaultCredentialPolicy(credential));
@@ -149,7 +147,7 @@ public final class KeyClientBuilder {
             .httpClient(httpClient)
             .build();
 
-        return new KeyAsyncClient(endpoint, pipeline, serviceVersion);
+        return new KeyAsyncClient(endpoint, pipeline);
     }
 
     /**
@@ -234,21 +232,6 @@ public final class KeyClientBuilder {
     public KeyClientBuilder pipeline(HttpPipeline pipeline) {
         Objects.requireNonNull(pipeline);
         this.pipeline = pipeline;
-        return this;
-    }
-
-    /**
-     * Sets the {@link KeyServiceVersion} that is used when making API requests.
-     * <p>
-     * If a service version is not provided, the service version that will be used will be the latest known service
-     * version based on the version of the client library being used. If no service version is specified, updating to a
-     * newer version the client library will have the result of potentially moving to a newer service version.
-     *
-     * @param version {@link KeyServiceVersion} of the service to be used when making requests.
-     * @return The updated KeyClientBuilder object.
-     */
-    public KeyClientBuilder serviceVersion(KeyServiceVersion version) {
-        this.version = version;
         return this;
     }
 
