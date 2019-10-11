@@ -18,7 +18,6 @@ public class HttpClientConfig {
     private Integer maxIdleConnectionTimeoutInMillis;
     private Integer requestTimeoutInMillis;
     private InetSocketAddress proxy;
-    private boolean connectionKeepAlive = true;
 
     public HttpClientConfig(Configs configs) {
         this.configs = configs;
@@ -44,11 +43,6 @@ public class HttpClientConfig {
         return this;
     }
 
-    public HttpClientConfig withConnectionKeepAlive(boolean connectionKeepAlive) {
-        this.connectionKeepAlive = connectionKeepAlive;
-        return this;
-    }
-
     public Configs getConfigs() {
         return configs;
     }
@@ -67,9 +61,5 @@ public class HttpClientConfig {
 
     public InetSocketAddress getProxy() {
         return proxy;
-    }
-
-    public boolean isConnectionKeepAlive() {
-        return connectionKeepAlive;
     }
 }
