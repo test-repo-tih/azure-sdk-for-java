@@ -46,7 +46,7 @@ public abstract class ConfigurationClientTestBase extends TestBase {
     private static final String LABEL_PREFIX = "label";
     private static final int PREFIX_LENGTH = 8;
     private static final int RESOURCE_LENGTH = 16;
-    static String connectionString;
+    private static String connectionString;
 
     private final ClientLogger logger = new ClientLogger(ConfigurationClientTestBase.class);
 
