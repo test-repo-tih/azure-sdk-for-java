@@ -3,7 +3,7 @@
 
 package com.azure.identity;
 
-import com.azure.core.credential.TokenRequestContext;
+import com.azure.core.credentials.TokenRequest;
 import com.azure.core.util.Configuration;
 import com.azure.identity.implementation.IdentityClient;
 import com.azure.identity.util.TestUtils;
@@ -45,21 +45,21 @@ public class ManagedIdentityCredentialTest {
             String endpoint = "http://localhost";
             String secret = "secret";
             String token1 = "token1";
-            TokenRequestContext request1 = new TokenRequestContext().addScopes("https://management.azure.com");
-            OffsetDateTime expiresAt = OffsetDateTime.now(ZoneOffset.UTC).plusHours(1);
+            TokenRequest request1 = new TokenRequest().addScopes("https://management.azure.com");
+            OffsetDateTime expiresOn = OffsetDateTime.now(ZoneOffset.UTC).plusHours(1);
             configuration.put("MSI_ENDPOINT", endpoint);
             configuration.put("MSI_SECRET", secret);
 
             // mock
             IdentityClient identityClient = PowerMockito.mock(IdentityClient.class);
-            when(identityClient.authenticateToManagedIdentityEndpoint(endpoint, secret, request1)).thenReturn(TestUtils.getMockAccessToken(token1, expiresAt));
+            when(identityClient.authenticateToManagedIdentityEndpoint(endpoint, secret, request1)).thenReturn(TestUtils.getMockAccessToken(token1, expiresOn));
             PowerMockito.whenNew(IdentityClient.class).withAnyArguments().thenReturn(identityClient);
 
             // test
             ManagedIdentityCredential credential = new ManagedIdentityCredentialBuilder().clientId(clientId).build();
             StepVerifier.create(credential.getToken(request1))
                 .expectNextMatches(token -> token1.equals(token.getToken())
-                    && expiresAt.getSecond() == token.getExpiresAt().getSecond())
+                    && expiresOn.getSecond() == token.getExpiresOn().getSecond())
                 .verifyComplete();
         } finally {
             // clean up
@@ -84,7 +84,7 @@ public class ManagedIdentityCredentialTest {
         ManagedIdentityCredential credential = new ManagedIdentityCredentialBuilder().clientId(clientId).build();
         StepVerifier.create(credential.getToken(request))
             .expectNextMatches(token -> token1.equals(token.getToken())
-                && expiresOn.getSecond() == token.getExpiresAt().getSecond())
+                && expiresOn.getSecond() == token.getExpiresOn().getSecond())
             .verifyComplete();
     }
 }
