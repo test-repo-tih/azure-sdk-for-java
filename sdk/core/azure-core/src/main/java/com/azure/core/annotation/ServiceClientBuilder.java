@@ -3,17 +3,17 @@
 
 package com.azure.core.annotation;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.TYPE;
 
 /**
  * Annotation given to all service client builder classes.
  */
-@Retention(RUNTIME)
-@Target(TYPE)
+@Target({TYPE})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface ServiceClientBuilder {
 
     /**
