@@ -6,12 +6,12 @@ import com.azure.core.util.logging.ClientLogger;
 import com.azure.storage.blob.models.AppendBlobAccessConditions;
 import com.azure.storage.blob.models.AppendPositionAccessConditions;
 import com.azure.storage.blob.models.BlobAccessConditions;
-import com.azure.storage.blob.models.BlobStorageException;
 import com.azure.storage.blob.models.LeaseAccessConditions;
 import com.azure.storage.blob.models.PageBlobAccessConditions;
 import com.azure.storage.blob.models.PageRange;
+import com.azure.storage.blob.models.StorageException;
+import com.azure.storage.common.SR;
 import com.azure.storage.common.StorageOutputStream;
-import com.azure.storage.common.implementation.Constants;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -66,19 +66,16 @@ public abstract class BlobOutputStream extends StorageOutputStream {
             // try to commit the blob
             try {
                 this.commit();
-            } catch (final BlobStorageException e) {
+            } catch (final StorageException e) {
                 throw new IOException(e);
             }
         } finally {
             // if close() is called again, an exception will be thrown
-            this.lastError = new IOException(Constants.STREAM_CLOSED);
+            this.lastError = new IOException(SR.STREAM_CLOSED);
         }
     }
 
     private static final class AppendBlobOutputStream extends BlobOutputStream {
-        private static final String INVALID_BLOCK_SIZE =
-            "Block data should not exceed BlockBlobURL.MAX_STAGE_BLOCK_BYTES";
-
         private final AppendBlobAccessConditions appendBlobAccessConditions;
         private final AppendPositionAccessConditions appendPositionAccessConditions;
         private final long initialBlobOffset;
@@ -111,9 +108,9 @@ public abstract class BlobOutputStream extends StorageOutputStream {
 
             return client.appendBlockWithResponse(blockData, writeLength, appendBlobAccessConditions)
                 .then()
-                .onErrorResume(t -> t instanceof IOException || t instanceof BlobStorageException, e -> {
+                .onErrorResume(t -> t instanceof IOException || t instanceof StorageException, e -> {
                     this.lastError = new IOException(e);
-                    return Mono.empty();
+                    return null;
                 });
         }
 
@@ -129,7 +126,7 @@ public abstract class BlobOutputStream extends StorageOutputStream {
             if (this.appendPositionAccessConditions != null
                 && this.appendPositionAccessConditions.getMaxSize() != null
                 && this.initialBlobOffset > this.appendPositionAccessConditions.getMaxSize()) {
-                this.lastError = new IOException(INVALID_BLOCK_SIZE);
+                this.lastError = new IOException(SR.INVALID_BLOCK_SIZE);
                 return Mono.error(this.lastError);
             }
 
@@ -176,9 +173,9 @@ public abstract class BlobOutputStream extends StorageOutputStream {
 
             return client.stageBlockWithResponse(blockId, blockData, writeLength, leaseAccessConditions)
                 .then()
-                .onErrorResume(BlobStorageException.class, e -> {
+                .onErrorResume(t -> t instanceof StorageException, e -> {
                     this.lastError = new IOException(e);
-                    return Mono.empty();
+                    return null;
                 });
         }
 
@@ -207,9 +204,6 @@ public abstract class BlobOutputStream extends StorageOutputStream {
     }
 
     private static final class PageBlobOutputStream extends BlobOutputStream {
-        private static final String INVALID_NUMBER_OF_BYTES_IN_THE_BUFFER =
-            "Page data must be a multiple of 512 bytes. Buffer currently contains %d bytes.";
-
         private final ClientLogger logger = new ClientLogger(PageBlobOutputStream.class);
         private final PageBlobAsyncClient client;
         private final PageBlobAccessConditions pageBlobAccessConditions;
@@ -234,9 +228,9 @@ public abstract class BlobOutputStream extends StorageOutputStream {
             return client.uploadPagesWithResponse(new PageRange().setStart(offset).setEnd(offset + length - 1),
                 pageData, pageBlobAccessConditions)
                 .then()
-                .onErrorResume(BlobStorageException.class, e -> {
+                .onErrorResume(t -> t instanceof StorageException, e -> {
                     this.lastError = new IOException(e);
-                    return Mono.empty();
+                    return null;
                 });
         }
 
@@ -247,7 +241,7 @@ public abstract class BlobOutputStream extends StorageOutputStream {
             }
 
             if (writeLength % PageBlobAsyncClient.PAGE_BYTES != 0) {
-                return Mono.error(new IOException(String.format(INVALID_NUMBER_OF_BYTES_IN_THE_BUFFER,
+                return Mono.error(new IOException(String.format(SR.INVALID_NUMBER_OF_BYTES_IN_THE_BUFFER,
                     writeLength)));
             }
 
