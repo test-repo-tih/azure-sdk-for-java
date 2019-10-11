@@ -64,7 +64,6 @@ public final class CertificateClientBuilder {
     private HttpLogOptions httpLogOptions;
     private final RetryPolicy retryPolicy;
     private Configuration configuration;
-    private CertificateServiceVersion version;
 
     /**
      * The constructor with defaults.
@@ -114,10 +113,9 @@ public final class CertificateClientBuilder {
         if (buildEndpoint == null) {
             throw logger.logExceptionAsError(new IllegalStateException(KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.VAULT_END_POINT_REQUIRED)));
         }
-        CertificateServiceVersion serviceVersion = version != null ? version : CertificateServiceVersion.getLatest();
 
         if (pipeline != null) {
-            return new CertificateAsyncClient(endpoint, pipeline, serviceVersion);
+            return new CertificateAsyncClient(endpoint, pipeline);
         }
 
         if (credential == null) {
@@ -126,7 +124,7 @@ public final class CertificateClientBuilder {
 
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
-        policies.add(new UserAgentPolicy(AzureKeyVaultConfiguration.SDK_NAME, AzureKeyVaultConfiguration.SDK_VERSION, buildConfiguration, serviceVersion));
+        policies.add(new UserAgentPolicy(AzureKeyVaultConfiguration.SDK_NAME, AzureKeyVaultConfiguration.SDK_VERSION, buildConfiguration));
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);
         policies.add(new KeyVaultCredentialPolicy(credential));
@@ -139,7 +137,7 @@ public final class CertificateClientBuilder {
             .httpClient(httpClient)
             .build();
 
-        return new CertificateAsyncClient(endpoint, pipeline, serviceVersion);
+        return new CertificateAsyncClient(endpoint, pipeline);
     }
 
     /**
@@ -236,21 +234,6 @@ public final class CertificateClientBuilder {
      */
     public CertificateClientBuilder configuration(Configuration configuration) {
         this.configuration = configuration;
-        return this;
-    }
-
-    /**
-     * Sets the {@link CertificateServiceVersion} that is used when making API requests.
-     * <p>
-     * If a service version is not provided, the service version that will be used will be the latest known service
-     * version based on the version of the client library being used. If no service version is specified, updating to a
-     * newer version the client library will have the result of potentially moving to a newer service version.
-     *
-     * @param version {@link CertificateServiceVersion} of the service to be used when making requests.
-     * @return The updated CertificateClientBuilder object.
-     */
-    public CertificateClientBuilder serviceVersion(CertificateServiceVersion version) {
-        this.version = version;
         return this;
     }
 

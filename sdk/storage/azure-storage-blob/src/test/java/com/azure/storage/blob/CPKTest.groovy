@@ -2,7 +2,6 @@ package com.azure.storage.blob
 
 import com.azure.core.http.policy.HttpLogDetailLevel
 import com.azure.core.http.policy.HttpLogOptions
-import com.azure.core.test.TestMode
 import com.azure.storage.blob.models.CustomerProvidedKey
 import com.azure.storage.blob.models.PageRange
 import com.azure.storage.blob.specialized.AppendBlobClient
@@ -10,7 +9,7 @@ import com.azure.storage.blob.specialized.BlobClientBase
 import com.azure.storage.blob.specialized.BlobServiceSasSignatureValues
 import com.azure.storage.blob.specialized.BlockBlobClient
 import com.azure.storage.blob.specialized.PageBlobClient
-import com.azure.storage.common.implementation.Constants
+import com.azure.storage.common.Constants
 
 import java.time.OffsetDateTime
 
@@ -32,9 +31,7 @@ class CPKTest extends APISpec {
             .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
             .credential(primaryCredential)
 
-        if (testMode == TestMode.RECORD && recordLiveMode) {
-            builder.addPolicy(interceptorManager.getRecordPolicy())
-        }
+        addOptionalRecording(builder)
 
         cpkContainer = builder.buildClient()
         cpkBlockBlob = cpkContainer.getBlobClient(generateBlobName()).getBlockBlobClient()
@@ -103,7 +100,7 @@ class CPKTest extends APISpec {
             .generateSasQueryParameters(primaryCredential)
             .encode()
 
-        def response = cpkBlockBlob.stageBlockFromURLWithResponse(getBlockID(), sourceBlob.getBlobUrl().toString() + "?" + sas,
+        def response = cpkBlockBlob.stageBlockFromURLWithResponse(getBlockID(), new URL(sourceBlob.getBlobUrl().toString() + "?" + sas),
             null, null, null, null, null, null)
 
         then:
@@ -159,7 +156,7 @@ class CPKTest extends APISpec {
             .encode()
 
         def response = cpkPageBlob.uploadPagesFromURLWithResponse(new PageRange().setStart(0).setEnd(PageBlobClient.PAGE_BYTES - 1),
-            sourceBlob.getBlobUrl().toString() + "?" + sas, null, null, null, null, null, null)
+            new URL(sourceBlob.getBlobUrl().toString() + "?" + sas), null, null, null, null, null, null)
 
         then:
         response.getStatusCode() == 201
@@ -208,7 +205,7 @@ class CPKTest extends APISpec {
             .setCanonicalName(sourceBlob.getBlobUrl().toString(), primaryCredential.getAccountName())
             .generateSasQueryParameters(primaryCredential)
             .encode()
-        def response = cpkAppendBlob.appendBlockFromUrlWithResponse(sourceBlob.getBlobUrl().toString() + "?" + sas,
+        def response = cpkAppendBlob.appendBlockFromUrlWithResponse(new URL(sourceBlob.getBlobUrl().toString() + "?" + sas),
             null, null, null, null, null, null)
 
         then:

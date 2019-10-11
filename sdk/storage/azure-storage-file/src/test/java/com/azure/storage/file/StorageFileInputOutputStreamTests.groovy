@@ -3,7 +3,11 @@
 
 package com.azure.storage.file
 
-import com.azure.storage.common.implementation.Constants
+import com.azure.storage.common.Constants
+import com.azure.storage.file.APISpec
+import com.azure.storage.file.FileTestHelper
+import com.azure.storage.file.StorageFileInputStream
+import com.azure.storage.file.StorageFileOutputStream
 import spock.lang.Requires
 
 class StorageFileInputOutputStreamTests extends APISpec {
@@ -18,7 +22,7 @@ class StorageFileInputOutputStreamTests extends APISpec {
         fileClient = shareClient.getFileClient(filePath)
     }
 
-    @Requires({ liveMode() })
+    @Requires({ APISpec.liveMode() })
     def "Upload download"() {
         when:
         length = 30 * Constants.MB
@@ -45,7 +49,7 @@ class StorageFileInputOutputStreamTests extends APISpec {
     }
 
 
-    @Requires({ liveMode() })
+    @Requires({ APISpec.liveMode() })
     def "Stream with offset"() {
         when:
         length = 7 * Constants.MB
