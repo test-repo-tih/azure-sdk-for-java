@@ -8,10 +8,9 @@ import com.azure.storage.file.models.FileCopyInfo;
 import com.azure.storage.file.models.FileProperties;
 import com.azure.storage.file.models.StorageException;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.UUID;
@@ -29,7 +28,6 @@ public class FileSample {
 
     /**
      * The main method shows how to do the base operation using file sync client.
-     *
      * @param args No args needed for the main method.
      * @throws RuntimeException If error occurs when make storage API call.
      */
@@ -43,7 +41,7 @@ public class FileSample {
         // Create a source file client
         String srcFileName = generateRandomName();
         FileClient srcFileClient = new FileClientBuilder().endpoint(ENDPOINT).shareName(shareName)
-            .resourcePath(parentDirName + "/" + srcFileName).buildFileClient();
+                                    .resourcePath(parentDirName + "/" + srcFileName).buildFileClient();
 
         // Create a source file
         try {
@@ -53,17 +51,17 @@ public class FileSample {
         }
 
         // Upload some data bytes to the src file.
-        byte[] data = "Hello, file client sample!".getBytes(StandardCharsets.UTF_8);
-        InputStream uploadData = new ByteArrayInputStream(data);
+        String dataText = "Hello, file client sample!";
+        ByteBuffer uploadData = ByteBuffer.wrap(dataText.getBytes(StandardCharsets.UTF_8));
         try {
-            srcFileClient.upload(uploadData, data.length);
+            srcFileClient.upload(uploadData, uploadData.remaining());
         } catch (StorageException e) {
             System.out.println("Failed to upload the data. Reasons: " + e.getMessage());
         }
         // Create a destination file client.
         String destFileName = generateRandomName();
         FileClient destFileClient = new FileClientBuilder().endpoint(ENDPOINT).shareName(shareName)
-            .resourcePath(parentDirName + "/" + destFileName).buildFileClient();
+                                        .resourcePath(parentDirName + "/" + destFileName).buildFileClient();
         destFileClient.create(1024);
 
         // Copy the file from source file to destination file.
@@ -71,7 +69,7 @@ public class FileSample {
 
         String sourceURL = clientURL + "/" + shareName + "/" + parentDirName + "/" + srcFileName;
 
-        FileCopyInfo copyResponse;
+        FileCopyInfo copyResponse = null;
         try {
             copyResponse = destFileClient.startCopy(sourceURL, null);
         } catch (StorageException e) {
