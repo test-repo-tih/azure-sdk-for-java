@@ -5,7 +5,7 @@ package com.azure.storage.blob.specialized;
 
 import com.azure.core.util.Context;
 import com.azure.storage.blob.models.BlobAccessConditions;
-import com.azure.storage.blob.models.BlobHttpHeaders;
+import com.azure.storage.blob.models.BlobHTTPHeaders;
 import com.azure.storage.blob.models.BlobRange;
 import com.azure.storage.blob.models.CopyStatusType;
 import com.azure.storage.blob.models.LeaseAccessConditions;
@@ -19,6 +19,8 @@ import com.azure.storage.blob.models.SourceModifiedAccessConditions;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -41,7 +43,13 @@ public class PageBlobClientJavaDocCodeSnippets {
     private String key = "key";
     private String value = "value";
     private String data = "data";
-    private String url = "https://sample.com";
+    private URL url = new URL("https://sample.com");
+
+    /**
+     * @throws MalformedURLException ignored
+     */
+    public PageBlobClientJavaDocCodeSnippets() throws MalformedURLException {
+    }
 
     /**
      * Code snippets for {@link PageBlobClient#create(long)}
@@ -54,11 +62,11 @@ public class PageBlobClientJavaDocCodeSnippets {
     }
 
     /**
-     * Code snippets for {@link PageBlobClient#createWithResponse(long, Long, BlobHttpHeaders, Map, BlobAccessConditions, Duration, Context)}
+     * Code snippets for {@link PageBlobClient#createWithResponse(long, Long, BlobHTTPHeaders, Map, BlobAccessConditions, Duration, Context)}
      */
     public void createWithResponseCodeSnippet() {
-        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.createWithResponse#long-Long-BlobHttpHeaders-Map-BlobAccessConditions-Duration-Context
-        BlobHttpHeaders headers = new BlobHttpHeaders()
+        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.createWithResponse#long-Long-BlobHTTPHeaders-Map-BlobAccessConditions-Duration-Context
+        BlobHTTPHeaders headers = new BlobHTTPHeaders()
             .setBlobContentLanguage("en-US")
             .setBlobContentType("binary");
         BlobAccessConditions blobAccessConditions = new BlobAccessConditions().setLeaseAccessConditions(
@@ -70,7 +78,7 @@ public class PageBlobClientJavaDocCodeSnippets {
             .getValue();
 
         System.out.printf("Created page blob with sequence number %s%n", pageBlob.getBlobSequenceNumber());
-        // END: com.azure.storage.blob.specialized.PageBlobClient.createWithResponse#long-Long-BlobHttpHeaders-Map-BlobAccessConditions-Duration-Context
+        // END: com.azure.storage.blob.specialized.PageBlobClient.createWithResponse#long-Long-BlobHTTPHeaders-Map-BlobAccessConditions-Duration-Context
     }
 
     /**
@@ -110,10 +118,10 @@ public class PageBlobClientJavaDocCodeSnippets {
     }
 
     /**
-     * Code snippets for {@link PageBlobClient#uploadPagesFromURL(PageRange, String, Long)}
+     * Code snippets for {@link PageBlobClient#uploadPagesFromURL(PageRange, URL, Long)}
      */
     public void uploadPagesFromURLCodeSnippet() {
-        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.uploadPagesFromURL#PageRange-String-Long
+        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.uploadPagesFromURL#PageRange-URL-Long
         PageRange pageRange = new PageRange()
             .setStart(0)
             .setEnd(511);
@@ -121,15 +129,15 @@ public class PageBlobClientJavaDocCodeSnippets {
         PageBlobItem pageBlob = client.uploadPagesFromURL(pageRange, url, sourceOffset);
 
         System.out.printf("Uploaded page blob from URL with sequence number %s%n", pageBlob.getBlobSequenceNumber());
-        // END: com.azure.storage.blob.specialized.PageBlobClient.uploadPagesFromURL#PageRange-String-Long
+        // END: com.azure.storage.blob.specialized.PageBlobClient.uploadPagesFromURL#PageRange-URL-Long
     }
 
     /**
-     * Code snippets for {@link PageBlobClient#uploadPagesFromURLWithResponse(PageRange, String, Long, byte[],
+     * Code snippets for {@link PageBlobClient#uploadPagesFromURLWithResponse(PageRange, URL, Long, byte[],
      * PageBlobAccessConditions, SourceModifiedAccessConditions, Duration, Context)}
      */
     public void uploadPagesFromURLWithResponseCodeSnippet() {
-        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.uploadPagesFromURLWithResponse#PageRange-String-Long-byte-PageBlobAccessConditions-SourceModifiedAccessConditions-Duration-Context
+        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.uploadPagesFromURLWithResponse#PageRange-URL-Long-byte-PageBlobAccessConditions-SourceModifiedAccessConditions-Duration-Context
         PageRange pageRange = new PageRange()
             .setStart(0)
             .setEnd(511);
@@ -146,7 +154,7 @@ public class PageBlobClientJavaDocCodeSnippets {
                 sourceAccessConditions, timeout, context).getValue();
 
         System.out.printf("Uploaded page blob from URL with sequence number %s%n", pageBlob.getBlobSequenceNumber());
-        // END: com.azure.storage.blob.specialized.PageBlobClient.uploadPagesFromURLWithResponse#PageRange-String-Long-byte-PageBlobAccessConditions-SourceModifiedAccessConditions-Duration-Context
+        // END: com.azure.storage.blob.specialized.PageBlobClient.uploadPagesFromURLWithResponse#PageRange-URL-Long-byte-PageBlobAccessConditions-SourceModifiedAccessConditions-Duration-Context
     }
 
     /**
@@ -312,10 +320,10 @@ public class PageBlobClientJavaDocCodeSnippets {
     }
 
     /**
-     * Code snippets for {@link PageBlobClient#copyIncremental(String, String)}
+     * Code snippets for {@link PageBlobClient#copyIncremental(URL, String)}
      */
     public void copyIncrementalCodeSnippet() {
-        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.copyIncremental#String-String
+        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.copyIncremental#URL-String
         final String snapshot = "copy snapshot";
         CopyStatusType statusType = client.copyIncremental(url, snapshot);
 
@@ -328,15 +336,15 @@ public class PageBlobClientJavaDocCodeSnippets {
         } else if (CopyStatusType.PENDING == statusType) {
             System.out.println("Page blob copied pending");
         }
-        // END: com.azure.storage.blob.specialized.PageBlobClient.copyIncremental#String-String
+        // END: com.azure.storage.blob.specialized.PageBlobClient.copyIncremental#URL-String
     }
 
     /**
-     * Code snippets for {@link PageBlobClient#copyIncrementalWithResponse(String, String, ModifiedAccessConditions,
+     * Code snippets for {@link PageBlobClient#copyIncrementalWithResponse(URL, String, ModifiedAccessConditions,
      * Duration, Context)}
      */
     public void copyIncrementalWithResponseCodeSnippet() {
-        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.copyIncrementalWithResponse#String-String-ModifiedAccessConditions-Duration-Context
+        // BEGIN: com.azure.storage.blob.specialized.PageBlobClient.copyIncrementalWithResponse#URL-String-ModifiedAccessConditions-Duration-Context
         final String snapshot = "copy snapshot";
         ModifiedAccessConditions modifiedAccessConditions = new ModifiedAccessConditions()
             .setIfNoneMatch("snapshotMatch");
@@ -354,7 +362,7 @@ public class PageBlobClientJavaDocCodeSnippets {
         } else if (CopyStatusType.PENDING == statusType) {
             System.out.println("Page blob copied pending");
         }
-        // END: com.azure.storage.blob.specialized.PageBlobClient.copyIncrementalWithResponse#String-String-ModifiedAccessConditions-Duration-Context
+        // END: com.azure.storage.blob.specialized.PageBlobClient.copyIncrementalWithResponse#URL-String-ModifiedAccessConditions-Duration-Context
     }
 
 }

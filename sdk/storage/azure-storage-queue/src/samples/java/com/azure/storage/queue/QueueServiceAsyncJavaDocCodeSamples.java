@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 package com.azure.storage.queue;
 
-import com.azure.storage.common.StorageSharedKeyCredential;
-import com.azure.storage.queue.models.QueueServiceProperties;
-import com.azure.storage.queue.models.QueueServiceStatistics;
+import com.azure.storage.common.credentials.SharedKeyCredential;
 import com.azure.storage.queue.models.QueuesSegmentOptions;
-
+import com.azure.storage.queue.models.StorageServiceProperties;
+import com.azure.storage.queue.models.StorageServiceStats;
 import java.util.Collections;
 import java.util.Map;
 
@@ -61,7 +60,7 @@ public class QueueServiceAsyncJavaDocCodeSamples {
 
     /**
      * Generates code sample for creating a {@link QueueServiceAsyncClient} with {@code connectionString} which turns
-     * into {@link StorageSharedKeyCredential}
+     * into {@link SharedKeyCredential}
      *
      * @return An instance of {@link QueueServiceAsyncClient}
      */
@@ -174,7 +173,7 @@ public class QueueServiceAsyncJavaDocCodeSamples {
         // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.getPropertiesWithResponse
         client.getPropertiesWithResponse()
             .subscribe(response -> {
-                QueueServiceProperties properties = response.getValue();
+                StorageServiceProperties properties = response.getValue();
                 System.out.printf("Hour metrics enabled: %b, Minute metrics enabled: %b",
                     properties.getHourMetrics().isEnabled(), properties.getMinuteMetrics().isEnabled());
             });
@@ -182,56 +181,56 @@ public class QueueServiceAsyncJavaDocCodeSamples {
     }
 
     /**
-     * Generates a code sample for using {@link QueueServiceAsyncClient#setProperties(QueueServiceProperties)}
+     * Generates a code sample for using {@link QueueServiceAsyncClient#setProperties(StorageServiceProperties)}
      */
     public void setPropertiesAsync() {
-        // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.setProperties#QueueServiceProperties
-        QueueServiceProperties properties = client.getProperties().block();
+        // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.setProperties#storageServiceProperties
+        StorageServiceProperties properties = client.getProperties().block();
         client.setProperties(properties)
-            .doOnSuccess(response -> System.out.println("Setting Queue service properties completed."));
-        // END: com.azure.storage.queue.queueServiceAsyncClient.setProperties#QueueServiceProperties
+            .doOnSuccess(response -> System.out.printf("Setting Queue service properties completed."));
+        // END: com.azure.storage.queue.queueServiceAsyncClient.setProperties#storageServiceProperties
     }
 
 
     /**
-     * Generates a code sample for using {@link QueueServiceAsyncClient#setPropertiesWithResponse(QueueServiceProperties)}
+     * Generates a code sample for using {@link QueueServiceAsyncClient#setPropertiesWithResponse(StorageServiceProperties)}
      */
     public void setPropertiesWithResponse() {
-        // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponse#QueueServiceProperties
-        QueueServiceProperties properties = client.getProperties().block();
+        // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponse#storageServiceProperties
+        StorageServiceProperties properties = client.getProperties().block();
         client.setPropertiesWithResponse(properties)
             .subscribe(response -> System.out.printf("Setting Queue service properties completed with status code %d",
                 response.getStatusCode()));
-        // END: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponse#QueueServiceProperties
+        // END: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponse#storageServiceProperties
     }
 
     /**
-     * Generates a code sample for using {@link QueueServiceAsyncClient#setProperties(QueueServiceProperties)} with
+     * Generates a code sample for using {@link QueueServiceAsyncClient#setProperties(StorageServiceProperties)} with
      * metrics enabled.
      */
     public void setPropertiesEnableMetrics() {
-        // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesEnableMetrics#QueueServiceProperties
-        QueueServiceProperties properties = client.getProperties().block();
+        // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesEnableMetrics#storageServiceProperties
+        StorageServiceProperties properties = client.getProperties().block();
         properties.getMinuteMetrics().setEnabled(true);
         properties.getHourMetrics().setEnabled(true);
         client.setProperties(properties).subscribe(
-            response -> System.out.println("Setting Queue service properties completed."));
-        // END: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesEnableMetrics#QueueServiceProperties
+            response -> System.out.printf("Setting Queue service properties completed."));
+        // END: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesEnableMetrics#storageServiceProperties
     }
 
     /**
-     * Generates a code sample for using {@link QueueServiceAsyncClient#setPropertiesWithResponse(QueueServiceProperties)}
+     * Generates a code sample for using {@link QueueServiceAsyncClient#setPropertiesWithResponse(StorageServiceProperties)}
      * with metrics enabled.
      */
     public void setPropertiesAsyncEnableMetrics() {
-        // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponseEnableMetrics#QueueServiceProperties
-        QueueServiceProperties properties = client.getProperties().block();
+        // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponseEnableMetrics#storageServiceProperties
+        StorageServiceProperties properties = client.getProperties().block();
         properties.getMinuteMetrics().setEnabled(true);
         properties.getHourMetrics().setEnabled(true);
         client.setPropertiesWithResponse(properties)
             .subscribe(response -> System.out.printf("Setting Queue service properties completed with status code %d",
                 response.getStatusCode()));
-        // END: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponseEnableMetrics#QueueServiceProperties
+        // END: com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponseEnableMetrics#storageServiceProperties
     }
 
     /**
@@ -254,7 +253,7 @@ public class QueueServiceAsyncJavaDocCodeSamples {
         // BEGIN: com.azure.storage.queue.queueServiceAsyncClient.getStatisticsWithResponse
         client.getStatisticsWithResponse()
             .subscribe(response -> {
-                QueueServiceStatistics stats = response.getValue();
+                StorageServiceStats stats = response.getValue();
                 System.out.printf("Geo replication status: %s, Last synced: %s",
                     stats.getGeoReplication().getStatus(), stats.getGeoReplication().getLastSyncTime());
             });

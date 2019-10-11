@@ -11,7 +11,6 @@ import com.azure.data.cosmos.internal.ResourceId;
 import com.azure.data.cosmos.internal.RxDocumentServiceRequest;
 import com.azure.data.cosmos.internal.routing.PartitionKeyRangeIdentity;
 import org.apache.commons.lang3.StringUtils;
-import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -106,14 +105,13 @@ public abstract class RxCollectionCache {
         // which contains value "<collectionrid>,<partitionkeyrangeid>", then resolve to collection rid in this header.
         if (partitionKeyRangeIdentity != null && partitionKeyRangeIdentity.getCollectionRid() != null) {
             return this.resolveByRidAsync(partitionKeyRangeIdentity.getCollectionRid(), properties)
-                    .onErrorResume(t -> {
-                        Throwable unwrappedException = Exceptions.unwrap(t);
-                        if (unwrappedException instanceof NotFoundException) {
+                    .onErrorResume(e -> {
+                        if (e instanceof NotFoundException) {
                             // This is signal to the upper logic either to refresh
                             // collection cache and retry.
                             return Mono.error(new InvalidPartitionException(RMResources.InvalidDocumentCollection));
                         }
-                        return Mono.error(unwrappedException);
+                        return Mono.error(e);
 
                     });
         }
@@ -167,7 +165,7 @@ public abstract class RxCollectionCache {
                         });
                     }).then();
         } else {
-            // In case of ForceRefresh directive coming from client, there will be no ResolvedCollectionRid, so we
+            // In case of ForceRefresh directive coming from client, there will be no ResolvedCollectionRid, so we 
             // need to refresh unconditionally.
             mono = Mono.fromRunnable(() -> this.refresh(request.getResourceAddress(), request.properties));
         }
