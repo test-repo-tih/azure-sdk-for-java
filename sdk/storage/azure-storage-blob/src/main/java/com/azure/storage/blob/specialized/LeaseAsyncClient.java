@@ -17,6 +17,9 @@ import com.azure.storage.blob.BlobContainerAsyncClient;
 import com.azure.storage.blob.implementation.AzureBlobStorageBuilder;
 import com.azure.storage.blob.implementation.AzureBlobStorageImpl;
 import com.azure.storage.blob.models.ModifiedAccessConditions;
+import com.azure.storage.blob.models.StorageErrorException;
+import com.azure.storage.blob.models.StorageException;
+import com.azure.storage.common.Utility;
 import reactor.core.publisher.Mono;
 
 import java.net.URL;
@@ -52,14 +55,12 @@ public final class LeaseAsyncClient {
     private final AzureBlobStorageImpl client;
     private final String accountName;
 
-    LeaseAsyncClient(HttpPipeline pipeline, String url, String leaseId, boolean isBlob, String accountName,
-        String serviceVersion) {
+    LeaseAsyncClient(HttpPipeline pipeline, String url, String leaseId, boolean isBlob, String accountName) {
         this.isBlob = isBlob;
         this.leaseId = leaseId;
         this.client = new AzureBlobStorageBuilder()
             .pipeline(pipeline)
             .url(url)
-            .version(serviceVersion)
             .build();
         this.accountName = accountName;
     }
@@ -131,12 +132,12 @@ public final class LeaseAsyncClient {
     Mono<Response<String>> acquireLeaseWithResponse(int duration, ModifiedAccessConditions modifiedAccessConditions,
         Context context) {
         if (this.isBlob) {
-            return this.client.blobs().acquireLeaseWithRestResponseAsync(
-                null, null, null, duration, this.leaseId, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.blobs().acquireLeaseWithRestResponseAsync(
+                null, null, null, duration, this.leaseId, null, modifiedAccessConditions, context))
                 .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getLeaseId()));
         } else {
-            return this.client.containers().acquireLeaseWithRestResponseAsync(
-                null, null, duration, this.leaseId, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.containers().acquireLeaseWithRestResponseAsync(
+                null, null, duration, this.leaseId, null, modifiedAccessConditions, context))
                 .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getLeaseId()));
         }
     }
@@ -182,12 +183,12 @@ public final class LeaseAsyncClient {
 
     Mono<Response<String>> renewLeaseWithResponse(ModifiedAccessConditions modifiedAccessConditions, Context context) {
         if (this.isBlob) {
-            return this.client.blobs().renewLeaseWithRestResponseAsync(
-                null, null, this.leaseId, null, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.blobs().renewLeaseWithRestResponseAsync(
+                null, null, this.leaseId, null, null, modifiedAccessConditions, context))
                 .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getLeaseId()));
         } else {
-            return this.client.containers().renewLeaseWithRestResponseAsync(
-                null, this.leaseId, null, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.containers().renewLeaseWithRestResponseAsync(
+                null, this.leaseId, null, null, modifiedAccessConditions, context))
                 .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getLeaseId()));
         }
     }
@@ -233,12 +234,12 @@ public final class LeaseAsyncClient {
 
     Mono<Response<Void>> releaseLeaseWithResponse(ModifiedAccessConditions modifiedAccessConditions, Context context) {
         if (this.isBlob) {
-            return this.client.blobs().releaseLeaseWithRestResponseAsync(
-                null, null, this.leaseId, null, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.blobs().releaseLeaseWithRestResponseAsync(
+                null, null, this.leaseId, null, null, modifiedAccessConditions, context))
                 .map(response -> new SimpleResponse<>(response, null));
         } else {
-            return this.client.containers().releaseLeaseWithRestResponseAsync(
-                null, this.leaseId, null, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.containers().releaseLeaseWithRestResponseAsync(
+                null, this.leaseId, null, null, modifiedAccessConditions, context))
                 .map(response -> new SimpleResponse<>(response, null));
         }
     }
@@ -294,12 +295,12 @@ public final class LeaseAsyncClient {
     Mono<Response<Integer>> breakLeaseWithResponse(Integer breakPeriodInSeconds,
         ModifiedAccessConditions modifiedAccessConditions, Context context) {
         if (this.isBlob) {
-            return this.client.blobs().breakLeaseWithRestResponseAsync(
-                null, null, null, breakPeriodInSeconds, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.blobs().breakLeaseWithRestResponseAsync(
+                null, null, null, breakPeriodInSeconds, null, modifiedAccessConditions, context))
                 .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getLeaseTime()));
         } else {
-            return this.client.containers().breakLeaseWithRestResponseAsync(
-                null, null, breakPeriodInSeconds, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.containers().breakLeaseWithRestResponseAsync(
+                null, null, breakPeriodInSeconds, null, modifiedAccessConditions, context))
                 .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getLeaseTime()));
         }
     }
@@ -349,14 +350,24 @@ public final class LeaseAsyncClient {
     Mono<Response<String>> changeLeaseWithResponse(String proposedId, ModifiedAccessConditions modifiedAccessConditions,
         Context context) {
         if (this.isBlob) {
-            return this.client.blobs().changeLeaseWithRestResponseAsync(
-                null, null, this.leaseId, proposedId, null, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.blobs().changeLeaseWithRestResponseAsync(
+                null, null, this.leaseId, proposedId, null, null, modifiedAccessConditions, context))
                 .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getLeaseId()));
         } else {
-            return this.client.containers().changeLeaseWithRestResponseAsync(
-                null, this.leaseId, proposedId, null, null, modifiedAccessConditions, context)
+            return postProcessResponse(this.client.containers().changeLeaseWithRestResponseAsync(
+                null, this.leaseId, proposedId, null, null, modifiedAccessConditions, context))
                 .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getLeaseId()));
         }
+    }
+
+    private static <T> Mono<T> postProcessResponse(Mono<T> response) {
+        return Utility.postProcessResponse(response, (errorResponse) ->
+            errorResponse.onErrorResume(StorageErrorException.class, resume ->
+                resume.getResponse()
+                    .getBodyAsString()
+                    .switchIfEmpty(Mono.just(""))
+                    .flatMap(body -> Mono.error(new StorageException(resume, body)))
+            ));
     }
 
     /**
