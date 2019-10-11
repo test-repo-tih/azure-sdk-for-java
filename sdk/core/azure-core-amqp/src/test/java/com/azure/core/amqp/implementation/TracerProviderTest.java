@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.azure.core.util.tracing.Tracer.OPENCENSUS_SPAN_KEY;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -113,7 +114,7 @@ public class TracerProviderTest {
     @Test
     public void endSpanSuccess() {
         // Act
-        tracerProvider.endSpan(new Context("test-span-key", "value"), Signal.complete());
+        tracerProvider.endSpan(new Context(OPENCENSUS_SPAN_KEY, "value"), Signal.complete());
 
         // Assert
         for (Tracer t : tracers) {
@@ -136,7 +137,7 @@ public class TracerProviderTest {
     public void endSpanError() {
         // Arrange
         Throwable testThrow = new Throwable("testError");
-        Context sendContext = new Context("test-span-key", "value");
+        Context sendContext = new Context(OPENCENSUS_SPAN_KEY, "value");
 
         // Act
         tracerProvider.endSpan(sendContext, Signal.error(testThrow));
@@ -151,7 +152,7 @@ public class TracerProviderTest {
     public void endSpanOnSubscribe() {
         // Arrange
         Throwable testThrow = new Throwable("testError");
-        Context sendContext = new Context("test-span-key", "value");
+        Context sendContext = new Context(OPENCENSUS_SPAN_KEY, "value");
 
         // Act
         tracerProvider.endSpan(sendContext, Signal.error(testThrow));
@@ -167,7 +168,7 @@ public class TracerProviderTest {
         // Arrange
         final ErrorCondition errorCondition = ErrorCondition.NOT_FOUND;
         final Exception exception = new AmqpException(true, errorCondition, "", null);
-        Context sendContext = new Context("test-span-key", "value");
+        Context sendContext = new Context(OPENCENSUS_SPAN_KEY, "value");
 
         // Act
         tracerProvider.endSpan(sendContext, Signal.error(exception));
