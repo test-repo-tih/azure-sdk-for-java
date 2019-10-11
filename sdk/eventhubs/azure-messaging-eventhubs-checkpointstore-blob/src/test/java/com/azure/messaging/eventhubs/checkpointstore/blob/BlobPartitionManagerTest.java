@@ -16,7 +16,7 @@ import com.azure.storage.blob.BlobContainerAsyncClient;
 import com.azure.storage.blob.specialized.BlockBlobAsyncClient;
 import com.azure.storage.blob.models.BlobAccessConditions;
 import com.azure.storage.blob.models.BlobItem;
-import com.azure.storage.blob.models.BlobItemProperties;
+import com.azure.storage.blob.models.BlobProperties;
 import com.azure.storage.blob.models.ListBlobsOptions;
 import org.junit.Before;
 import org.junit.Test;
@@ -192,9 +192,9 @@ public class BlobPartitionManagerTest {
     private BlobItem getBlobItem(String owner, String sequenceNumber, String offset, String etag, String blobName) {
         Map<String, String> metadata = getMetadata(owner, sequenceNumber, offset);
 
-        BlobItemProperties properties = new BlobItemProperties()
+        BlobProperties properties = new BlobProperties()
             .setLastModified(OffsetDateTime.now())
-            .setETag(etag);
+            .setEtag(etag);
 
         return new BlobItem()
             .setName(blobName)
