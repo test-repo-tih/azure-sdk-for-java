@@ -3,10 +3,9 @@
 
 package com.azure.core.http;
 
-import com.azure.core.util.logging.ClientLogger;
 import reactor.core.publisher.Flux;
 
-import java.net.MalformedURLException;
+import java.io.Serializable;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -14,8 +13,8 @@ import java.nio.charset.StandardCharsets;
 /**
  * The outgoing Http request.
  */
-public class HttpRequest {
-    private final ClientLogger logger = new ClientLogger(HttpRequest.class);
+public class HttpRequest implements Serializable {
+    private static final long serialVersionUID = 6338479743058758810L;
 
     private HttpMethod httpMethod;
     private URL url;
@@ -31,23 +30,6 @@ public class HttpRequest {
     public HttpRequest(HttpMethod httpMethod, URL url) {
         this.httpMethod = httpMethod;
         this.url = url;
-        this.headers = new HttpHeaders();
-    }
-
-    /**
-     * Create a new HttpRequest instance.
-     *
-     * @param httpMethod the HTTP request method
-     * @param url the target address to send the request to
-     * @throws IllegalArgumentException if {@code url} is null or it cannot be parsed into a valid URL.
-     */
-    public HttpRequest(HttpMethod httpMethod, String url) {
-        this.httpMethod = httpMethod;
-        try {
-            this.url = new URL(url);
-        } catch (MalformedURLException ex) {
-            throw logger.logExceptionAsWarning(new IllegalArgumentException("'url' must be a valid URL", ex));
-        }
         this.headers = new HttpHeaders();
     }
 
@@ -103,22 +85,6 @@ public class HttpRequest {
      */
     public HttpRequest setUrl(URL url) {
         this.url = url;
-        return this;
-    }
-
-    /**
-     * Set the target address to send the request to.
-     *
-     * @param url target address as a String
-     * @return this HttpRequest
-     * @throws IllegalArgumentException if {@code url} is null or it cannot be parsed into a valid URL.
-     */
-    public HttpRequest setUrl(String url) {
-        try {
-            this.url = new URL(url);
-        } catch (MalformedURLException ex) {
-            throw logger.logExceptionAsWarning(new IllegalArgumentException("'url' must be a valid URL.", ex));
-        }
         return this;
     }
 
