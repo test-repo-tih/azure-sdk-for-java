@@ -1533,7 +1533,7 @@ class BlobAPITest extends APISpec {
         serviceURL.getBlobContainerClient(generateContainerName()).getBlobClient(generateBlobName()).getAccountInfo()
 
         then:
-        thrown(IllegalArgumentException)
+        thrown(StorageException)
     }
 
     def "Get Container Name"() {
