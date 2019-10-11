@@ -21,7 +21,6 @@ import com.azure.data.cosmos.internal.Utils;
 import org.apache.commons.collections4.ComparatorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -165,8 +164,7 @@ public class ConsistencyWriter {
                                            .doOnError(
                                                t -> {
                                                    try {
-                                                       Throwable unwrappedException = Exceptions.unwrap(t);
-                                                       CosmosClientException ex = Utils.as(unwrappedException, CosmosClientException.class);
+                                                       CosmosClientException ex = Utils.as(t, CosmosClientException.class);
                                                        try {
                                                            BridgeInternal.recordResponse(request.requestContext.cosmosResponseDiagnostics, request,
                                                                storeReader.createStoreResult(null, ex, false, false, primaryUri));
