@@ -64,15 +64,15 @@ import java.util.Objects;
 public class CryptographyClientBuilder {
     final List<HttpPipelinePolicy> policies;
     private final ClientLogger logger = new ClientLogger(CryptographyClientBuilder.class);
-    private TokenCredential credential;
-    private HttpPipeline pipeline;
-    private JsonWebKey jsonWebKey;
-    private String keyId;
-    private HttpClient httpClient;
-    private HttpLogOptions httpLogOptions;
+
+    TokenCredential credential;
+    HttpPipeline pipeline;
+    JsonWebKey jsonWebKey;
+    String keyId;
+    HttpClient httpClient;
+    HttpLogOptions httpLogOptions;
     final RetryPolicy retryPolicy;
-    private Configuration configuration;
-    private CryptographyServiceVersion version;
+    Configuration configuration;
 
     /**
      * The constructor with defaults.
@@ -129,13 +129,12 @@ public class CryptographyClientBuilder {
             throw logger.logExceptionAsError(new IllegalStateException(
                 "Json Web Key or jsonWebKey identifier are required to create cryptography client"));
         }
-        CryptographyServiceVersion serviceVersion = version != null ? version : CryptographyServiceVersion.getLatest();
 
         if (pipeline != null) {
             if (jsonWebKey != null) {
-                return new CryptographyAsyncClient(jsonWebKey, pipeline, serviceVersion);
+                return new CryptographyAsyncClient(jsonWebKey, pipeline);
             } else {
-                return new CryptographyAsyncClient(keyId, pipeline, serviceVersion);
+                return new CryptographyAsyncClient(keyId, pipeline);
             }
         }
 
@@ -144,23 +143,23 @@ public class CryptographyClientBuilder {
                 "Key Vault credentials are required to build the Cryptography async client"));
         }
 
-        HttpPipeline pipeline = setupPipeline(serviceVersion);
+        HttpPipeline pipeline = setupPipeline();
 
         if (jsonWebKey != null) {
-            return new CryptographyAsyncClient(jsonWebKey, pipeline, serviceVersion);
+            return new CryptographyAsyncClient(jsonWebKey, pipeline);
         } else {
-            return new CryptographyAsyncClient(keyId, pipeline, serviceVersion);
+            return new CryptographyAsyncClient(keyId, pipeline);
         }
     }
 
-    HttpPipeline setupPipeline(CryptographyServiceVersion serviceVersion) {
+    HttpPipeline setupPipeline() {
         Configuration buildConfiguration =
             (configuration == null) ? Configuration.getGlobalConfiguration().clone() : configuration;
 
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(new UserAgentPolicy(AzureKeyVaultConfiguration.SDK_NAME, AzureKeyVaultConfiguration.SDK_VERSION,
-            buildConfiguration, serviceVersion));
+            buildConfiguration));
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);
         policies.add(new KeyVaultCredentialPolicy(credential));
@@ -172,18 +171,6 @@ public class CryptographyClientBuilder {
             .policies(policies.toArray(new HttpPipelinePolicy[0]))
             .httpClient(httpClient)
             .build();
-    }
-
-    TokenCredential getCredential() {
-        return credential;
-    }
-
-    HttpPipeline getPipeline() {
-        return pipeline;
-    }
-
-    CryptographyServiceVersion getServiceVersion() {
-        return version;
     }
 
     /**
@@ -292,21 +279,6 @@ public class CryptographyClientBuilder {
      */
     public CryptographyClientBuilder configuration(Configuration configuration) {
         this.configuration = configuration;
-        return this;
-    }
-
-    /**
-     * Sets the {@link CryptographyServiceVersion} that is used when making API requests.
-     * <p>
-     * If a service version is not provided, the service version that will be used will be the latest known service
-     * version based on the version of the client library being used. If no service version is specified, updating to a
-     * newer version the client library will have the result of potentially moving to a newer service version.
-     *
-     * @param version {@link CryptographyServiceVersion} of the service to be used when making requests.
-     * @return The updated CryptographyClientBuilder object.
-     */
-    public CryptographyClientBuilder serviceVersion(CryptographyServiceVersion version) {
-        this.version = version;
         return this;
     }
 }
