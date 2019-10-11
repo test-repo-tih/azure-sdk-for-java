@@ -33,7 +33,6 @@ Migrating to the newest version of the SDK will require a substantial rewrite of
 
 To get the binaries of this library as distributed by Microsoft, ready for use within your project, you can use Maven.
 
-[//]: # ({x-version-update-start;com.microsoft.azure:azure-storage-blob;current})
 ```xml
 <dependency>
 	<groupId>com.microsoft.azure</groupId>
@@ -41,7 +40,6 @@ To get the binaries of this library as distributed by Microsoft, ready for use w
 	<version>11.0.1</version>
 </dependency>
 ```
-[//]: # ({x-version-update-end})
 
 ### Option 2: Source Via Git
 
