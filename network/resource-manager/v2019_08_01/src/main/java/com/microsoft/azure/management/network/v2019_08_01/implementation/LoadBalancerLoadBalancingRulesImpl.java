@@ -54,14 +54,10 @@ class LoadBalancerLoadBalancingRulesImpl extends WrapperImpl<LoadBalancerLoadBal
     public Observable<LoadBalancingRule> getAsync(String resourceGroupName, String loadBalancerName, String loadBalancingRuleName) {
         LoadBalancerLoadBalancingRulesInner client = this.inner();
         return client.getAsync(resourceGroupName, loadBalancerName, loadBalancingRuleName)
-        .flatMap(new Func1<LoadBalancingRuleInner, Observable<LoadBalancingRule>>() {
+        .map(new Func1<LoadBalancingRuleInner, LoadBalancingRule>() {
             @Override
-            public Observable<LoadBalancingRule> call(LoadBalancingRuleInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((LoadBalancingRule)wrapModel(inner));
-                }
+            public LoadBalancingRule call(LoadBalancingRuleInner inner) {
+                return wrapModel(inner);
             }
        });
     }
