@@ -4,13 +4,12 @@
 package com.azure.core.http.okhttp;
 
 import com.azure.core.http.HttpClient;
-import com.azure.core.http.ProxyOptions;
-import com.azure.core.util.logging.ClientLogger;
+import okhttp3.Authenticator;
 import okhttp3.ConnectionPool;
-import okhttp3.Credentials;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+
 import java.net.Proxy;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -21,8 +20,6 @@ import java.util.Objects;
  * Builder to configure and build an implementation of {@link HttpClient} for OkHttp.
  */
 public class OkHttpAsyncHttpClientBuilder {
-    private final ClientLogger logger = new ClientLogger(OkHttpAsyncHttpClientBuilder.class);
-
     private final okhttp3.OkHttpClient okHttpClient;
 
     private static final Duration DEFAULT_READ_TIMEOUT = Duration.ofSeconds(120);
@@ -33,7 +30,8 @@ public class OkHttpAsyncHttpClientBuilder {
     private Duration connectionTimeout;
     private ConnectionPool connectionPool;
     private Dispatcher dispatcher;
-    private ProxyOptions proxyOptions;
+    private java.net.Proxy proxy;
+    private Authenticator proxyAuthenticator;
 
     /**
      * Creates OkHttpAsyncHttpClientBuilder.
@@ -133,14 +131,26 @@ public class OkHttpAsyncHttpClientBuilder {
      *
      * <p><strong>Code Samples</strong></p>
      *
-     * {@codesnippet com.azure.core.http.okhttp.OkHttpAsyncHttpClientBuilder.proxy#ProxyOptions}
+     * {@codesnippet com.azure.core.http.okhttp.OkHttpAsyncHttpClientBuilder#proxy}
      *
-     * @param proxyOptions The proxy configuration to use.
+     * @param proxy the proxy
      * @return the updated OkHttpAsyncHttpClientBuilder object
      */
-    public OkHttpAsyncHttpClientBuilder proxy(ProxyOptions proxyOptions) {
-        // proxyOptions can be null
-        this.proxyOptions = proxyOptions;
+    public OkHttpAsyncHttpClientBuilder proxy(Proxy proxy) {
+        // Proxy can be null
+        this.proxy = proxy;
+        return this;
+    }
+
+    /**
+     * Sets the proxy authenticator.
+     *
+     * @param proxyAuthenticator the proxy authenticator
+     * @return the updated OkHttpAsyncHttpClientBuilder object
+     */
+    public OkHttpAsyncHttpClientBuilder proxyAuthenticator(Authenticator proxyAuthenticator) {
+        // Null Authenticator is not allowed
+        this.proxyAuthenticator = Objects.requireNonNull(proxyAuthenticator, "'proxyAuthenticator' cannot be null.");
         return this;
     }
 
@@ -173,38 +183,9 @@ public class OkHttpAsyncHttpClientBuilder {
         if (this.dispatcher != null) {
             httpClientBuilder = httpClientBuilder.dispatcher(dispatcher);
         }
-        if (proxyOptions != null) {
-            Proxy.Type proxyType;
-            switch (proxyOptions.getType()) {
-                case HTTP:
-                    proxyType = Proxy.Type.HTTP;
-                    break;
-                case SOCKS4:
-                case SOCKS5:
-                    // JDK Proxy.Type.SOCKS identifies SOCKS V4 and V5 proxy.
-                    proxyType = Proxy.Type.SOCKS;
-                    break;
-                default:
-                    throw logger.logExceptionAsError(new IllegalStateException(
-                            String.format("Unknown Proxy type '%s' in use. Not configuring OkHttp proxy.",
-                                    proxyOptions.getType())));
-            }
-            Proxy proxy = new Proxy(proxyType, this.proxyOptions.getAddress());
-            httpClientBuilder = httpClientBuilder.proxy(proxy);
-            if (proxyOptions.getUsername() != null) {
-                httpClientBuilder = httpClientBuilder.proxyAuthenticator((route, response) -> {
-                    // By default azure-core supports only Basic authentication at the moment.
-                    // If user need other scheme such as Digest then they can use 'configuration'
-                    // to get access to the underlying builder and can set 'proxyAuthenticator'.
-                    // In future when we ever support Digest in core-level then we can look at
-                    // response.challenges and get the scheme from there.
-                    String credential = Credentials.basic(proxyOptions.getUsername(),
-                            proxyOptions.getPassword());
-                    return response.request().newBuilder()
-                            .header("Proxy-Authorization", credential)
-                            .build();
-                });
-            }
+        httpClientBuilder = httpClientBuilder.proxy(this.proxy);
+        if (this.proxyAuthenticator != null) {
+            httpClientBuilder = httpClientBuilder.authenticator(this.proxyAuthenticator);
         }
         return new OkHttpAsyncHttpClient(httpClientBuilder.build());
     }
