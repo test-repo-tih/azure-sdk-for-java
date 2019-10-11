@@ -7,6 +7,9 @@ import com.azure.data.appconfiguration.models.ConfigurationSetting;
 import com.azure.data.appconfiguration.models.SettingSelector;
 import reactor.util.context.Context;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
@@ -244,6 +247,13 @@ public class ConfigurationAsyncClientJavaDocCodeSnippets {
      * @return {@code null}
      */
     private ConfigurationAsyncClient getAsyncClient() {
-        return new ConfigurationClientBuilder().connectionString("connectionString").buildAsyncClient();
+        try {
+            return new ConfigurationClientBuilder().credential(new ConfigurationClientCredentials("connectionString")).buildAsyncClient();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
