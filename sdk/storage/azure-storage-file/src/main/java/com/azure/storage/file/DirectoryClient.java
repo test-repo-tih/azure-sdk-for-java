@@ -15,7 +15,7 @@ import com.azure.storage.file.models.DirectoryProperties;
 import com.azure.storage.file.models.DirectorySetMetadataInfo;
 import com.azure.storage.file.models.FileHTTPHeaders;
 import com.azure.storage.file.models.FileInfo;
-import com.azure.storage.file.models.StorageFileItem;
+import com.azure.storage.file.models.FileReference;
 import com.azure.storage.file.models.HandleItem;
 import com.azure.storage.file.models.StorageException;
 import reactor.core.publisher.Mono;
@@ -329,7 +329,7 @@ public class DirectoryClient {
     }
 
     /**
-     * Lists all sub-directories and files in this directory without their prefix or maxResult in single page.
+     * Lists all sub-directories and files in this directory without their prefix or maxResult.
      *
      * <p><strong>Code Samples</strong></p>
      *
@@ -341,9 +341,9 @@ public class DirectoryClient {
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/list-directories-and-files">Azure
      * Docs</a>.</p>
      *
-     * @return {@link StorageFileItem File info} in the storage directory
+     * @return {@link FileReference File info} in the storage directory
      */
-    public PagedIterable<StorageFileItem> listFilesAndDirectories() {
+    public PagedIterable<FileReference> listFilesAndDirectories() {
         return listFilesAndDirectories(null, null, null, Context.NONE);
     }
 
@@ -363,19 +363,18 @@ public class DirectoryClient {
      *
      * @param prefix Optional prefix which filters the results to return only files and directories whose name begins
      * with.
-     * @param maxResultsPerPage Optional maximum number of files and/or directories to return per page.
-     * If the request does not specify maxResultsPerPage or specifies a value greater than 5,000,
-     * the server will return up to 5,000 items.
+     * @param maxResults Optional maximum number of files and/or directories to return per page. If the request does not
+     * specify maxresults or specifies a value greater than 5,000, the server will return up to 5,000 items.
      * @param timeout An optional timeout applied to the operation. If a response is not returned before the timeout
      * concludes a {@link RuntimeException} will be thrown.
      * @param context Additional context that is passed through the Http pipeline during the service call.
-     * @return {@link StorageFileItem File info} in this directory with prefix and max number of return results.
+     * @return {@link FileReference File info} in this directory with prefix and max number of return results.
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
-    public PagedIterable<StorageFileItem> listFilesAndDirectories(String prefix, Integer maxResultsPerPage,
-                                                                  Duration timeout, Context context) {
+    public PagedIterable<FileReference> listFilesAndDirectories(String prefix, Integer maxResults, Duration timeout,
+                                                                Context context) {
         return new PagedIterable<>(directoryAsyncClient
-            .listFilesAndDirectoriesWithOptionalTimeout(prefix, maxResultsPerPage, timeout, context));
+            .listFilesAndDirectoriesWithOptionalTimeout(prefix, maxResults, timeout, context));
     }
 
     /**
@@ -390,7 +389,7 @@ public class DirectoryClient {
      * <p>For more information, see the
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles">Azure Docs</a>.</p>
      *
-     * @param maxResultsPerPage Optional maximum number of results will return per page
+     * @param maxResult Optional maximum number of results will return per page
      * @param recursive Specifies operation should apply to the directory specified in the URI, its files, its
      * subdirectories and their files.
      * @param timeout An optional timeout applied to the operation. If a response is not returned before the timeout
@@ -399,10 +398,10 @@ public class DirectoryClient {
      * @return {@link HandleItem handles} in the directory that satisfy the requirements
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
-    public PagedIterable<HandleItem> listHandles(Integer maxResultsPerPage, boolean recursive, Duration timeout,
+    public PagedIterable<HandleItem> listHandles(Integer maxResult, boolean recursive, Duration timeout,
         Context context) {
         return new PagedIterable<>(directoryAsyncClient
-            .listHandlesWithOptionalTimeout(maxResultsPerPage, recursive, timeout, context));
+            .listHandlesWithOptionalTimeout(maxResult, recursive, timeout, context));
     }
 
     /**
