@@ -14,7 +14,7 @@ import java.util.List;
  */
 public final class ConfigurationSettingPage implements Page<ConfigurationSetting> {
     @JsonProperty("@nextLink")
-    private String continuationToken;
+    private String nextLink;
 
     @JsonProperty("items")
     private List<ConfigurationSetting> items;
@@ -25,8 +25,8 @@ public final class ConfigurationSettingPage implements Page<ConfigurationSetting
      * @return The link to the next page or {@code null} if there are no more resources to fetch.
      */
     @Override
-    public String getContinuationToken() {
-        return this.continuationToken;
+    public String getNextLink() {
+        return this.nextLink;
     }
 
     /**
