@@ -5,9 +5,9 @@ package com.azure.storage.queue
 
 
 import com.azure.storage.common.credentials.SharedKeyCredential
-import com.azure.storage.queue.models.QueueAccessPolicy
-import com.azure.storage.queue.models.QueueErrorCode
-import com.azure.storage.queue.models.QueueSignedIdentifier
+import com.azure.storage.queue.models.AccessPolicy
+import com.azure.storage.queue.models.SignedIdentifier
+import com.azure.storage.queue.models.StorageErrorCode
 import reactor.test.StepVerifier
 import spock.lang.Ignore
 import spock.lang.Unroll
@@ -32,14 +32,14 @@ class QueueAysncAPITests extends APISpec {
 
     def "Get queue URL"() {
         given:
-        def accountName = SharedKeyCredential.fromConnectionString(connectionString).getAccountName()
-        def expectURL = String.format("https://%s.queue.core.windows.net/%s", accountName, queueName)
+        def accoutName = SharedKeyCredential.fromConnectionString(connectionString).getAccountName()
+        def expectURL = String.format("https://%s.queue.core.windows.net/%s", accoutName, queueName)
 
         when:
         def queueURL = queueAsyncClient.getQueueUrl()
 
         then:
-        expectURL == queueURL
+        expectURL.equals(queueURL)
     }
 
     def "Create queue with shared key"() {
@@ -71,7 +71,7 @@ class QueueAysncAPITests extends APISpec {
         def deleteQueueVerifier = StepVerifier.create(queueAsyncClient.deleteWithResponse())
         then:
         deleteQueueVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, QueueErrorCode.QUEUE_NOT_FOUND)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, StorageErrorCode.QUEUE_NOT_FOUND)
         }
     }
 
@@ -84,7 +84,7 @@ class QueueAysncAPITests extends APISpec {
         getPropertiesVerifier.assertNext {
             assert QueueTestHelper.assertResponseStatusCode(it, 200)
             assert it.getValue().getApproximateMessagesCount() == 0
-            assert testMetadata == it.getValue().getMetadata()
+            assert testMetadata.equals(it.getValue().getMetadata())
         }.verifyComplete()
     }
 
@@ -93,7 +93,7 @@ class QueueAysncAPITests extends APISpec {
         def getPropertiesVerifier = StepVerifier.create(queueAsyncClient.getProperties())
         then:
         getPropertiesVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, QueueErrorCode.QUEUE_NOT_FOUND)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, StorageErrorCode.QUEUE_NOT_FOUND)
         }
     }
 
@@ -108,14 +108,14 @@ class QueueAysncAPITests extends APISpec {
         then:
         getPropertiesVerifierBefore.assertNext {
             assert QueueTestHelper.assertResponseStatusCode(it, 200)
-            assert expectMetadataInCreate == it.getValue().getMetadata()
+            assert expectMetadataInCreate.equals(it.getValue().getMetadata())
         }.verifyComplete()
         setMetadataVerifier.assertNext {
             assert QueueTestHelper.assertResponseStatusCode(it, 204) }
             .verifyComplete()
         getPropertiesVerifierAfter.assertNext {
             assert QueueTestHelper.assertResponseStatusCode(it, 200)
-            assert expectMetadataInSet == it.getValue().metadata
+            assert expectMetadataInSet.equals(it.getValue().metadata)
         }.verifyComplete()
         where:
         matadataInCreate | metadataInSet | expectMetadataInCreate | expectMetadataInSet
@@ -131,7 +131,7 @@ class QueueAysncAPITests extends APISpec {
         def setMetadataVerifier = StepVerifier.create(queueAsyncClient.setMetadataWithResponse(testMetadata))
         then:
         setMetadataVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, QueueErrorCode.QUEUE_NOT_FOUND)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, StorageErrorCode.QUEUE_NOT_FOUND)
         }
     }
 
@@ -148,9 +148,9 @@ class QueueAysncAPITests extends APISpec {
         }
         where:
         invalidKey     | statusCode | errMessage
-        "invalid-meta" | 400        | QueueErrorCode.INVALID_METADATA
-        "12345"        | 400        | QueueErrorCode.INVALID_METADATA
-        ""             | 400        | QueueErrorCode.EMPTY_METADATA_KEY
+        "invalid-meta" | 400        | StorageErrorCode.INVALID_METADATA
+        "12345"        | 400        | StorageErrorCode.INVALID_METADATA
+        ""             | 400        | StorageErrorCode.EMPTY_METADATA_KEY
     }
 
     def "Get access policy"() {
@@ -167,18 +167,18 @@ class QueueAysncAPITests extends APISpec {
         def getAccessPolicyVerifier = StepVerifier.create(queueAsyncClient.getAccessPolicy())
         then:
         getAccessPolicyVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, QueueErrorCode.QUEUE_NOT_FOUND)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, StorageErrorCode.QUEUE_NOT_FOUND)
         }
     }
 
     def "Set access policy"() {
         given:
         queueAsyncClient.create().block()
-        def accessPolicy = new QueueAccessPolicy()
-            .setPermissions("raup")
-            .setStartsOn(OffsetDateTime.of(LocalDateTime.of(2000, 1, 1, 0, 0), ZoneOffset.UTC))
-            .setExpiresOn(OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 0, 0), ZoneOffset.UTC))
-        def permission = new QueueSignedIdentifier()
+        def accessPolicy = new AccessPolicy()
+            .setPermission("raup")
+            .setStart(OffsetDateTime.of(LocalDateTime.of(2000, 1, 1, 0, 0), ZoneOffset.UTC))
+            .setExpiry(OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 0, 0), ZoneOffset.UTC))
+        def permission = new SignedIdentifier()
             .setId("testpermission")
             .setAccessPolicy(accessPolicy)
         when:
@@ -195,12 +195,12 @@ class QueueAysncAPITests extends APISpec {
 
     def "Set invalid access policy"() {
         given:
-        def accessPolicy = new QueueAccessPolicy()
-            .setPermissions("r")
-            .setStartsOn(OffsetDateTime.of(LocalDateTime.of(2000, 1, 1, 0, 0), ZoneOffset.UTC))
-            .setExpiresOn(OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 0, 0), ZoneOffset.UTC))
+        def accessPolicy = new AccessPolicy()
+            .setPermission("r")
+            .setStart(OffsetDateTime.of(LocalDateTime.of(2000, 1, 1, 0, 0), ZoneOffset.UTC))
+            .setExpiry(OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 0, 0), ZoneOffset.UTC))
 
-        def permission = new QueueSignedIdentifier()
+        def permission = new SignedIdentifier()
             .setId("theidofthispermissionislongerthanwhatisallowedbytheserviceandshouldfail")
             .setAccessPolicy(accessPolicy)
         queueAsyncClient.create().block()
@@ -208,20 +208,20 @@ class QueueAysncAPITests extends APISpec {
         def setAccessPolicyVerifier = StepVerifier.create(queueAsyncClient.setAccessPolicyWithResponse(Collections.singletonList(permission)))
         then:
         setAccessPolicyVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 400, QueueErrorCode.INVALID_XML_DOCUMENT)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 400, StorageErrorCode.INVALID_XML_DOCUMENT)
         }
     }
 
     def "Set multiple access policies"() {
         given:
-        def accessPolicy = new QueueAccessPolicy()
-            .setPermissions("r")
-            .setStartsOn(OffsetDateTime.of(LocalDateTime.of(2000, 1, 1, 0, 0), ZoneOffset.UTC))
-            .setExpiresOn(OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 0, 0), ZoneOffset.UTC))
+        def accessPolicy = new AccessPolicy()
+            .setPermission("r")
+            .setStart(OffsetDateTime.of(LocalDateTime.of(2000, 1, 1, 0, 0), ZoneOffset.UTC))
+            .setExpiry(OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 0, 0), ZoneOffset.UTC))
 
-        def permissions = new ArrayList<QueueSignedIdentifier>()
+        def permissions = new ArrayList<>()
         for (int i = 0; i < 3; i++) {
-            permissions.add(new QueueSignedIdentifier()
+            permissions.add(new SignedIdentifier()
                 .setId("policy" + i)
                 .setAccessPolicy(accessPolicy))
         }
@@ -244,14 +244,14 @@ class QueueAysncAPITests extends APISpec {
 
     def "Set too many access policies"() {
         given:
-        def accessPolicy = new QueueAccessPolicy()
-            .setPermissions("r")
-            .setStartsOn(OffsetDateTime.of(LocalDateTime.of(2000, 1, 1, 0, 0), ZoneOffset.UTC))
-            .setExpiresOn(OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 0, 0), ZoneOffset.UTC))
+        def accessPolicy = new AccessPolicy()
+            .setPermission("r")
+            .setStart(OffsetDateTime.of(LocalDateTime.of(2000, 1, 1, 0, 0), ZoneOffset.UTC))
+            .setExpiry(OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 0, 0), ZoneOffset.UTC))
 
-        def permissions = new ArrayList<QueueSignedIdentifier>()
+        def permissions = new ArrayList<>()
         for (int i = 0; i < 6; i++) {
-            permissions.add(new QueueSignedIdentifier()
+            permissions.add(new SignedIdentifier()
                 .setId("policy" + i)
                 .setAccessPolicy(accessPolicy))
         }
@@ -260,7 +260,7 @@ class QueueAysncAPITests extends APISpec {
         def setAccessPolicyVerifier = StepVerifier.create(queueAsyncClient.setAccessPolicyWithResponse(permissions))
         then:
         setAccessPolicyVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 400, QueueErrorCode.INVALID_XML_DOCUMENT)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 400, StorageErrorCode.INVALID_XML_DOCUMENT)
         }
     }
 
@@ -276,7 +276,8 @@ class QueueAysncAPITests extends APISpec {
             assert QueueTestHelper.assertResponseStatusCode(it, 201)
         }.verifyComplete()
         peekMsgVerifier.assertNext {
-            assert expectMsg == it.getMessageText()
+            assert expectMsg.equals(it.getMessageText())
+            assert !it.hasNext()
         }
     }
 
@@ -292,6 +293,7 @@ class QueueAysncAPITests extends APISpec {
         }.verifyComplete()
         peekMsgVerifier.assertNext {
             assert it.getMessageText() == null
+            assert !it.hasNext()
         }
     }
 
@@ -313,10 +315,10 @@ class QueueAysncAPITests extends APISpec {
         def expectMsg = "test message"
         queueAsyncClient.enqueueMessage(expectMsg).block()
         when:
-        def dequeueMsgVerifier = StepVerifier.create(queueAsyncClient.getMessages())
+        def dequeueMsgVerifier = StepVerifier.create(queueAsyncClient.dequeueMessages())
         then:
         dequeueMsgVerifier.assertNext {
-            assert expectMsg == it.getMessageText()
+            assert expectMsg.equals(it.getMessageText())
         }.verifyComplete()
     }
 
@@ -328,12 +330,12 @@ class QueueAysncAPITests extends APISpec {
         queueAsyncClient.enqueueMessage(expectMsg1).block()
         queueAsyncClient.enqueueMessage(expectMsg2).block()
         when:
-        def dequeueMsgVerifier = StepVerifier.create(queueAsyncClient.getMessages(2))
+        def dequeueMsgVerifier = StepVerifier.create(queueAsyncClient.dequeueMessages(2))
         then:
         dequeueMsgVerifier.assertNext {
-            assert expectMsg1 == it.getMessageText()
+            assert expectMsg1.equals(it.getMessageText())
         }.assertNext {
-            assert expectMsg2 == it.getMessageText()
+            assert expectMsg2.equals(it.getMessageText())
         }.verifyComplete()
     }
 
@@ -341,10 +343,10 @@ class QueueAysncAPITests extends APISpec {
         given:
         queueAsyncClient.create().block()
         when:
-        def dequeueMsgVerifier = StepVerifier.create(queueAsyncClient.getMessages(33))
+        def dequeueMsgVerifier = StepVerifier.create(queueAsyncClient.dequeueMessages(33))
         then:
         dequeueMsgVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 400, QueueErrorCode.OUT_OF_RANGE_QUERY_PARAMETER_VALUE)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 400, StorageErrorCode.OUT_OF_RANGE_QUERY_PARAMETER_VALUE)
         }
     }
 
@@ -357,7 +359,7 @@ class QueueAysncAPITests extends APISpec {
         def peekMsgVerifier = StepVerifier.create(queueAsyncClient.peekMessages())
         then:
         peekMsgVerifier.assertNext {
-            assert expectMsg == it.getMessageText()
+            assert expectMsg.equals(it.getMessageText())
         }.verifyComplete()
     }
 
@@ -372,9 +374,9 @@ class QueueAysncAPITests extends APISpec {
         def peekMsgVerifier = StepVerifier.create(queueAsyncClient.peekMessages(2))
         then:
         peekMsgVerifier.assertNext {
-            assert expectMsg1 == it.getMessageText()
+            assert expectMsg1.equals(it.getMessageText())
         }.assertNext {
-            assert expectMsg2 == it.getMessageText()
+            assert expectMsg2.equals(it.getMessageText())
         }.verifyComplete()
     }
 
@@ -385,7 +387,7 @@ class QueueAysncAPITests extends APISpec {
         def peekMsgVerifier = StepVerifier.create(queueAsyncClient.peekMessages(33))
         then:
         peekMsgVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 400, QueueErrorCode.OUT_OF_RANGE_QUERY_PARAMETER_VALUE)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 400, StorageErrorCode.OUT_OF_RANGE_QUERY_PARAMETER_VALUE)
         }
     }
 
@@ -394,7 +396,7 @@ class QueueAysncAPITests extends APISpec {
         def peekMsgVerifier = StepVerifier.create(queueAsyncClient.peekMessages())
         then:
         peekMsgVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, QueueErrorCode.QUEUE_NOT_FOUND)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, StorageErrorCode.QUEUE_NOT_FOUND)
         }
     }
 
@@ -427,7 +429,7 @@ class QueueAysncAPITests extends APISpec {
         def clearMsgVerifier = StepVerifier.create(queueAsyncClient.clearMessagesWithResponse())
         then:
         clearMsgVerifier.verifyErrorSatisfies {
-            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, QueueErrorCode.QUEUE_NOT_FOUND)
+            assert QueueTestHelper.assertExceptionStatusCodeAndMessage(it, 404, StorageErrorCode.QUEUE_NOT_FOUND)
         }
     }
 
@@ -437,7 +439,7 @@ class QueueAysncAPITests extends APISpec {
         queueAsyncClient.enqueueMessage("test message 1").block()
         queueAsyncClient.enqueueMessage("test message 2").block()
         queueAsyncClient.enqueueMessage("test message 3").block()
-        def dequeueMsg = queueAsyncClient.getMessages().blockFirst()
+        def dequeueMsg = queueAsyncClient.dequeueMessages().blockFirst()
         when:
         def getPropertiesVerifier = StepVerifier.create(queueAsyncClient.getPropertiesWithResponse())
         def deleteMsgVerifier = StepVerifier.create(queueAsyncClient.deleteMessageWithResponse(dequeueMsg.getMessageId(), dequeueMsg.getPopReceipt()))
@@ -463,7 +465,7 @@ class QueueAysncAPITests extends APISpec {
         queueAsyncClient.create().block()
         def expectMsg = "test message"
         queueAsyncClient.enqueueMessage(expectMsg).block()
-        def dequeueMessage = queueAsyncClient.getMessages().blockFirst()
+        def dequeueMessage = queueAsyncClient.dequeueMessages().blockFirst()
         when:
         def deleteMessageId = messageId ? dequeueMessage.getMessageId() : dequeueMessage.getMessageId() + "Random"
         def deletePopReceipt = popReceipt ? dequeueMessage.getPopReceipt() : dequeueMessage.getPopReceipt() + "Random"
@@ -474,9 +476,9 @@ class QueueAysncAPITests extends APISpec {
         }
         where:
         messageId | popReceipt | statusCode | errMsg
-        true      | false      | 400        | QueueErrorCode.INVALID_QUERY_PARAMETER_VALUE
-        false     | true       | 404        | QueueErrorCode.MESSAGE_NOT_FOUND
-        false     | false      | 400        | QueueErrorCode.INVALID_QUERY_PARAMETER_VALUE
+        true      | false      | 400        | StorageErrorCode.INVALID_QUERY_PARAMETER_VALUE
+        false     | true       | 404        | StorageErrorCode.MESSAGE_NOT_FOUND
+        false     | false      | 400        | StorageErrorCode.INVALID_QUERY_PARAMETER_VALUE
     }
 
     def "Update message"() {
@@ -485,7 +487,7 @@ class QueueAysncAPITests extends APISpec {
         queueAsyncClient.create().block()
         queueAsyncClient.enqueueMessage("test message before update").block()
 
-        def dequeueMsg = queueAsyncClient.getMessages().blockFirst()
+        def dequeueMsg = queueAsyncClient.dequeueMessages().blockFirst()
         when:
         def updateMsgVerifier = StepVerifier.create(queueAsyncClient.updateMessageWithResponse(updateMsg,
             dequeueMsg.getMessageId(), dequeueMsg.getPopReceipt(), Duration.ofSeconds(1)))
@@ -495,7 +497,7 @@ class QueueAysncAPITests extends APISpec {
             assert QueueTestHelper.assertResponseStatusCode(it, 204)
         }.verifyComplete()
         peekMsgVerifier.assertNext {
-            assert updateMsg == it.getMessageText()
+            assert updateMsg.equals(it.getMessageText())
         }.verifyComplete()
     }
 
@@ -505,7 +507,7 @@ class QueueAysncAPITests extends APISpec {
         queueAsyncClient.create().block()
         def updateMsg = "Updated test message"
         queueAsyncClient.enqueueMessage("test message before update").block()
-        def dequeueMessage = queueAsyncClient.getMessages().blockFirst()
+        def dequeueMessage = queueAsyncClient.dequeueMessages().blockFirst()
         when:
         def updateMessageId = messageId ? dequeueMessage.getMessageId() : dequeueMessage.getMessageId() + "Random"
         def updatePopReceipt = popReceipt ? dequeueMessage.getPopReceipt() : dequeueMessage.getPopReceipt() + "Random"
@@ -516,9 +518,9 @@ class QueueAysncAPITests extends APISpec {
         }
         where:
         messageId | popReceipt | statusCode | errMsg
-        true      | false      | 400        | QueueErrorCode.INVALID_QUERY_PARAMETER_VALUE
-        false     | true       | 404        | QueueErrorCode.MESSAGE_NOT_FOUND
-        false     | false      | 400        | QueueErrorCode.INVALID_QUERY_PARAMETER_VALUE
+        true      | false      | 400        | StorageErrorCode.INVALID_QUERY_PARAMETER_VALUE
+        false     | true       | 404        | StorageErrorCode.MESSAGE_NOT_FOUND
+        false     | false      | 400        | StorageErrorCode.INVALID_QUERY_PARAMETER_VALUE
     }
 
     def "Get Queue Name"() {
