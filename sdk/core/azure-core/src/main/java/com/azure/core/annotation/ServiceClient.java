@@ -12,8 +12,8 @@ import static java.lang.annotation.ElementType.TYPE;
 /**
  * Annotation given to all service client classes.
  */
-@Retention(RetentionPolicy.SOURCE)
 @Target({TYPE})
+@Retention(RetentionPolicy.SOURCE)
 public @interface ServiceClient {
 
     /**

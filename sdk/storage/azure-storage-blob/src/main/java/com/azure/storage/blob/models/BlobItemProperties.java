@@ -30,7 +30,7 @@ public final class BlobItemProperties {
     private DateTimeRfc1123 lastModified;
 
     /*
-     * The eTag property.
+     * The etag property.
      */
     @JsonProperty(value = "Etag", required = true)
     private String eTag;
@@ -261,22 +261,22 @@ public final class BlobItemProperties {
     }
 
     /**
-     * Get the eTag property: The eTag property.
+     * Get the etag property: The etag property.
      *
-     * @return the eTag value.
+     * @return the etag value.
      */
     public String getETag() {
         return this.eTag;
     }
 
     /**
-     * Set the eTag property: The eTag property.
+     * Set the etag property: The etag property.
      *
-     * @param eTag the eTag value to set.
+     * @param etag the etag value to set.
      * @return the BlobItemProperties object itself.
      */
-    public BlobItemProperties setETag(String eTag) {
-        this.eTag = eTag;
+    public BlobItemProperties setETag(String etag) {
+        this.eTag = etag;
         return this;
     }
 
