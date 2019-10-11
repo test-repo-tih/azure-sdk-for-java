@@ -6,7 +6,6 @@ package com.azure.identity.credential;
 import com.azure.core.http.ProxyOptions;
 import com.azure.identity.implementation.IdentityClientOptions;
 
-import java.time.Duration;
 import java.util.function.Function;
 
 /**
@@ -37,7 +36,7 @@ public abstract class CredentialBuilderBase<T extends CredentialBuilderBase<T>> 
      * @return itself
      */
     @SuppressWarnings("unchecked")
-    public T retryTimeout(Function<Duration, Duration> retryTimeout) {
+    public T retryTimeout(Function<Integer, Integer> retryTimeout) {
         this.identityClientOptions.setRetryTimeout(retryTimeout);
         return (T) this;
     }
