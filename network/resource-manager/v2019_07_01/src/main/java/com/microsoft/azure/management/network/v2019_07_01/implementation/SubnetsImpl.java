@@ -77,14 +77,10 @@ class SubnetsImpl extends WrapperImpl<SubnetsInner> implements Subnets {
     public Observable<Subnet> getAsync(String resourceGroupName, String virtualNetworkName, String subnetName) {
         SubnetsInner client = this.inner();
         return client.getAsync(resourceGroupName, virtualNetworkName, subnetName)
-        .flatMap(new Func1<SubnetInner, Observable<Subnet>>() {
+        .map(new Func1<SubnetInner, Subnet>() {
             @Override
-            public Observable<Subnet> call(SubnetInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((Subnet)wrapModel(inner));
-                }
+            public Subnet call(SubnetInner inner) {
+                return wrapModel(inner);
             }
        });
     }
