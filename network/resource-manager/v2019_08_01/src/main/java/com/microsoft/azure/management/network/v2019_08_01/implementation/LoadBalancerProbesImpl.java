@@ -54,14 +54,10 @@ class LoadBalancerProbesImpl extends WrapperImpl<LoadBalancerProbesInner> implem
     public Observable<Probe> getAsync(String resourceGroupName, String loadBalancerName, String probeName) {
         LoadBalancerProbesInner client = this.inner();
         return client.getAsync(resourceGroupName, loadBalancerName, probeName)
-        .flatMap(new Func1<ProbeInner, Observable<Probe>>() {
+        .map(new Func1<ProbeInner, Probe>() {
             @Override
-            public Observable<Probe> call(ProbeInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((Probe)wrapModel(inner));
-                }
+            public Probe call(ProbeInner inner) {
+                return wrapModel(inner);
             }
        });
     }

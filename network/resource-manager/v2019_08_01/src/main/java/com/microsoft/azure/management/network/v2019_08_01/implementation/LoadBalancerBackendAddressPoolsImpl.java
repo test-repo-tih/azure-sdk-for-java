@@ -54,14 +54,10 @@ class LoadBalancerBackendAddressPoolsImpl extends WrapperImpl<LoadBalancerBacken
     public Observable<BackendAddressPool> getAsync(String resourceGroupName, String loadBalancerName, String backendAddressPoolName) {
         LoadBalancerBackendAddressPoolsInner client = this.inner();
         return client.getAsync(resourceGroupName, loadBalancerName, backendAddressPoolName)
-        .flatMap(new Func1<BackendAddressPoolInner, Observable<BackendAddressPool>>() {
+        .map(new Func1<BackendAddressPoolInner, BackendAddressPool>() {
             @Override
-            public Observable<BackendAddressPool> call(BackendAddressPoolInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((BackendAddressPool)wrapModel(inner));
-                }
+            public BackendAddressPool call(BackendAddressPoolInner inner) {
+                return wrapModel(inner);
             }
        });
     }
