@@ -16,7 +16,7 @@ public class HttpRequestException extends AzureException {
     /**
      * Information about the associated HTTP response.
      */
-    private final transient HttpRequest request;
+    private final HttpRequest request;
 
     /**
      * Initializes a new instance of the ServiceRequestException class.

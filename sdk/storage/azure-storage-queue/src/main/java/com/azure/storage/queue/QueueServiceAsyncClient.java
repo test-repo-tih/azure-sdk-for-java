@@ -3,6 +3,7 @@
 package com.azure.storage.queue;
 
 import static com.azure.core.implementation.util.FluxUtil.withContext;
+import static com.azure.storage.queue.PostProcessor.postProcessResponse;
 
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.http.rest.PagedFlux;
@@ -123,7 +124,7 @@ public final class QueueServiceAsyncClient {
         Context context) {
         QueueAsyncClient queueAsyncClient = new QueueAsyncClient(client, queueName, accountName);
 
-        return queueAsyncClient.createWithResponse(metadata, context)
+        return postProcessResponse(queueAsyncClient.createWithResponse(metadata, context))
             .map(response -> new SimpleResponse<>(response, queueAsyncClient));
     }
 
@@ -221,7 +222,7 @@ public final class QueueServiceAsyncClient {
     PagedFlux<QueueItem> listQueuesWithOptionalTimeout(String marker, QueuesSegmentOptions options, Duration timeout,
         Context context) {
         final String prefix = (options != null) ? options.getPrefix() : null;
-        final Integer maxResultsPerPage = (options != null) ? options.getMaxResultsPerPage() : null;
+        final Integer maxResults = (options != null) ? options.getMaxResults() : null;
         final List<ListQueuesIncludeType> include = new ArrayList<>();
 
         if (options != null) {
@@ -231,15 +232,15 @@ public final class QueueServiceAsyncClient {
         }
 
         Function<String, Mono<PagedResponse<QueueItem>>> retriever =
-            nextMarker -> Utility.applyOptionalTimeout(this.client.services()
-                .listQueuesSegmentWithRestResponseAsync(prefix, nextMarker, maxResultsPerPage, include,
+            nextMarker -> postProcessResponse(Utility.applyOptionalTimeout(this.client.services()
+                .listQueuesSegmentWithRestResponseAsync(prefix, nextMarker, maxResults, include,
                     null, null, context), timeout)
                 .map(response -> new PagedResponseBase<>(response.getRequest(),
                     response.getStatusCode(),
                     response.getHeaders(),
                     response.getValue().getQueueItems(),
                     response.getValue().getNextMarker(),
-                    response.getDeserializedHeaders()));
+                    response.getDeserializedHeaders())));
 
         return new PagedFlux<>(() -> retriever.apply(marker), retriever);
     }
@@ -285,7 +286,7 @@ public final class QueueServiceAsyncClient {
     }
 
     Mono<Response<StorageServiceProperties>> getPropertiesWithResponse(Context context) {
-        return client.services().getPropertiesWithRestResponseAsync(context)
+        return postProcessResponse(client.services().getPropertiesWithRestResponseAsync(context))
             .map(response -> new SimpleResponse<>(response, response.getValue()));
     }
 
@@ -372,7 +373,7 @@ public final class QueueServiceAsyncClient {
     }
 
     Mono<Response<Void>> setPropertiesWithResponse(StorageServiceProperties properties, Context context) {
-        return client.services().setPropertiesWithRestResponseAsync(properties, context)
+        return postProcessResponse(client.services().setPropertiesWithRestResponseAsync(properties, context))
             .map(response -> new SimpleResponse<>(response, null));
     }
 
@@ -413,7 +414,7 @@ public final class QueueServiceAsyncClient {
     }
 
     Mono<Response<StorageServiceStats>> getStatisticsWithResponse(Context context) {
-        return client.services().getStatisticsWithRestResponseAsync(context)
+        return postProcessResponse(client.services().getStatisticsWithRestResponseAsync(context))
             .map(response -> new SimpleResponse<>(response, response.getValue()));
     }
 
