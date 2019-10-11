@@ -3,7 +3,7 @@
 
 package com.azure.storage.queue;
 
-import com.azure.storage.common.implementation.Constants;
+import com.azure.storage.common.SR;
 
 import java.util.Locale;
 
@@ -58,7 +58,7 @@ public final class QueueSasPermission {
                     break;
                 default:
                     throw new IllegalArgumentException(
-                        String.format(Locale.ROOT, Constants.ENUM_COULD_NOT_BE_PARSED_INVALID_VALUE,
+                        String.format(Locale.ROOT, SR.ENUM_COULD_NOT_BE_PARSED_INVALID_VALUE,
                             "Permissions", permString, c));
             }
         }
@@ -75,11 +75,11 @@ public final class QueueSasPermission {
     /**
      * Sets the read permission status.
      *
-     * @param hasReadPermission Permission status to set
+     * @param hadReadPermission Permission status to set
      * @return the updated QueueSasPermission object.
      */
-    public QueueSasPermission setReadPermission(boolean hasReadPermission) {
-        this.readPermission = hasReadPermission;
+    public QueueSasPermission setReadPermission(boolean hadReadPermission) {
+        this.readPermission = hadReadPermission;
         return this;
     }
 

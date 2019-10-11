@@ -3,7 +3,7 @@
 
 package com.azure.storage.blob;
 
-import com.azure.storage.common.StorageSharedKeyCredential;
+import com.azure.storage.common.credentials.SharedKeyCredential;
 
 import java.util.Locale;
 
@@ -23,7 +23,7 @@ public class ListContainersExample {
         /*
          * Use your Storage account's name and key to create a credential object; this is used to access your account.
          */
-        StorageSharedKeyCredential credential = new StorageSharedKeyCredential(accountName, accountKey);
+        SharedKeyCredential credential = new SharedKeyCredential(accountName, accountKey);
 
         /*
          * From the Azure portal, get your Storage account blob service URL endpoint.

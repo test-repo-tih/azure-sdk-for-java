@@ -1,5 +1,6 @@
 package com.azure.storage.blob.specialized.cryptography
 
+import com.azure.core.credentials.BasicAuthenticationCredential
 import com.azure.core.cryptography.AsyncKeyEncryptionKey
 import com.azure.core.cryptography.AsyncKeyEncryptionKeyResolver
 import com.azure.core.http.HttpClient
@@ -21,13 +22,15 @@ import com.azure.storage.blob.BlobProperties
 import com.azure.storage.blob.BlobServiceClientBuilder
 import com.azure.storage.blob.specialized.LeaseClient
 import com.azure.storage.blob.specialized.LeaseClientBuilder
-import com.azure.storage.common.StorageSharedKeyCredential
+import com.azure.storage.common.BaseClientBuilder
+import com.azure.storage.common.credentials.SharedKeyCredential
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.lang.Specification
 
+import javax.crypto.SecretKey
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.time.OffsetDateTime
@@ -66,10 +69,10 @@ class APISpec extends Specification {
     @Shared
     ClientLogger logger = new ClientLogger(APISpec.class)
 
-    static StorageSharedKeyCredential primaryCredential
-    static StorageSharedKeyCredential alternateCredential
-    static StorageSharedKeyCredential blobCredential
-    static StorageSharedKeyCredential premiumCredential
+    static SharedKeyCredential primaryCredential
+    static SharedKeyCredential alternateCredential
+    static SharedKeyCredential blobCredential
+    static SharedKeyCredential premiumCredential
     static String connectionString
     static TestMode testMode
     private boolean recordLiveMode
@@ -116,7 +119,7 @@ class APISpec extends Specification {
         this.resourceNamer = new TestResourceNamer(className + testName, testMode, interceptorManager.getRecordedData())
         // If the test doesn't have the Requires tag record it in live mode.
         recordLiveMode = specificationContext.getCurrentIteration().getDescription().getAnnotation(Requires.class) == null
-        connectionString = Configuration.getGlobalConfiguration().get("AZURE_STORAGE_BLOB_CONNECTION_STRING")
+        connectionString = Configuration.getGlobalConfiguration().get("AZURE_STORAGE_CONNECTION_STRING")
     }
 
     static TestMode setupTestMode() {
@@ -141,7 +144,7 @@ class APISpec extends Specification {
         return setupTestMode() == TestMode.RECORD
     }
 
-    private StorageSharedKeyCredential getCredential(String accountType) {
+    private SharedKeyCredential getCredential(String accountType) {
         String accountName
         String accountKey
 
@@ -158,7 +161,7 @@ class APISpec extends Specification {
             return null
         }
 
-        return new StorageSharedKeyCredential(accountName, accountKey)
+        return new SharedKeyCredential(accountName, accountKey)
     }
 
     /*
@@ -209,7 +212,7 @@ class APISpec extends Specification {
 
     EncryptedBlobClientBuilder getEncryptedClientBuilder(AsyncKeyEncryptionKey key,
                                                          AsyncKeyEncryptionKeyResolver keyResolver,
-                                                         StorageSharedKeyCredential credential, String endpoint,
+                                                         SharedKeyCredential credential, String endpoint,
                                                          HttpPipelinePolicy... policies) {
         EncryptedBlobClientBuilder builder = new EncryptedBlobClientBuilder()
             .key(key, "keyWrapAlgorithm")
@@ -222,9 +225,7 @@ class APISpec extends Specification {
             builder.addPolicy(policy)
         }
 
-        if (testMode == TestMode.RECORD && recordLiveMode) {
-            builder.addPolicy(interceptorManager.getRecordPolicy())
-        }
+        addOptionalRecording(builder)
 
         if (credential != null) {
             builder.credential(credential)
@@ -233,7 +234,14 @@ class APISpec extends Specification {
         return builder
     }
 
-    BlobServiceClientBuilder getServiceClientBuilder(StorageSharedKeyCredential credential, String endpoint,
+    def addOptionalRecording(BaseClientBuilder<? extends BaseClientBuilder> builder) {
+        if (testMode == TestMode.RECORD && recordLiveMode) {
+            builder.addPolicy(interceptorManager.getRecordPolicy())
+        }
+        return builder
+    }
+
+    BlobServiceClientBuilder getServiceClientBuilder(SharedKeyCredential credential, String endpoint,
                                                      HttpPipelinePolicy... policies) {
         BlobServiceClientBuilder builder = new BlobServiceClientBuilder()
             .endpoint(endpoint)
@@ -244,9 +252,7 @@ class APISpec extends Specification {
             builder.addPolicy(policy)
         }
 
-        if (testMode == TestMode.RECORD && recordLiveMode) {
-            builder.addPolicy(interceptorManager.getRecordPolicy())
-        }
+        addOptionalRecording(builder)
 
         if (credential != null) {
             builder.credential(credential)
