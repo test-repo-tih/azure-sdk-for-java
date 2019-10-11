@@ -31,8 +31,6 @@ import retrofit2.http.Query;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
-import com.microsoft.azure.LongRunningFinalState;
-import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * Initializes a new instance of the NetworkManagementClientImpl class.
@@ -1675,7 +1673,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         Validator.validate(vpnClientParams);
         final String apiVersion = "2019-08-01";
         Observable<Response<ResponseBody>> observable = service.generatevirtualwanvpnserverconfigurationvpnprofile(this.subscriptionId(), resourceGroupName, virtualWANName, vpnClientParams, apiVersion, this.acceptLanguage(), this.userAgent());
-        return this.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VpnProfileResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<VpnProfileResponseInner>() { }.getType());
     }
 
     /**
