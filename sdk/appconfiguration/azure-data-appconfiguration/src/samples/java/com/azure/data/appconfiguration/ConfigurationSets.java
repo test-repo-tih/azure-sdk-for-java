@@ -51,7 +51,7 @@ public class ConfigurationSets {
 
         // Instantiate a configuration client that will be used to call the configuration service.
         ConfigurationAsyncClient client = new ConfigurationClientBuilder()
-            .connectionString(connectionString)
+            .credential(new ConfigurationClientCredentials(connectionString))
             .buildAsyncClient();
 
         // Demonstrates two different complex objects being stored in Azure App Configuration; one used for beta and the
