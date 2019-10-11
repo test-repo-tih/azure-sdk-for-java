@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 /**
  * Properties of a container.
  */
-@JacksonXmlRootElement(localName = "BlobContainerItemProperties")
+@JacksonXmlRootElement(localName = "Properties")
 @Fluent
 public final class BlobContainerItemProperties {
     /*
@@ -23,10 +23,10 @@ public final class BlobContainerItemProperties {
     private DateTimeRfc1123 lastModified;
 
     /*
-     * The eTag property.
+     * The etag property.
      */
     @JsonProperty(value = "Etag", required = true)
-    private String eTag;
+    private String etag;
 
     /*
      * Possible values include: 'locked', 'unlocked'
@@ -93,22 +93,22 @@ public final class BlobContainerItemProperties {
     }
 
     /**
-     * Get the eTag property: The eTag property.
+     * Get the etag property: The etag property.
      *
-     * @return the eTag value.
+     * @return the etag value.
      */
-    public String getETag() {
-        return this.eTag;
+    public String getEtag() {
+        return this.etag;
     }
 
     /**
-     * Set the eTag property: The eTag property.
+     * Set the etag property: The etag property.
      *
-     * @param eTag the eTag value to set.
+     * @param etag the etag value to set.
      * @return the BlobContainerItemProperties object itself.
      */
-    public BlobContainerItemProperties setETag(String eTag) {
-        this.eTag = eTag;
+    public BlobContainerItemProperties setEtag(String etag) {
+        this.etag = etag;
         return this;
     }
 

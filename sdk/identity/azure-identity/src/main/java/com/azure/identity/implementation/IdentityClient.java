@@ -3,8 +3,8 @@
 
 package com.azure.identity.implementation;
 
-import com.azure.core.credential.AccessToken;
-import com.azure.core.credential.TokenRequestContext;
+import com.azure.core.credentials.AccessToken;
+import com.azure.core.credentials.TokenRequest;
 import com.azure.core.http.ProxyOptions;
 import com.azure.core.implementation.serializer.SerializerAdapter;
 import com.azure.core.implementation.serializer.SerializerEncoding;
@@ -43,7 +43,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HashSet;
@@ -243,8 +242,8 @@ public class IdentityClient {
                                                       Consumer<DeviceCodeInfo> deviceCodeConsumer) {
         return Mono.fromFuture(() -> {
             DeviceCodeFlowParameters parameters = DeviceCodeFlowParameters.builder(new HashSet<>(request.getScopes()),
-                dc -> deviceCodeConsumer.accept(new DeviceCodeInfo(dc.userCode(), dc.deviceCode(),
-                    dc.verificationUri(), OffsetDateTime.now().plusSeconds(dc.expiresIn()), dc.message()))).build();
+                dc -> deviceCodeConsumer.accept(new DeviceCodeChallenge(dc.userCode(), dc.deviceCode(),
+                    dc.verificationUri(), dc.expiresIn(), dc.interval(), dc.message()))).build();
             return publicClientApplication.acquireToken(parameters);
         }).map(MsalToken::new);
     }
@@ -254,13 +253,13 @@ public class IdentityClient {
      *
      * @param request the details of the token request
      * @param authorizationCode the oauth2 authorization code
-     * @param redirectUrl the redirectUrl where the authorization code is sent to
+     * @param redirectUri the redirectUri where the authorization code is sent to
      * @return a Publisher that emits an AccessToken
      */
-    public Mono<MsalToken> authenticateWithAuthorizationCode(TokenRequestContext request, String authorizationCode,
-                                                             URI redirectUrl) {
+    public Mono<MsalToken> authenticateWithAuthorizationCode(TokenRequest request, String authorizationCode,
+                                                             URI redirectUri) {
         return Mono.fromFuture(() -> publicClientApplication.acquireToken(
-            AuthorizationCodeParameters.builder(authorizationCode, redirectUrl)
+            AuthorizationCodeParameters.builder(authorizationCode, redirectUri)
                 .scopes(new HashSet<>(request.getScopes()))
                 .build()))
             .map(MsalToken::new);
@@ -401,30 +400,31 @@ public class IdentityClient {
                             .useDelimiter("\\A");
                     String result = s.hasNext() ? s.next() : "";
 
-                    return SERIALIZER_ADAPTER.<MSIToken>deserialize(result, MSIToken.class, SerializerEncoding.JSON);
-                } catch (IOException exception) {
-                    if (connection == null) {
-                        throw logger.logExceptionAsError(new RuntimeException(
-                                String.format("Could not connect to the url: %s.", url), exception));
-                    }
-                    int responseCode = connection.getResponseCode();
-                    if (responseCode == 410
-                            || responseCode == 429
-                            || responseCode == 404
-                            || (responseCode >= 500 && responseCode <= 599)) {
-                        int retryTimeoutInMs = options.getRetryTimeout()
-                                .apply(Duration.ofSeconds(RANDOM.nextInt(retry))).getNano() / 1000;
-                        // Error code 410 indicates IMDS upgrade is in progress, which can take up to 70s
-                        //
-                        retryTimeoutInMs =
-                                (responseCode == 410 && retryTimeoutInMs < imdsUpgradeTimeInMs) ? imdsUpgradeTimeInMs
-                                        : retryTimeoutInMs;
-                        retry++;
-                        if (retry > options.getMaxRetry()) {
-                            break;
-                        } else {
-                            sleep(retryTimeoutInMs);
-                        }
+                return Mono.just(SERIALIZER_ADAPTER.deserialize(result, MSIToken.class, SerializerEncoding.JSON));
+            } catch (IOException exception) {
+                if (connection == null) {
+                    return Mono.error(new RuntimeException(String.format("Could not connect to the url: %s.", url),
+                        exception));
+                }
+                int responseCode = 0;
+                try {
+                    responseCode = connection.getResponseCode();
+                } catch (IOException e) {
+                    return Mono.error(e);
+                }
+                if (responseCode == 410
+                    || responseCode == 429
+                    || responseCode == 404
+                    || (responseCode >= 500 && responseCode <= 599)) {
+                    int retryTimeoutInMs = options.getRetryTimeout().apply(RANDOM.nextInt(retry));
+                    // Error code 410 indicates IMDS upgrade is in progress, which can take up to 70s
+                    //
+                    retryTimeoutInMs =
+                        (responseCode == 410 && retryTimeoutInMs < imdsUpgradeTimeInMs) ? imdsUpgradeTimeInMs
+                            : retryTimeoutInMs;
+                    retry++;
+                    if (retry > options.getMaxRetry()) {
+                        break;
                     } else {
                         throw logger.logExceptionAsError(new RuntimeException(
                                 "Couldn't acquire access token from IMDS, verify your objectId, "
