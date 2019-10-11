@@ -19,7 +19,6 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.util.concurrent.TimeUnit;
@@ -70,7 +69,6 @@ public class ReplicatedResourceClientTest {
         testSubscriber.assertNotComplete();
         testSubscriber.assertTerminated();
         Assertions.assertThat(testSubscriber.errorCount()).isEqualTo(1);
-        Throwable throwable = Exceptions.unwrap(testSubscriber.errors().get(0));
-        validator.validate(throwable);
+        validator.validate(testSubscriber.errors().get(0));
     }
 }
