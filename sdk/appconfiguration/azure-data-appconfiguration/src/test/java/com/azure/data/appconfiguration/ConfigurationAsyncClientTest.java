@@ -38,13 +38,13 @@ public class ConfigurationAsyncClientTest extends ConfigurationClientTestBase {
 
         if (interceptorManager.isPlaybackMode()) {
             client = clientSetup(credentials -> new ConfigurationClientBuilder()
-                    .connectionString(connectionString)
+                    .credential(credentials)
                     .httpClient(interceptorManager.getPlaybackClient())
                     .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .buildAsyncClient());
         } else {
             client = clientSetup(credentials -> new ConfigurationClientBuilder()
-                    .connectionString(connectionString)
+                    .credential(credentials)
                     .httpClient(new NettyAsyncHttpClientBuilder().wiretap(true).build())
                     .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .addPolicy(interceptorManager.getRecordPolicy())
@@ -104,13 +104,8 @@ public class ConfigurationAsyncClientTest extends ConfigurationClientTestBase {
      * Verifies that an exception is thrown when null key is passed.
      */
     public void addSettingNullKey() {
-        StepVerifier.create(client.addSetting(null, null, "A Value"))
-            .expectError(IllegalArgumentException.class)
-            .verify();
-
-        StepVerifier.create(client.addSetting(null))
-            .expectError(NullPointerException.class)
-            .verify();
+        assertRunnableThrowsException(() -> client.addSetting(null, null, "A Value").block(), IllegalArgumentException.class);
+        assertRunnableThrowsException(() -> client.addSetting(null).block(), NullPointerException.class);
     }
 
     /**
@@ -187,11 +182,8 @@ public class ConfigurationAsyncClientTest extends ConfigurationClientTestBase {
      * Verifies that an exception is thrown when null key is passed.
      */
     public void setSettingNullKey() {
-
-        StepVerifier.create(client.setSetting(null, NO_LABEL, "A Value"))
-            .verifyError(IllegalArgumentException.class);
-        StepVerifier.create(client.setSettingWithResponse(null, false))
-            .verifyError(NullPointerException.class);
+        assertRunnableThrowsException(() -> client.setSetting(null, NO_LABEL, "A Value").block(), IllegalArgumentException.class);
+        assertRunnableThrowsException(() -> client.setSettingWithResponse(null, false).block(), NullPointerException.class);
     }
 
     /**
@@ -297,10 +289,8 @@ public class ConfigurationAsyncClientTest extends ConfigurationClientTestBase {
      * Test the API will not make a delete call without having a key passed, an IllegalArgumentException should be thrown.
      */
     public void deleteSettingNullKey() {
-        StepVerifier.create(client.deleteSetting(null, null))
-            .verifyError(IllegalArgumentException.class);
-        StepVerifier.create(client.deleteSettingWithResponse(null, false))
-            .verifyError(NullPointerException.class);
+        assertRunnableThrowsException(() -> client.deleteSetting(null, null).block(), IllegalArgumentException.class);
+        assertRunnableThrowsException(() -> client.deleteSettingWithResponse(null, false).block(), NullPointerException.class);
     }
 
     /**
