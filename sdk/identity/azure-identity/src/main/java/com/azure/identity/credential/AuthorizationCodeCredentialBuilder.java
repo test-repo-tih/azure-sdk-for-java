@@ -19,7 +19,7 @@ public class AuthorizationCodeCredentialBuilder extends AadCredentialBuilderBase
     private final ClientLogger logger = new ClientLogger(AuthorizationCodeCredentialBuilder.class);
 
     private String authCode;
-    private String redirectUrl;
+    private String redirectUri;
 
     /**
      * Sets the authorization code on the builder.
@@ -33,17 +33,17 @@ public class AuthorizationCodeCredentialBuilder extends AadCredentialBuilderBase
     }
 
     /**
-     * Sets redirect URL for the Oauth 2.0 login request, which must be
-     * registered as a valid redirect URL on the application. The authorization code
-     * will be sent to this URL so it must be listening on this server and is able
+     * Sets redirect URI for the Oauth 2.0 login request, which must be
+     * registered as a valid redirect URI on the application. The authorization code
+     * will be sent to this URI so it must be listening on this server and is able
      * to complete the {@link AuthorizationCodeCredential} construction from there.
      * This is also called Reply URLs in some contexts.
      *
-     * @param redirectUrl the redirect URL to send the authorization code
+     * @param redirectUri the redirect URI to send the authorization code
      * @return the AuthorizationCodeCredentialBuilder itself
      */
-    public AuthorizationCodeCredentialBuilder redirectUrl(String redirectUrl) {
-        this.redirectUrl = redirectUrl;
+    public AuthorizationCodeCredentialBuilder redirectUri(String redirectUri) {
+        this.redirectUri = redirectUri;
         return this;
     }
 
@@ -54,11 +54,11 @@ public class AuthorizationCodeCredentialBuilder extends AadCredentialBuilderBase
         ValidationUtil.validate(getClass().getSimpleName(), new HashMap<String, Object>() {{
                 put("clientId", clientId);
                 put("authorizationCode", authCode);
-                put("redirectUrl", redirectUrl);
+                put("redirectUri", redirectUri);
             }});
         try {
             return new AuthorizationCodeCredential(clientId, tenantId, authCode,
-                new URI(redirectUrl), identityClientOptions);
+                new URI(redirectUri), identityClientOptions);
         } catch (URISyntaxException e) {
             throw logger.logExceptionAsError(new RuntimeException(e));
         }

@@ -5,7 +5,6 @@ package com.azure.identity.implementation;
 
 import com.azure.core.http.ProxyOptions;
 
-import java.time.Duration;
 import java.util.function.Function;
 
 /**
@@ -17,7 +16,7 @@ public final class IdentityClientOptions {
 
     private String authorityHost;
     private int maxRetry;
-    private Function<Duration, Duration> retryTimeout;
+    private Function<Integer, Integer> retryTimeout;
     private ProxyOptions proxyOptions;
 
     /**
@@ -26,7 +25,7 @@ public final class IdentityClientOptions {
     public IdentityClientOptions() {
         authorityHost = DEFAULT_AUTHORITY_HOST;
         maxRetry = MAX_RETRY_DEFAULT_LIMIT;
-        retryTimeout = i -> Duration.ofSeconds((long) Math.pow(2, i.getSeconds() - 1));
+        retryTimeout = i -> (int) Math.pow(2, i - 1);
     }
 
     /**
@@ -66,7 +65,7 @@ public final class IdentityClientOptions {
     /**
      * @return a Function to calculate seconds of timeout on every retried request.
      */
-    public Function<Duration, Duration> getRetryTimeout() {
+    public Function<Integer, Integer> getRetryTimeout() {
         return retryTimeout;
     }
 
@@ -75,7 +74,7 @@ public final class IdentityClientOptions {
      * @param retryTimeout the Function that returns a timeout in seconds given the number of retry
      * @return IdentityClientOptions
      */
-    public IdentityClientOptions setRetryTimeout(Function<Duration, Duration> retryTimeout) {
+    public IdentityClientOptions setRetryTimeout(Function<Integer, Integer> retryTimeout) {
         this.retryTimeout = retryTimeout;
         return this;
     }
