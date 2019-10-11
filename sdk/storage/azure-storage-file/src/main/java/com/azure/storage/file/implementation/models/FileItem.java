@@ -5,6 +5,7 @@
 package com.azure.storage.file.implementation.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.storage.file.models.FileProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
