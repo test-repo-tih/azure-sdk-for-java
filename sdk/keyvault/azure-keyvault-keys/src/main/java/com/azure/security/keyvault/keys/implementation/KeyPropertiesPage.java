@@ -19,7 +19,7 @@ public final class KeyPropertiesPage implements Page<KeyProperties> {
      * The link to the next page.
      */
     @JsonProperty("nextLink")
-    private String continuationToken;
+    private String nextLink;
 
     /**
      * The list of items.
@@ -33,8 +33,8 @@ public final class KeyPropertiesPage implements Page<KeyProperties> {
      * @return The link to the next page.
      */
     @Override
-    public String getContinuationToken() {
-        return this.continuationToken;
+    public String getNextLink() {
+        return this.nextLink;
     }
 
     /**
