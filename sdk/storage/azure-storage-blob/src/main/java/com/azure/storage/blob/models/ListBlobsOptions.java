@@ -17,7 +17,7 @@ public final class ListBlobsOptions {
 
     private String prefix;
 
-    private Integer maxResultsPerPage;
+    private Integer maxResults;
 
     public ListBlobsOptions() {
         this.details = new BlobListDetails();
@@ -63,27 +63,27 @@ public final class ListBlobsOptions {
 
     /**
      * Specifies the maximum number of blobs to return, including all BlobPrefix elements. If the request does not
-     * specify maxResultsPerPage or specifies a value greater than 5,000, the server will return up to 5,000 items.
+     * specify maxResults or specifies a value greater than 5,000, the server will return up to 5,000 items.
      *
      * @return the number of blobs that will be returned in a single response
      */
-    public Integer getMaxResultsPerPage() {
-        return maxResultsPerPage;
+    public Integer getMaxResults() {
+        return maxResults;
     }
 
     /**
      * Specifies the maximum number of blobs to return, including all BlobPrefix elements. If the request does not
-     * specify maxResultsPerPage or specifies a value greater than 5,000, the server will return up to 5,000 items.
+     * specify maxResults or specifies a value greater than 5,000, the server will return up to 5,000 items.
      *
-     * @param maxResultsPerPage The number of blobs to returned in a single response
+     * @param maxResults The number of blobs to returned in a single response
      * @return the updated ListBlobsOptions object
-     * @throws IllegalArgumentException If {@code maxResultsPerPage} is less than or equal to {@code 0}.
+     * @throws IllegalArgumentException If {@code maxResults} is less than or equal to {@code 0}.
      */
-    public ListBlobsOptions setMaxResultsPerPage(Integer maxResultsPerPage) {
-        if (maxResultsPerPage != null && maxResultsPerPage <= 0) {
-            throw logger.logExceptionAsError(new IllegalArgumentException("MaxResultsPerPage must be greater than 0."));
+    public ListBlobsOptions setMaxResults(Integer maxResults) {
+        if (maxResults != null && maxResults <= 0) {
+            throw logger.logExceptionAsError(new IllegalArgumentException("MaxResults must be greater than 0."));
         }
-        this.maxResultsPerPage = maxResultsPerPage;
+        this.maxResults = maxResults;
         return this;
     }
 
