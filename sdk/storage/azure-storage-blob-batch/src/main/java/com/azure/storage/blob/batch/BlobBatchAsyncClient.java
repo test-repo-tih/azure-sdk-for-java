@@ -28,9 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import static com.azure.core.implementation.util.FluxUtil.monoError;
-import static com.azure.core.implementation.util.FluxUtil.pagedFluxError;
 import static com.azure.core.implementation.util.FluxUtil.withContext;
+import static com.azure.storage.blob.implementation.PostProcessor.postProcessResponse;
 
 /**
  * This class provides a client that contains all operations that apply to Azure Storage Blob batching.
@@ -78,11 +77,7 @@ public final class BlobBatchAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> submitBatch(BlobBatch batch) {
-        try {
-            return withContext(context -> submitBatchWithResponse(batch, true, context)).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> submitBatchWithResponse(batch, true, context)).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -104,16 +99,12 @@ public final class BlobBatchAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> submitBatchWithResponse(BlobBatch batch, boolean throwOnAnyFailure) {
-        try {
-            return withContext(context -> submitBatchWithResponse(batch, throwOnAnyFailure, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> submitBatchWithResponse(batch, throwOnAnyFailure, context));
     }
 
     Mono<Response<Void>> submitBatchWithResponse(BlobBatch batch, boolean throwOnAnyFailure, Context context) {
-        return client.services().submitBatchWithRestResponseAsync(
-            batch.getBody(), batch.getContentLength(), batch.getContentType(), context)
+        return postProcessResponse(client.services().submitBatchWithRestResponseAsync(
+            batch.getBody(), batch.getContentLength(), batch.getContentType(), context))
             .flatMap(response -> BlobBatchHelper.mapBatchResponse(batch, response, throwOnAnyFailure, logger));
     }
 
@@ -131,12 +122,7 @@ public final class BlobBatchAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<Response<Void>> deleteBlobs(List<String> blobUrls, DeleteSnapshotsOptionType deleteOptions) {
-        try {
-            return new PagedFlux<>(
-                () -> withContext(context -> submitDeleteBlobsBatch(blobUrls, deleteOptions, context)));
-        } catch (RuntimeException ex) {
-            return pagedFluxError(logger, ex);
-        }
+        return new PagedFlux<>(() -> withContext(context -> submitDeleteBlobsBatch(blobUrls, deleteOptions, context)));
     }
 
     PagedFlux<Response<Void>> deleteBlobsWithTimeout(List<String> blobUrls, DeleteSnapshotsOptionType deleteOptions,
@@ -164,11 +150,7 @@ public final class BlobBatchAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<Response<Void>> setBlobsAccessTier(List<String> blobUrls, AccessTier accessTier) {
-        try {
-            return new PagedFlux<>(() -> withContext(context -> submitSetTierBatch(blobUrls, accessTier, context)));
-        } catch (RuntimeException ex) {
-            return pagedFluxError(logger, ex);
-        }
+        return new PagedFlux<>(() -> withContext(context -> submitSetTierBatch(blobUrls, accessTier, context)));
         //return batchingHelper(blobUrls, (batch, blobUrl) -> batch.setTier(blobUrl, accessTier));
     }
 
@@ -208,7 +190,7 @@ public final class BlobBatchAsyncClient {
             }
 
             @Override
-            public String getContinuationToken() {
+            public String getNextLink() {
                 return null;
             }
 
