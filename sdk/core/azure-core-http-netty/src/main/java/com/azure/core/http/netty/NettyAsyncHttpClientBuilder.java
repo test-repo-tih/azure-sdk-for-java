@@ -7,7 +7,6 @@ import com.azure.core.http.ProxyOptions;
 import com.azure.core.util.logging.ClientLogger;
 import io.netty.channel.nio.NioEventLoopGroup;
 import reactor.netty.http.client.HttpClient;
-import reactor.netty.resources.ConnectionProvider;
 import reactor.netty.tcp.ProxyProvider;
 
 /**
@@ -24,7 +23,6 @@ public class NettyAsyncHttpClientBuilder {
     private final ClientLogger logger = new ClientLogger(NettyAsyncHttpClientBuilder.class);
 
     private ProxyOptions proxyOptions;
-    private ConnectionProvider connectionProvider;
     private boolean enableWiretap;
     private int port = 80;
     private NioEventLoopGroup nioEventLoopGroup;
@@ -44,13 +42,7 @@ public class NettyAsyncHttpClientBuilder {
      * @throws IllegalStateException If the builder is configured to use an unknown proxy type.
      */
     public com.azure.core.http.HttpClient build() {
-        HttpClient nettyHttpClient;
-        if (this.connectionProvider != null) {
-            nettyHttpClient = HttpClient.create(this.connectionProvider);
-        } else {
-            nettyHttpClient = HttpClient.create();
-        }
-        nettyHttpClient = nettyHttpClient
+        HttpClient nettyHttpClient = HttpClient.create()
             .port(port)
             .wiretap(enableWiretap)
             .tcpConfiguration(tcpConfig -> {
@@ -75,33 +67,15 @@ public class NettyAsyncHttpClientBuilder {
                                 String.format("Unknown Proxy type '%s' in use. Not configuring Netty proxy.",
                                     proxyOptions.getType())));
                     }
-                    if (proxyOptions.getUsername() != null) {
-                        // Netty supports only Basic proxy authentication and we default to it.
-                        return tcpConfig.proxy(ts -> ts.type(nettyProxy)
-                                .address(proxyOptions.getAddress())
-                                .username(proxyOptions.getUsername())
-                                .password(userName -> proxyOptions.getPassword())
-                                .build());
-                    } else {
-                        return tcpConfig.proxy(ts -> ts.type(nettyProxy).address(proxyOptions.getAddress()));
-                    }
+
+                    return tcpConfig.proxy(ts -> ts.type(nettyProxy).address(proxyOptions.getAddress()));
                 }
+
                 return tcpConfig;
             });
         return new NettyAsyncHttpClient(nettyHttpClient);
     }
 
-    /**
-     * Sets the connection provider.
-     *
-     * @param connectionProvider the connection provider
-     * @return the updated NettyAsyncHttpClientBuilder object
-     */
-    public NettyAsyncHttpClientBuilder connectionProvider(ConnectionProvider connectionProvider) {
-        // Enables overriding the default reactor-netty connection/channel pool.
-        this.connectionProvider = connectionProvider;
-        return this;
-    }
     /**
      * Sets the {@link ProxyOptions proxy options} that the client will use.
      *
@@ -113,7 +87,6 @@ public class NettyAsyncHttpClientBuilder {
      * @return the updated NettyAsyncHttpClientBuilder object
      */
     public NettyAsyncHttpClientBuilder proxy(ProxyOptions proxyOptions) {
-        // proxyOptions can be null
         this.proxyOptions = proxyOptions;
         return this;
     }
