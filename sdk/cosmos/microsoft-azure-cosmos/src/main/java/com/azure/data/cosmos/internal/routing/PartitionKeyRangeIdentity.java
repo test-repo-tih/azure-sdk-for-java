@@ -63,14 +63,6 @@ public final class PartitionKeyRangeIdentity {
     }
 
     @Override
-    public String toString() {
-        return "PartitionKeyRangeIdentity{" +
-            "collectionRid='" + collectionRid + '\'' +
-            ", partitionKeyRangeId='" + partitionKeyRangeId + '\'' +
-            '}';
-    }
-
-    @Override
     public boolean equals(Object other) {
         if (null == other) {
             return false;
