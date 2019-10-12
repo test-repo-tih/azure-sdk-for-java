@@ -102,14 +102,14 @@ public final class RequestRetryOptions {
     /**
      * @return the maximum number of retries that will be attempted.
      */
-    public int getMaxTries() {
+    public int maxTries() {
         return this.maxTries;
     }
 
     /**
      * @return the maximum time, in seconds, allowed for a request until it is considered timed out.
      */
-    public int getTryTimeout() {
+    public int tryTimeout() {
         return this.tryTimeout;
     }
 
@@ -117,21 +117,21 @@ public final class RequestRetryOptions {
      * @return the URI of the secondary host where retries are attempted. If this is null then there is no secondary
      * host and all retries are attempted against the original host.
      */
-    public String getSecondaryHost() {
+    public String secondaryHost() {
         return this.secondaryHost;
     }
 
     /**
      * @return the delay in milliseconds between each retry attempt.
      */
-    public long getRetryDelayInMs() {
+    public long retryDelayInMs() {
         return retryDelayInMs;
     }
 
     /**
      * @return the maximum delay in milliseconds allowed between each retry.
      */
-    public long getMaxRetryDelayInMs() {
+    public long maxRetryDelayInMs() {
         return maxRetryDelayInMs;
     }
 
