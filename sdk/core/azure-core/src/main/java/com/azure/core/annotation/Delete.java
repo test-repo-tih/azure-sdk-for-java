@@ -3,10 +3,9 @@
 
 package com.azure.core.annotation;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
@@ -30,8 +29,8 @@ import java.lang.annotation.Target;
  *  void delete(@PathParam("vaultBaseUrl" encoded = true) String vaultBaseUrl, @PathParam("secretName") String
  *  secretName);</pre>
  */
-@Retention(RUNTIME)
-@Target(METHOD)
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Delete {
     /**
      * Get the relative path of the annotated method's DELETE URL.
