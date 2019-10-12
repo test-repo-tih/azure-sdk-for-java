@@ -4,7 +4,6 @@
 package com.azure.security.keyvault.certificates;
 
 import com.azure.core.util.polling.PollResponse;
-import com.azure.core.util.polling.Poller;
 import com.azure.identity.credential.DefaultAzureCredentialBuilder;
 import com.azure.security.keyvault.certificates.models.CertificatePolicy;
 import com.azure.security.keyvault.certificates.models.SubjectAlternativeNames;
@@ -55,7 +54,7 @@ public class HelloWorld {
         Poller<CertificateOperation, Certificate> certificatePoller = certificateClient.beginCreateCertificate("certificateName92", policy, tags);
         certificatePoller.blockUntil(PollResponse.OperationStatus.SUCCESSFULLY_COMPLETED);
 
-        Certificate cert = certificatePoller.getResult().block();
+        Certificate cert = certificatePoller.result().block();
 
         // Let's Get the latest version of the certificate from the key vault.
         Certificate certificate = certificateClient.getCertificateWithPolicy("certificateName");
