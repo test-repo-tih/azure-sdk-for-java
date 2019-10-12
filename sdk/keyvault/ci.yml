@@ -42,12 +42,12 @@ stages:
     parameters:
       ServiceDirectory: keyvault
       Artifacts:
-        - name: azure-security-keyvault-certificates
-          safeName: azuresecuritykeyvaultcertificates
+        - name: azure-keyvault-certificates
+          safeName: azurekeyvaultcertificates
           stagingProfileId: 88192f04117501
-        - name: azure-security-keyvault-keys
-          safeName: azuresecuritykeyvaultkeys
+        - name: azure-keyvault-keys
+          safeName: azurekeyvaultkeys
           stagingProfileId: 88192f04117501
-        - name: azure-security-keyvault-secrets
-          safeName: azuresecuritykeyvaultsecrets
+        - name: azure-keyvault-secrets
+          safeName: azurekeyvaultsecrets
           stagingProfileId: 88192f04117501
