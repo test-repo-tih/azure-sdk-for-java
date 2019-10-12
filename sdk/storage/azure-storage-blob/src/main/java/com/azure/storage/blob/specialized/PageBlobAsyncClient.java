@@ -13,7 +13,7 @@ import com.azure.core.util.logging.ClientLogger;
 import com.azure.storage.blob.BlobAsyncClient;
 import com.azure.storage.blob.implementation.AzureBlobStorageImpl;
 import com.azure.storage.blob.models.BlobAccessConditions;
-import com.azure.storage.blob.models.BlobHttpHeaders;
+import com.azure.storage.blob.models.BlobHTTPHeaders;
 import com.azure.storage.blob.models.BlobRange;
 import com.azure.storage.blob.models.CopyStatusType;
 import com.azure.storage.blob.models.CpkInfo;
@@ -24,7 +24,7 @@ import com.azure.storage.blob.models.PageList;
 import com.azure.storage.blob.models.PageRange;
 import com.azure.storage.blob.models.SequenceNumberActionType;
 import com.azure.storage.blob.models.SourceModifiedAccessConditions;
-import com.azure.storage.common.implementation.Constants;
+import com.azure.storage.common.Constants;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -34,6 +34,7 @@ import java.nio.ByteBuffer;
 import java.util.Map;
 
 import static com.azure.core.implementation.util.FluxUtil.withContext;
+import static com.azure.storage.blob.implementation.PostProcessor.postProcessResponse;
 
 /**
  * Client to a page blob. It may only be instantiated through a {@link SpecializedBlobClientBuilder} or via the method
@@ -97,26 +98,26 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
      *
      * <p><strong>Code Samples</strong></p>
      *
-     * {@codesnippet com.azure.storage.blob.specialized.PageBlobAsyncClient.createWithResponse#long-Long-BlobHttpHeaders-Map-BlobAccessConditions}
+     * {@codesnippet com.azure.storage.blob.specialized.PageBlobAsyncClient.createWithResponse#long-Long-BlobHTTPHeaders-Map-BlobAccessConditions}
      *
      * @param size Specifies the maximum size for the page blob, up to 8 TB. The page blob size must be aligned to a
      * 512-byte boundary.
      * @param sequenceNumber A user-controlled value that you can use to track requests. The value of the sequence
      * number must be between 0 and 2^63 - 1.The default value is 0.
-     * @param headers {@link BlobHttpHeaders}
+     * @param headers {@link BlobHTTPHeaders}
      * @param metadata Metadata to associate with the blob.
      * @param accessConditions {@link BlobAccessConditions}
      * @return A reactive response containing the information of the created page blob.
      * @throws IllegalArgumentException If {@code size} isn't a multiple of {@link PageBlobAsyncClient#PAGE_BYTES} or
      * {@code sequenceNumber} isn't null and is less than 0.
      */
-    public Mono<Response<PageBlobItem>> createWithResponse(long size, Long sequenceNumber, BlobHttpHeaders headers,
+    public Mono<Response<PageBlobItem>> createWithResponse(long size, Long sequenceNumber, BlobHTTPHeaders headers,
         Map<String, String> metadata, BlobAccessConditions accessConditions) {
         return withContext(context ->
             createWithResponse(size, sequenceNumber, headers, metadata, accessConditions, context));
     }
 
-    Mono<Response<PageBlobItem>> createWithResponse(long size, Long sequenceNumber, BlobHttpHeaders headers,
+    Mono<Response<PageBlobItem>> createWithResponse(long size, Long sequenceNumber, BlobHTTPHeaders headers,
         Map<String, String> metadata, BlobAccessConditions accessConditions, Context context) {
         accessConditions = accessConditions == null ? new BlobAccessConditions() : accessConditions;
 
@@ -133,9 +134,9 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
                 new IllegalArgumentException("SequenceNumber must be greater than or equal to 0."));
         }
 
-        return this.azureBlobStorage.pageBlobs().createWithRestResponseAsync(null, null, 0, size,
+        return postProcessResponse(this.azureBlobStorage.pageBlobs().createWithRestResponseAsync(null, null, 0, size,
             null, null, metadata, sequenceNumber, null, headers, accessConditions.getLeaseAccessConditions(),
-            getCustomerProvidedKey(), accessConditions.getModifiedAccessConditions(), context)
+            getCustomerProvidedKey(), accessConditions.getModifiedAccessConditions(), context))
             .map(rb -> new SimpleResponse<>(rb, new PageBlobItem(rb.getDeserializedHeaders())));
     }
 
@@ -201,11 +202,11 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
         }
         String pageRangeStr = pageRangeToString(pageRange);
 
-        return this.azureBlobStorage.pageBlobs().uploadPagesWithRestResponseAsync(null,
+        return postProcessResponse(this.azureBlobStorage.pageBlobs().uploadPagesWithRestResponseAsync(null,
             null, body, pageRange.getEnd() - pageRange.getStart() + 1, null, null, null, pageRangeStr, null,
             pageBlobAccessConditions.getLeaseAccessConditions(), getCustomerProvidedKey(),
             pageBlobAccessConditions.getSequenceNumberAccessConditions(),
-            pageBlobAccessConditions.getModifiedAccessConditions(), context)
+            pageBlobAccessConditions.getModifiedAccessConditions(), context))
             .map(rb -> new SimpleResponse<>(rb, new PageBlobItem(rb.getDeserializedHeaders())));
     }
 
@@ -286,10 +287,10 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
 
         destAccessConditions = destAccessConditions == null ? new PageBlobAccessConditions() : destAccessConditions;
 
-        return this.azureBlobStorage.pageBlobs().uploadPagesFromURLWithRestResponseAsync(null, null,
+        return postProcessResponse(this.azureBlobStorage.pageBlobs().uploadPagesFromURLWithRestResponseAsync(null, null,
             sourceURL, sourceRangeString, 0, rangeString, sourceContentMD5, null, null, null, getCustomerProvidedKey(),
             destAccessConditions.getLeaseAccessConditions(), destAccessConditions.getSequenceNumberAccessConditions(),
-            destAccessConditions.getModifiedAccessConditions(), sourceAccessConditions, context)
+            destAccessConditions.getModifiedAccessConditions(), sourceAccessConditions, context))
             .map(rb -> new SimpleResponse<>(rb, new PageBlobItem(rb.getDeserializedHeaders())));
     }
 
@@ -342,11 +343,11 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
         }
         String pageRangeStr = pageRangeToString(pageRange);
 
-        return this.azureBlobStorage.pageBlobs().clearPagesWithRestResponseAsync(null,
+        return postProcessResponse(this.azureBlobStorage.pageBlobs().clearPagesWithRestResponseAsync(null,
             null, 0, null, pageRangeStr, null,
             pageBlobAccessConditions.getLeaseAccessConditions(), getCustomerProvidedKey(),
             pageBlobAccessConditions.getSequenceNumberAccessConditions(),
-            pageBlobAccessConditions.getModifiedAccessConditions(), context)
+            pageBlobAccessConditions.getModifiedAccessConditions(), context))
             .map(rb -> new SimpleResponse<>(rb, new PageBlobItem(rb.getDeserializedHeaders())));
     }
 
@@ -387,10 +388,10 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
         blobRange = blobRange == null ? new BlobRange(0) : blobRange;
         accessConditions = accessConditions == null ? new BlobAccessConditions() : accessConditions;
 
-        return this.azureBlobStorage.pageBlobs().getPageRangesWithRestResponseAsync(
+        return postProcessResponse(this.azureBlobStorage.pageBlobs().getPageRangesWithRestResponseAsync(
             null, null, getSnapshotId(), null, blobRange.toHeaderValue(),
             null, accessConditions.getLeaseAccessConditions(), accessConditions.getModifiedAccessConditions(),
-            context).map(response -> new SimpleResponse<>(response, response.getValue()));
+            context)).map(response -> new SimpleResponse<>(response, response.getValue()));
     }
 
     /**
@@ -444,10 +445,10 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
             throw logger.logExceptionAsError(new IllegalArgumentException("prevSnapshot cannot be null"));
         }
 
-        return this.azureBlobStorage.pageBlobs().getPageRangesDiffWithRestResponseAsync(
+        return postProcessResponse(this.azureBlobStorage.pageBlobs().getPageRangesDiffWithRestResponseAsync(
             null, null, getSnapshotId(), null, prevSnapshot,
             blobRange.toHeaderValue(), null, accessConditions.getLeaseAccessConditions(),
-            accessConditions.getModifiedAccessConditions(), context)
+            accessConditions.getModifiedAccessConditions(), context))
             .map(response -> new SimpleResponse<>(response, response.getValue()));
     }
 
@@ -494,9 +495,9 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
         }
         accessConditions = accessConditions == null ? new BlobAccessConditions() : accessConditions;
 
-        return this.azureBlobStorage.pageBlobs().resizeWithRestResponseAsync(null,
+        return postProcessResponse(this.azureBlobStorage.pageBlobs().resizeWithRestResponseAsync(null,
             null, size, null, null, accessConditions.getLeaseAccessConditions(), getCustomerProvidedKey(),
-            accessConditions.getModifiedAccessConditions(), context)
+            accessConditions.getModifiedAccessConditions(), context))
             .map(rb -> new SimpleResponse<>(rb, new PageBlobItem(rb.getDeserializedHeaders())));
     }
 
@@ -549,9 +550,10 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
         accessConditions = accessConditions == null ? new BlobAccessConditions() : accessConditions;
         sequenceNumber = action == SequenceNumberActionType.INCREMENT ? null : sequenceNumber;
 
-        return this.azureBlobStorage.pageBlobs().updateSequenceNumberWithRestResponseAsync(null,
+        return postProcessResponse(
+            this.azureBlobStorage.pageBlobs().updateSequenceNumberWithRestResponseAsync(null,
                 null, action, null, sequenceNumber, null,
-                accessConditions.getLeaseAccessConditions(), accessConditions.getModifiedAccessConditions(), context)
+                accessConditions.getLeaseAccessConditions(), accessConditions.getModifiedAccessConditions(), context))
             .map(rb -> new SimpleResponse<>(rb, new PageBlobItem(rb.getDeserializedHeaders())));
     }
 
@@ -603,15 +605,15 @@ public final class PageBlobAsyncClient extends BlobAsyncClientBase {
     Mono<Response<CopyStatusType>> copyIncrementalWithResponse(URL source, String snapshot,
         ModifiedAccessConditions modifiedAccessConditions, Context context) {
         UrlBuilder builder = UrlBuilder.parse(source);
-        builder.setQueryParameter(Constants.UrlConstants.SNAPSHOT_QUERY_PARAMETER, snapshot);
+        builder.setQueryParameter(Constants.SNAPSHOT_QUERY_PARAMETER, snapshot);
         try {
             source = builder.toURL();
         } catch (MalformedURLException e) {
             // We are parsing a valid url and adding a query parameter. If this fails, we can't recover.
             throw logger.logExceptionAsError(new IllegalStateException(e));
         }
-        return this.azureBlobStorage.pageBlobs().copyIncrementalWithRestResponseAsync(
-            null, null, source, null, null, modifiedAccessConditions, context)
+        return postProcessResponse(this.azureBlobStorage.pageBlobs().copyIncrementalWithRestResponseAsync(
+            null, null, source, null, null, modifiedAccessConditions, context))
             .map(rb -> new SimpleResponse<>(rb, rb.getDeserializedHeaders().getCopyStatus()));
     }
 
