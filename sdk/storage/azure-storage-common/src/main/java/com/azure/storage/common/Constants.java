@@ -47,9 +47,9 @@ public final class Constants {
         public static final String ACCOUNT_KEY = "accountkey";
 
         /**
-         * The DefaultEndpointsProtocol key.
+         * The DefaultEndpointProtocol key.
          */
-        public static final String ENDPOINT_PROTOCOL = "defaultendpointsprotocol";
+        public static final String ENDPOINT_PROTOCOL = "defaultendpointprotocol";
 
         /**
          * The EndpointSuffix key.

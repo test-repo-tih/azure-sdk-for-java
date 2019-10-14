@@ -3,7 +3,6 @@
 
 package com.azure.storage.common;
 
-import com.azure.storage.common.sas.SasIpRange;
 import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.function.Function;
@@ -25,7 +24,7 @@ public abstract class BaseSasQueryParameters {
 
     protected OffsetDateTime expiryTime;
 
-    protected SasIpRange sasIpRange;
+    protected IpRange ipRange;
 
     protected String permissions;
 
@@ -47,8 +46,8 @@ public abstract class BaseSasQueryParameters {
             removeSASParametersFromMap, Utility::parseDate);
         this.expiryTime = getQueryParameter(queryParamsMap, Constants.UrlConstants.SAS_EXPIRY_TIME,
             removeSASParametersFromMap, Utility::parseDate);
-        this.sasIpRange = getQueryParameter(queryParamsMap, Constants.UrlConstants.SAS_IP_RANGE,
-            removeSASParametersFromMap, SasIpRange::parse);
+        this.ipRange = getQueryParameter(queryParamsMap, Constants.UrlConstants.SAS_IP_RANGE,
+            removeSASParametersFromMap, IpRange::parse);
         this.permissions = getQueryParameter(queryParamsMap, Constants.UrlConstants.SAS_SIGNED_PERMISSIONS,
             removeSASParametersFromMap);
         this.signature = getQueryParameter(queryParamsMap, Constants.UrlConstants.SAS_SIGNATURE,
@@ -99,18 +98,18 @@ public abstract class BaseSasQueryParameters {
      * @param protocol A {@code String} representing the allowed HTTP protocol(s) or {@code null}.
      * @param startTime A {@code java.util.Date} representing the start time for this SAS token or {@code null}.
      * @param expiryTime A {@code java.util.Date} representing the expiry time for this SAS token.
-     * @param sasIpRange A {@link SasIpRange} representing the range of valid IP addresses for this SAS token or
+     * @param ipRange A {@link IpRange} representing the range of valid IP addresses for this SAS token or
      * {@code null}.
      * @param permissions A {@code String} representing the storage permissions or {@code null}.
      * @param signature A {@code String} representing the signature for the SAS token.
      */
     public BaseSasQueryParameters(String version, SasProtocol protocol, OffsetDateTime startTime,
-        OffsetDateTime expiryTime, SasIpRange sasIpRange, String permissions, String signature) {
+                                  OffsetDateTime expiryTime, IpRange ipRange, String permissions, String signature) {
         this.version = version;
         this.protocol = protocol;
         this.startTime = startTime;
         this.expiryTime = expiryTime;
-        this.sasIpRange = sasIpRange;
+        this.ipRange = ipRange;
         this.permissions = permissions;
         this.signature = signature;
     }
@@ -144,10 +143,10 @@ public abstract class BaseSasQueryParameters {
     }
 
     /**
-     * @return {@link SasIpRange}
+     * @return {@link IpRange}
      */
-    public SasIpRange getSasIpRange() {
-        return sasIpRange;
+    public IpRange getIpRange() {
+        return ipRange;
     }
 
     /**
