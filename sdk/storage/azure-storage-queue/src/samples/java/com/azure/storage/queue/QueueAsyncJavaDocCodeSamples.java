@@ -3,11 +3,10 @@
 
 package com.azure.storage.queue;
 
-import com.azure.storage.common.StorageSharedKeyCredential;
-import com.azure.storage.queue.models.QueueAccessPolicy;
+import com.azure.storage.common.credentials.SharedKeyCredential;
+import com.azure.storage.queue.models.AccessPolicy;
 import com.azure.storage.queue.models.QueueProperties;
-import com.azure.storage.queue.models.QueueSignedIdentifier;
-
+import com.azure.storage.queue.models.SignedIdentifier;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -169,46 +168,46 @@ public class QueueAsyncJavaDocCodeSamples {
     }
 
     /**
-     * Generates a code sample for using {@link QueueAsyncClient#receiveMessage()}
+     * Generates a code sample for using {@link QueueAsyncClient#dequeueMessages()}
      */
-    public void getMessageAsync() {
-        // BEGIN: com.azure.storage.queue.queueAsyncClient.receiveMessage
-        client.receiveMessage().subscribe(
-            message -> System.out.println("The message got from getMessages operation: "
-                + message.getMessageText()),
+    public void dequeueMessageAsync() {
+        // BEGIN: com.azure.storage.queue.queueAsyncClient.dequeueMessages
+        client.dequeueMessages().subscribe(
+            dequeuedMessage -> System.out.println("The message got from dequeue operation: "
+                + dequeuedMessage.getMessageText()),
             error -> System.err.print(error.toString()),
-            () -> System.out.println("Complete receiving the message!")
+            () -> System.out.println("Complete dequeuing the message!")
         );
-        // END: com.azure.storage.queue.queueAsyncClient.receiveMessage
+        // END: com.azure.storage.queue.queueAsyncClient.dequeueMessages
     }
 
     /**
-     * Generates a code sample for using {@link QueueAsyncClient#receiveMessages(Integer)}
+     * Generates a code sample for using {@link QueueAsyncClient#dequeueMessages(Integer)}
      */
-    public void getMessageAsyncWithOverload() {
-        // BEGIN: com.azure.storage.queue.queueAsyncClient.receiveMessages#integer
-        client.receiveMessages(5).subscribe(
-            message -> System.out.println("The message got from getMessages operation: "
-                + message.getMessageText()),
+    public void dequeueMessageAsyncWithOverload() {
+        // BEGIN: com.azure.storage.queue.queueAsyncClient.dequeueMessages#integer
+        client.dequeueMessages(5).subscribe(
+            dequeuedMessage -> System.out.println("The message got from dequeue operation: "
+                + dequeuedMessage.getMessageText()),
             error -> System.err.print(error.toString()),
-            () -> System.out.println("Complete receiving the message!")
+            () -> System.out.println("Complete dequeuing the message!")
         );
-        // END: com.azure.storage.queue.queueAsyncClient.receiveMessages#integer
+        // END: com.azure.storage.queue.queueAsyncClient.dequeueMessages#integer
     }
 
     /**
-     * Generates a code sample for using {@link QueueAsyncClient#receiveMessages(Integer, Duration)}
+     * Generates a code sample for using {@link QueueAsyncClient#dequeueMessages(Integer, Duration)}
      */
-    public void getMessageAsyncMaxOverload() {
-        // BEGIN: com.azure.storage.queue.queueAsyncClient.receiveMessages#integer-duration
-        client.receiveMessages(5, Duration.ofSeconds(60))
+    public void dequeueMessageAsyncMaxOverload() {
+        // BEGIN: com.azure.storage.queue.queueAsyncClient.dequeueMessages#integer-duration
+        client.dequeueMessages(5, Duration.ofSeconds(60))
             .subscribe(
-                message -> System.out.println("The message got from getMessages operation: "
-                    + message.getMessageText()),
+                dequeuedMessage -> System.out.println("The message got from dequeue operation: "
+                    + dequeuedMessage.getMessageText()),
                 error -> System.err.print(error.toString()),
-                () -> System.out.println("Complete receiving the message!")
+                () -> System.out.println("Complete dequeuing the message!")
             );
-        // END: com.azure.storage.queue.queueAsyncClient.receiveMessages#integer-duration
+        // END: com.azure.storage.queue.queueAsyncClient.dequeueMessages#integer-duration
     }
 
 
@@ -231,7 +230,7 @@ public class QueueAsyncJavaDocCodeSamples {
     public void peekMessageAsyncMaxOverload() {
         // BEGIN: com.azure.storage.queue.queueAsyncClient.peekMessages#integer
         client.peekMessages(5).subscribe(
-            peekMessage -> System.out.printf("Peeked message %s has been received %d times",
+            peekMessage -> System.out.printf("Peeked message %s has been dequeued %d times",
                 peekMessage.getMessageId(), peekMessage.getDequeueCount()),
             error -> System.err.print(error.toString()),
             () -> System.out.println("Complete peeking the message!")
@@ -244,18 +243,18 @@ public class QueueAsyncJavaDocCodeSamples {
      */
     public void updateMessageAsync() {
         // BEGIN: com.azure.storage.queue.QueueAsyncClient.updateMessage#String-String-String-Duration
-        client.receiveMessage().subscribe(
-            message -> {
-                client.updateMessage("newText", message.getMessageId(),
-                    message.getPopReceipt(), null).subscribe(
+        client.dequeueMessages().subscribe(
+            dequeuedMessage -> {
+                client.updateMessage("newText", dequeuedMessage.getMessageId(),
+                    dequeuedMessage.getPopReceipt(), null).subscribe(
                         response -> {
                         },
                         updateError -> System.err.print(updateError.toString()),
                         () -> System.out.println("Complete updating the message!")
                 );
             },
-            error -> System.err.print(error.toString()),
-            () -> System.out.println("Complete receiving the message!")
+            dequeueError -> System.err.print(dequeueError.toString()),
+            () -> System.out.println("Complete dequeueing the message!")
         );
         // END: com.azure.storage.queue.QueueAsyncClient.updateMessage#String-String-String-Duration
     }
@@ -266,19 +265,18 @@ public class QueueAsyncJavaDocCodeSamples {
      */
     public void updateMessageWithResponse() {
         // BEGIN: com.azure.storage.queue.QueueAsyncClient.updateMessageWithResponse#String-String-String-Duration
-
-        client.receiveMessage().subscribe(
-            message -> {
-                client.updateMessageWithResponse(message.getMessageId(), message.getPopReceipt(), "newText",
-                    null).subscribe(
+        client.dequeueMessages().subscribe(
+            dequeuedMessage -> {
+                client.updateMessageWithResponse("newText", dequeuedMessage.getMessageId(),
+                    dequeuedMessage.getPopReceipt(), null).subscribe(
                         response -> System.out.println("Complete updating the message with status code:"
                             + response.getStatusCode()),
                         updateError -> System.err.print(updateError.toString()),
                         () -> System.out.println("Complete updating the message!")
                 );
             },
-            error -> System.err.print(error.toString()),
-            () -> System.out.println("Complete receiving the message!")
+            dequeueError -> System.err.print(dequeueError.toString()),
+            () -> System.out.println("Complete dequeueing the message!")
         );
         // END: com.azure.storage.queue.QueueAsyncClient.updateMessageWithResponse#String-String-String-Duration
     }
@@ -288,17 +286,17 @@ public class QueueAsyncJavaDocCodeSamples {
      */
     public void deleteMessageAsync() {
         // BEGIN: com.azure.storage.queue.QueueAsyncClient.deleteMessage#String-String
-        client.receiveMessage().subscribe(
-            message -> {
-                client.deleteMessage(message.getMessageId(), message.getPopReceipt()).subscribe(
+        client.dequeueMessages().subscribe(
+            dequeuedMessage -> {
+                client.deleteMessage(dequeuedMessage.getMessageId(), dequeuedMessage.getPopReceipt()).subscribe(
                     response -> {
                     },
                     deleteError -> System.err.print(deleteError.toString()),
                     () -> System.out.println("Complete deleting the message!")
                 );
             },
-            error -> System.err.print(error.toString()),
-            () -> System.out.println("Complete receiving the message!")
+            dequeueError -> System.err.print(dequeueError.toString()),
+            () -> System.out.println("Complete dequeueing the message!")
         );
         // END: com.azure.storage.queue.QueueAsyncClient.deleteMessage#String-String
     }
@@ -308,9 +306,9 @@ public class QueueAsyncJavaDocCodeSamples {
      */
     public void deleteMessageWithResponse() {
         // BEGIN: com.azure.storage.queue.QueueAsyncClient.deleteMessageWithResponse#String-String
-        client.receiveMessage().subscribe(
-            message -> {
-                client.deleteMessageWithResponse(message.getMessageId(), message.getPopReceipt())
+        client.dequeueMessages().subscribe(
+            dequeuedMessage -> {
+                client.deleteMessageWithResponse(dequeuedMessage.getMessageId(), dequeuedMessage.getPopReceipt())
                     .subscribe(
                         response -> System.out.println("Complete deleting the message with status code: "
                             + response.getStatusCode()),
@@ -318,8 +316,8 @@ public class QueueAsyncJavaDocCodeSamples {
                         () -> System.out.println("Complete deleting the message!")
                     );
             },
-            error -> System.err.print(error.toString()),
-            () -> System.out.println("Complete receiving the message!")
+            dequeueError -> System.err.print(dequeueError.toString()),
+            () -> System.out.println("Complete dequeueing the message!")
         );
         // END: com.azure.storage.queue.QueueAsyncClient.deleteMessageWithResponse#String-String
     }
@@ -400,7 +398,7 @@ public class QueueAsyncJavaDocCodeSamples {
     public void clearMetadataAsync() {
         // BEGIN: com.azure.storage.queue.queueAsyncClient.clearMetadata#map
         client.setMetadata(null)
-            .subscribe(response -> System.out.println("Clearing metadata completed."));
+            .subscribe(response -> System.out.printf("Clearing metadata completed."));
         // END: com.azure.storage.queue.queueAsyncClient.clearMetadata#map
     }
 
@@ -423,7 +421,7 @@ public class QueueAsyncJavaDocCodeSamples {
         // BEGIN: com.azure.storage.queue.queueAsyncClient.getAccessPolicy
         client.getAccessPolicy()
             .subscribe(result -> System.out.printf("Access policy %s allows these permissions: %s",
-                result.getId(), result.getAccessPolicy().getPermissions()));
+                result.getId(), result.getAccessPolicy().getPermission()));
         // END: com.azure.storage.queue.queueAsyncClient.getAccessPolicy
     }
 
@@ -432,12 +430,12 @@ public class QueueAsyncJavaDocCodeSamples {
      */
     public void setAccessPolicyWithResponse() {
         QueueAsyncClient queueAsyncClient = createAsyncClientWithSASToken();
-        // BEGIN: com.azure.storage.queue.QueueAsyncClient.setAccessPolicyWithResponse#Iterable
-        QueueAccessPolicy accessPolicy = new QueueAccessPolicy().setPermissions("r")
-            .setStartsOn(OffsetDateTime.now(ZoneOffset.UTC))
-            .setExpiresOn(OffsetDateTime.now(ZoneOffset.UTC).plusDays(10));
+        // BEGIN: com.azure.storage.queue.QueueAsyncClient.setAccessPolicyWithResponse#List
+        AccessPolicy accessPolicy = new AccessPolicy().setPermission("r")
+            .setStart(OffsetDateTime.now(ZoneOffset.UTC))
+            .setExpiry(OffsetDateTime.now(ZoneOffset.UTC).plusDays(10));
 
-        QueueSignedIdentifier permission = new QueueSignedIdentifier().setId("mypolicy").setAccessPolicy(accessPolicy);
+        SignedIdentifier permission = new SignedIdentifier().setId("mypolicy").setAccessPolicy(accessPolicy);
         client.setAccessPolicyWithResponse(Collections.singletonList(permission))
             .subscribe(response -> System.out.printf("Setting access policies completed with status code %d",
                 response.getStatusCode()));
@@ -449,12 +447,12 @@ public class QueueAsyncJavaDocCodeSamples {
      */
     public void setAccessPolicyAsync() {
         QueueAsyncClient queueAsyncClient = createAsyncClientWithSASToken();
-        // BEGIN: com.azure.storage.queue.QueueAsyncClient.setAccessPolicy#Iterable
-        QueueAccessPolicy accessPolicy = new QueueAccessPolicy().setPermissions("r")
-            .setStartsOn(OffsetDateTime.now(ZoneOffset.UTC))
-            .setExpiresOn(OffsetDateTime.now(ZoneOffset.UTC).plusDays(10));
+        // BEGIN: com.azure.storage.queue.QueueAsyncClient.setAccessPolicy#List
+        AccessPolicy accessPolicy = new AccessPolicy().setPermission("r")
+            .setStart(OffsetDateTime.now(ZoneOffset.UTC))
+            .setExpiry(OffsetDateTime.now(ZoneOffset.UTC).plusDays(10));
 
-        QueueSignedIdentifier permission = new QueueSignedIdentifier().setId("mypolicy").setAccessPolicy(accessPolicy);
+        SignedIdentifier permission = new SignedIdentifier().setId("mypolicy").setAccessPolicy(accessPolicy);
         client.setAccessPolicy(Collections.singletonList(permission))
             .subscribe(response -> System.out.println("Setting access policies completed."));
         // END: com.azure.storage.queue.QueueAsyncClient.setAccessPolicy#Iterable

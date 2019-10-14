@@ -3,7 +3,7 @@
 
 package com.azure.identity;
 
-import com.azure.core.credential.TokenRequestContext;
+import com.azure.core.credentials.TokenRequest;
 import com.azure.identity.implementation.IdentityClient;
 import com.azure.identity.util.TestUtils;
 import org.junit.Test;
@@ -41,17 +41,17 @@ public class AuthorizationCodeCredentialTest {
         TokenRequestContext request2 = new TokenRequestContext().addScopes("https://vault.azure.net");
         String authCode1 = "authCode1";
         URI redirectUri = new URI("http://foo.com/bar");
-        OffsetDateTime expiresAt = OffsetDateTime.now(ZoneOffset.UTC).plusHours(1);
+        OffsetDateTime expiresOn = OffsetDateTime.now(ZoneOffset.UTC).plusHours(1);
 
         // mock
         IdentityClient identityClient = PowerMockito.mock(IdentityClient.class);
         when(identityClient.authenticateWithAuthorizationCode(eq(request1), eq(authCode1), eq(redirectUri)))
-            .thenReturn(TestUtils.getMockMsalToken(token1, expiresAt));
+            .thenReturn(TestUtils.getMockMsalToken(token1, expiresOn));
         when(identityClient.authenticateWithUserRefreshToken(any(), any()))
             .thenAnswer(invocation -> {
                 TokenRequestContext argument = (TokenRequestContext) invocation.getArguments()[0];
                 if (argument.getScopes().size() == 1 && argument.getScopes().get(0).equals(request2.getScopes().get(0))) {
-                    return TestUtils.getMockMsalToken(token2, expiresAt);
+                    return TestUtils.getMockMsalToken(token2, expiresOn);
                 } else if (argument.getScopes().size() == 1 && argument.getScopes().get(0).equals(request1.getScopes().get(0))) {
                     return Mono.error(new UnsupportedOperationException("nothing cached"));
                 } else {
@@ -62,14 +62,14 @@ public class AuthorizationCodeCredentialTest {
 
         // test
         AuthorizationCodeCredential credential = new AuthorizationCodeCredentialBuilder()
-                .clientId(clientId).authorizationCode(authCode1).redirectUrl(redirectUri.toString()).build();
+                .clientId(clientId).authorizationCode(authCode1).redirectUri(redirectUri.toString()).build();
         StepVerifier.create(credential.getToken(request1))
             .expectNextMatches(accessToken -> token1.equals(accessToken.getToken())
-                && expiresAt.getSecond() == accessToken.getExpiresAt().getSecond())
+                && expiresOn.getSecond() == accessToken.getExpiresOn().getSecond())
             .verifyComplete();
         StepVerifier.create(credential.getToken(request2))
             .expectNextMatches(accessToken -> token2.equals(accessToken.getToken())
-                && expiresAt.getSecond() == accessToken.getExpiresAt().getSecond())
+                && expiresOn.getSecond() == accessToken.getExpiresOn().getSecond())
             .verifyComplete();
     }
 }
