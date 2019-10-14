@@ -3,6 +3,7 @@
 package com.azure.storage.queue;
 
 import static com.azure.core.implementation.util.FluxUtil.withContext;
+import static com.azure.storage.queue.PostProcessor.postProcessResponse;
 
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.http.HttpPipeline;
@@ -119,7 +120,8 @@ public final class QueueAsyncClient {
     }
 
     Mono<Response<Void>> createWithResponse(Map<String, String> metadata, Context context) {
-        return client.queues().createWithRestResponseAsync(queueName, null, metadata, null, context)
+        return postProcessResponse(client.queues()
+            .createWithRestResponseAsync(queueName, null, metadata, null, context))
             .map(response -> new SimpleResponse<>(response, null));
     }
 
@@ -162,7 +164,7 @@ public final class QueueAsyncClient {
     }
 
     Mono<Response<Void>> deleteWithResponse(Context context) {
-        return client.queues().deleteWithRestResponseAsync(queueName, context)
+        return postProcessResponse(client.queues().deleteWithRestResponseAsync(queueName, context))
             .map(response -> new SimpleResponse<>(response, null));
     }
 
@@ -207,7 +209,7 @@ public final class QueueAsyncClient {
     }
 
     Mono<Response<QueueProperties>> getPropertiesWithResponse(Context context) {
-        return client.queues().getPropertiesWithRestResponseAsync(queueName, context)
+        return postProcessResponse(client.queues().getPropertiesWithRestResponseAsync(queueName, context))
             .map(this::getQueuePropertiesResponse);
     }
 
@@ -264,8 +266,8 @@ public final class QueueAsyncClient {
     }
 
     Mono<Response<Void>> setMetadataWithResponse(Map<String, String> metadata, Context context) {
-        return client.queues()
-            .setMetadataWithRestResponseAsync(queueName, null, metadata, null, context)
+        return postProcessResponse(client.queues()
+            .setMetadataWithRestResponseAsync(queueName, null, metadata, null, context))
             .map(response -> new SimpleResponse<>(response, null));
     }
 
@@ -286,8 +288,8 @@ public final class QueueAsyncClient {
      */
     public PagedFlux<SignedIdentifier> getAccessPolicy() {
         Function<String, Mono<PagedResponse<SignedIdentifier>>> retriever =
-            marker -> this.client.queues()
-                .getAccessPolicyWithRestResponseAsync(queueName, Context.NONE)
+            marker -> postProcessResponse(this.client.queues()
+                .getAccessPolicyWithRestResponseAsync(queueName, Context.NONE))
                 .map(response -> new PagedResponseBase<>(response.getRequest(),
                     response.getStatusCode(),
                     response.getHeaders(),
@@ -360,8 +362,8 @@ public final class QueueAsyncClient {
             }
         }
 
-        return client.queues()
-            .setAccessPolicyWithRestResponseAsync(queueName, permissions, null, null, context)
+        return postProcessResponse(client.queues()
+            .setAccessPolicyWithRestResponseAsync(queueName, permissions, null, null, context))
             .map(response -> new SimpleResponse<>(response, null));
     }
 
@@ -404,7 +406,7 @@ public final class QueueAsyncClient {
     }
 
     Mono<Response<Void>> clearMessagesWithResponse(Context context) {
-        return client.messages().clearWithRestResponseAsync(queueName, context)
+        return postProcessResponse(client.messages().clearWithRestResponseAsync(queueName, context))
             .map(response -> new SimpleResponse<>(response, null));
     }
 
@@ -469,9 +471,9 @@ public final class QueueAsyncClient {
         Integer timeToLiveInSeconds = (timeToLive == null) ? null : (int) timeToLive.getSeconds();
         QueueMessage message = new QueueMessage().setMessageText(messageText);
 
-        return client.messages()
+        return postProcessResponse(client.messages()
             .enqueueWithRestResponseAsync(queueName, message, visibilityTimeoutInSeconds, timeToLiveInSeconds,
-                null, null, context)
+                null, null, context))
             .map(response -> new SimpleResponse<>(response, response.getValue().get(0)));
     }
 
@@ -553,7 +555,7 @@ public final class QueueAsyncClient {
         Duration timeout, Context context) {
         Integer visibilityTimeoutInSeconds = (visibilityTimeout == null) ? null : (int) visibilityTimeout.getSeconds();
         Function<String, Mono<PagedResponse<DequeuedMessage>>> retriever =
-            marker -> Utility.applyOptionalTimeout(this.client.messages()
+            marker -> postProcessResponse(Utility.applyOptionalTimeout(this.client.messages()
                 .dequeueWithRestResponseAsync(queueName, maxMessages, visibilityTimeoutInSeconds,
                     null, null, context), timeout)
                 .map(response -> new PagedResponseBase<>(response.getRequest(),
@@ -561,7 +563,7 @@ public final class QueueAsyncClient {
                     response.getHeaders(),
                     response.getValue(),
                     null,
-                    response.getDeserializedHeaders()));
+                    response.getDeserializedHeaders())));
 
         return new PagedFlux<>(() -> retriever.apply(null), retriever);
     }
@@ -615,14 +617,14 @@ public final class QueueAsyncClient {
 
     PagedFlux<PeekedMessage> peekMessagesWithOptionalTimeout(Integer maxMessages, Duration timeout, Context context) {
         Function<String, Mono<PagedResponse<PeekedMessage>>> retriever =
-            marker -> Utility.applyOptionalTimeout(this.client.messages()
+            marker -> postProcessResponse(Utility.applyOptionalTimeout(this.client.messages()
                 .peekWithRestResponseAsync(queueName, maxMessages, null, null, context), timeout)
                 .map(response -> new PagedResponseBase<>(response.getRequest(),
                     response.getStatusCode(),
                     response.getHeaders(),
                     response.getValue(),
                     null,
-                    response.getDeserializedHeaders()));
+                    response.getDeserializedHeaders())));
 
         return new PagedFlux<>(() -> retriever.apply(null), retriever);
     }
@@ -686,8 +688,9 @@ public final class QueueAsyncClient {
     Mono<Response<UpdatedMessage>> updateMessageWithResponse(String messageText, String messageId, String popReceipt,
         Duration visibilityTimeout, Context context) {
         QueueMessage message = new QueueMessage().setMessageText(messageText);
-        return client.messageIds().updateWithRestResponseAsync(queueName, messageId, message, popReceipt,
-                (int) visibilityTimeout.getSeconds(), context)
+        return postProcessResponse(client.messageIds()
+            .updateWithRestResponseAsync(queueName, messageId, message, popReceipt,
+                (int) visibilityTimeout.getSeconds(), context))
             .map(this::getUpdatedMessageResponse);
     }
 
@@ -734,7 +737,8 @@ public final class QueueAsyncClient {
     }
 
     Mono<Response<Void>> deleteMessageWithResponse(String messageId, String popReceipt, Context context) {
-        return client.messageIds().deleteWithRestResponseAsync(queueName, messageId, popReceipt, context)
+        return postProcessResponse(client.messageIds()
+            .deleteWithRestResponseAsync(queueName, messageId, popReceipt, context))
             .map(response -> new SimpleResponse<>(response, null));
     }
 
