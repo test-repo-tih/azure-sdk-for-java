@@ -11,17 +11,17 @@ import com.azure.core.util.Context;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.storage.blob.BlobAsyncClient;
 import com.azure.storage.blob.BlobClientBuilder;
-import com.azure.storage.blob.BlobContainerAsyncClient;
 import com.azure.storage.blob.BlobServiceAsyncClient;
+import com.azure.storage.blob.BlobContainerAsyncClient;
 import com.azure.storage.blob.implementation.AzureBlobStorageImpl;
 import com.azure.storage.blob.models.AppendBlobAccessConditions;
 import com.azure.storage.blob.models.AppendBlobItem;
 import com.azure.storage.blob.models.BlobAccessConditions;
-import com.azure.storage.blob.models.BlobHttpHeaders;
+import com.azure.storage.blob.models.BlobHTTPHeaders;
 import com.azure.storage.blob.models.BlobRange;
 import com.azure.storage.blob.models.CpkInfo;
 import com.azure.storage.blob.models.SourceModifiedAccessConditions;
-import com.azure.storage.common.implementation.Constants;
+import com.azure.storage.common.Constants;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -32,6 +32,7 @@ import java.util.Map;
 
 import static com.azure.core.implementation.util.FluxUtil.monoError;
 import static com.azure.core.implementation.util.FluxUtil.withContext;
+import static com.azure.storage.blob.implementation.PostProcessor.postProcessResponse;
 
 /**
  * Client to an append blob. It may only be instantiated through a
@@ -98,15 +99,15 @@ public final class AppendBlobAsyncClient extends BlobAsyncClientBase {
      *
      * <p><strong>Code Samples</strong></p>
      *
-     * {@codesnippet com.azure.storage.blob.specialized.AppendBlobAsyncClient.createWithResponse#BlobHttpHeaders-Map-BlobAccessConditions}
+     * {@codesnippet com.azure.storage.blob.specialized.AppendBlobAsyncClient.createWithResponse#BlobHTTPHeaders-Map-BlobAccessConditions}
      *
-     * @param headers {@link BlobHttpHeaders}
+     * @param headers {@link BlobHTTPHeaders}
      * @param metadata Metadata to associate with the blob.
      * @param accessConditions {@link BlobAccessConditions}
      * @return A {@link Mono} containing {@link Response} whose {@link Response#getValue() value} contains the created
      * appended blob.
      */
-    public Mono<Response<AppendBlobItem>> createWithResponse(BlobHttpHeaders headers, Map<String, String> metadata,
+    public Mono<Response<AppendBlobItem>> createWithResponse(BlobHTTPHeaders headers, Map<String, String> metadata,
         BlobAccessConditions accessConditions) {
         try {
             return withContext(context -> createWithResponse(headers, metadata, accessConditions, context));
@@ -115,13 +116,13 @@ public final class AppendBlobAsyncClient extends BlobAsyncClientBase {
         }
     }
 
-    Mono<Response<AppendBlobItem>> createWithResponse(BlobHttpHeaders headers, Map<String, String> metadata,
+    Mono<Response<AppendBlobItem>> createWithResponse(BlobHTTPHeaders headers, Map<String, String> metadata,
         BlobAccessConditions accessConditions, Context context) {
         accessConditions = (accessConditions == null) ? new BlobAccessConditions() : accessConditions;
 
-        return this.azureBlobStorage.appendBlobs().createWithRestResponseAsync(null,
+        return postProcessResponse(this.azureBlobStorage.appendBlobs().createWithRestResponseAsync(null,
             null, 0, null, metadata, null, headers, accessConditions.getLeaseAccessConditions(),
-            getCustomerProvidedKey(), accessConditions.getModifiedAccessConditions(), context)
+            getCustomerProvidedKey(), accessConditions.getModifiedAccessConditions(), context))
             .map(rb -> new SimpleResponse<>(rb, new AppendBlobItem(rb.getDeserializedHeaders())));
     }
 
@@ -181,11 +182,11 @@ public final class AppendBlobAsyncClient extends BlobAsyncClientBase {
         appendBlobAccessConditions = appendBlobAccessConditions == null ? new AppendBlobAccessConditions()
             : appendBlobAccessConditions;
 
-        return this.azureBlobStorage.appendBlobs().appendBlockWithRestResponseAsync(
+        return postProcessResponse(this.azureBlobStorage.appendBlobs().appendBlockWithRestResponseAsync(
             null, null, data, length, null, null, null, null,
             appendBlobAccessConditions.getLeaseAccessConditions(),
             appendBlobAccessConditions.getAppendPositionAccessConditions(), getCustomerProvidedKey(),
-            appendBlobAccessConditions.getModifiedAccessConditions(), context)
+            appendBlobAccessConditions.getModifiedAccessConditions(), context))
             .map(rb -> new SimpleResponse<>(rb, new AppendBlobItem(rb.getDeserializedHeaders())));
     }
 
@@ -248,18 +249,12 @@ public final class AppendBlobAsyncClient extends BlobAsyncClientBase {
         destAccessConditions = destAccessConditions == null
             ? new AppendBlobAccessConditions() : destAccessConditions;
 
-        URL url;
-        try {
-            url = new URL(sourceUrl);
-        } catch (MalformedURLException ex) {
-            throw logger.logExceptionAsError(new IllegalArgumentException("'sourceUrl' is not a valid url."));
-        }
-
-        return this.azureBlobStorage.appendBlobs().appendBlockFromUrlWithRestResponseAsync(null, null, url, 0,
+        return postProcessResponse(
+            this.azureBlobStorage.appendBlobs().appendBlockFromUrlWithRestResponseAsync(null, null, sourceURL, 0,
                 sourceRange.toString(), sourceContentMD5, null, null, null, null, getCustomerProvidedKey(),
                 destAccessConditions.getLeaseAccessConditions(),
                 destAccessConditions.getAppendPositionAccessConditions(),
-                destAccessConditions.getModifiedAccessConditions(), sourceAccessConditions, context)
+                destAccessConditions.getModifiedAccessConditions(), sourceAccessConditions, context))
             .map(rb -> new SimpleResponse<>(rb, new AppendBlobItem(rb.getDeserializedHeaders())));
     }
 }
