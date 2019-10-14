@@ -37,7 +37,7 @@ public final class BlobItem {
      * The properties property.
      */
     @JsonProperty(value = "Properties", required = true)
-    private BlobItemProperties properties;
+    private BlobProperties properties;
 
     /*
      * The metadata property.
@@ -122,7 +122,7 @@ public final class BlobItem {
      *
      * @return the properties value.
      */
-    public BlobItemProperties getProperties() {
+    public BlobProperties getProperties() {
         return this.properties;
     }
 
@@ -132,7 +132,7 @@ public final class BlobItem {
      * @param properties the properties value to set.
      * @return the BlobItem object itself.
      */
-    public BlobItem setProperties(BlobItemProperties properties) {
+    public BlobItem setProperties(BlobProperties properties) {
         this.properties = properties;
         return this;
     }
