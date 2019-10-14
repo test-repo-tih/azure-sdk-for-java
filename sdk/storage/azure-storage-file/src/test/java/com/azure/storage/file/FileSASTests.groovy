@@ -1,19 +1,20 @@
 package com.azure.storage.file
 
-import com.azure.storage.common.AccountSasPermission
+
 import com.azure.storage.common.AccountSasResourceType
 import com.azure.storage.common.AccountSasService
+import com.azure.storage.common.AccountSasPermission
 import com.azure.storage.common.AccountSasSignatureValues
+import com.azure.storage.common.SasProtocol
 import com.azure.storage.common.Constants
 import com.azure.storage.common.IpRange
-import com.azure.storage.common.SasProtocol
 import com.azure.storage.common.credentials.SharedKeyCredential
 import com.azure.storage.file.models.AccessPolicy
 import com.azure.storage.file.models.SignedIdentifier
 import com.azure.storage.file.models.StorageException
 import spock.lang.Unroll
 
-import java.nio.charset.StandardCharsets
+import java.nio.ByteBuffer
 import java.time.OffsetDateTime
 
 class FileSASTests extends APISpec {
@@ -154,7 +155,7 @@ class FileSASTests extends APISpec {
         setup:
         String data = "test"
         primaryFileClient.create(Constants.KB)
-        primaryFileClient.upload(getInputStream(data.getBytes()), (long) data.length())
+        primaryFileClient.upload(ByteBuffer.wrap(data.getBytes()), (long) data.length())
 
         def permissions = new FileSasPermission()
             .setReadPermission(true)
@@ -200,14 +201,17 @@ class FileSASTests extends APISpec {
             .sasToken(sas)
             .buildFileClient()
 
-        def stream = new ByteArrayOutputStream()
-        client.download(stream)
+        def downloadResponse = client.downloadWithProperties()
 
-        client.upload(getInputStream(data.getBytes(StandardCharsets.UTF_8)), (long) data.length())
+        def responseBody = downloadResponse.getBody().toIterable().iterator().next()
+
+        client.upload(ByteBuffer.wrap(data.getBytes()), (long) data.length())
 
         then:
         notThrown(StorageException)
-        Arrays.copyOfRange(stream.toByteArray(), 0, data.length()) == data.getBytes(StandardCharsets.UTF_8)
+        for(int i = 0; i < data.length(); i++) {
+            responseBody.get(i) == data.getBytes()[i]
+        }
     }
 
     def "FileSAS network test upload fails"() {
@@ -255,7 +259,7 @@ class FileSASTests extends APISpec {
             .sasToken(sas)
             .buildFileClient()
 
-        client.upload(getInputStream(data.getBytes()), (long) data.length())
+        client.upload(ByteBuffer.wrap(data.getBytes()), (long) data.length())
 
         then:
         thrown(StorageException)
