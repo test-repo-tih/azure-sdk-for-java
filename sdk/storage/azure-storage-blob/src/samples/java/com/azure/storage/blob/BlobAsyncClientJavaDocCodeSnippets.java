@@ -5,7 +5,7 @@ package com.azure.storage.blob;
 
 import com.azure.storage.blob.models.AccessTier;
 import com.azure.storage.blob.models.BlobAccessConditions;
-import com.azure.storage.blob.models.BlobHttpHeaders;
+import com.azure.storage.blob.models.BlobHTTPHeaders;
 import com.azure.storage.blob.models.BlobRange;
 import com.azure.storage.blob.models.DeleteSnapshotsOptionType;
 import com.azure.storage.blob.models.LeaseAccessConditions;
@@ -14,8 +14,6 @@ import com.azure.storage.blob.models.ParallelTransferOptions;
 import com.azure.storage.blob.models.RehydratePriority;
 import com.azure.storage.blob.models.ReliableDownloadOptions;
 import com.azure.storage.blob.specialized.BlobAsyncClientBase;
-import reactor.core.publisher.Flux;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -25,6 +23,7 @@ import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 
 /**
  * Code snippets for {@link BlobAsyncClient}
@@ -159,14 +158,14 @@ public class BlobAsyncClientJavaDocCodeSnippets {
     }
 
     /**
-     * Code snippets for {@link BlobAsyncClient#setHttpHeaders(BlobHttpHeaders)}
+     * Code snippets for {@link BlobAsyncClient#setHTTPHeaders(BlobHTTPHeaders)}
      */
     public void setHTTPHeadersCodeSnippet() {
-        // BEGIN: com.azure.storage.blob.BlobAsyncClient.setHTTPHeaders#BlobHttpHeaders
-        client.setHttpHeaders(new BlobHttpHeaders()
+        // BEGIN: com.azure.storage.blob.BlobAsyncClient.setHTTPHeaders#BlobHTTPHeaders
+        client.setHTTPHeaders(new BlobHTTPHeaders()
             .setBlobContentLanguage("en-US")
             .setBlobContentType("binary"));
-        // END: com.azure.storage.blob.BlobAsyncClient.setHTTPHeaders#BlobHttpHeaders
+        // END: com.azure.storage.blob.BlobAsyncClient.setHTTPHeaders#BlobHTTPHeaders
     }
 
     /**
@@ -327,21 +326,21 @@ public class BlobAsyncClientJavaDocCodeSnippets {
     }
 
     /**
-     * Code snippets for {@link BlobAsyncClient#setHttpHeadersWithResponse(BlobHttpHeaders, BlobAccessConditions)}
+     * Code snippets for {@link BlobAsyncClient#setHTTPHeadersWithResponse(BlobHTTPHeaders, BlobAccessConditions)}
      */
     public void setHTTPHeadersWithResponseCodeSnippets() {
 
-        // BEGIN: com.azure.storage.blob.BlobAsyncClient.setHttpHeadersWithResponse#BlobHttpHeaders-BlobAccessConditions
+        // BEGIN: com.azure.storage.blob.BlobAsyncClient.setHTTPHeadersWithResponse#BlobHTTPHeaders-BlobAccessConditions
         BlobAccessConditions accessConditions = new BlobAccessConditions()
             .setLeaseAccessConditions(new LeaseAccessConditions().setLeaseId(leaseId));
 
-        client.setHttpHeadersWithResponse(new BlobHttpHeaders()
+        client.setHTTPHeadersWithResponse(new BlobHTTPHeaders()
             .setBlobContentLanguage("en-US")
             .setBlobContentType("binary"), accessConditions).subscribe(
                 response ->
                     System.out.printf("Set HTTP headers completed with status %d%n",
                         response.getStatusCode()));
-        // END: com.azure.storage.blob.BlobAsyncClient.setHttpHeadersWithResponse#BlobHttpHeaders-BlobAccessConditions
+        // END: com.azure.storage.blob.BlobAsyncClient.setHTTPHeadersWithResponse#BlobHTTPHeaders-BlobAccessConditions
     }
 
     /**
@@ -441,11 +440,11 @@ public class BlobAsyncClientJavaDocCodeSnippets {
     }
 
     /**
-     * Code snippet for {@link BlobAsyncClient#uploadWithResponse(Flux, ParallelTransferOptions, BlobHttpHeaders, Map, AccessTier, BlobAccessConditions)}
+     * Code snippet for {@link BlobAsyncClient#uploadWithResponse(Flux, ParallelTransferOptions, BlobHTTPHeaders, Map, AccessTier, BlobAccessConditions)}
      */
     public void upload4() {
-        // BEGIN: com.azure.storage.blob.BlobAsyncClient.uploadWithResponse#Flux-ParallelTransferOptions-BlobHttpHeaders-Map-AccessTier-BlobAccessConditions
-        BlobHttpHeaders headers = new BlobHttpHeaders()
+        // BEGIN: com.azure.storage.blob.BlobAsyncClient.uploadWithResponse#Flux-ParallelTransferOptions-BlobHTTPHeaders-Map-AccessTier-BlobAccessConditions
+        BlobHTTPHeaders headers = new BlobHTTPHeaders()
             .setBlobContentMD5("data".getBytes(StandardCharsets.UTF_8))
             .setBlobContentLanguage("en-US")
             .setBlobContentType("binary");
@@ -463,15 +462,15 @@ public class BlobAsyncClientJavaDocCodeSnippets {
         client.uploadWithResponse(data, parallelTransferOptions, headers, metadata, AccessTier.HOT, accessConditions)
             .subscribe(response -> System.out.printf("Uploaded BlockBlob MD5 is %s%n",
                 Base64.getEncoder().encodeToString(response.getValue().getContentMD5())));
-        // END: com.azure.storage.blob.BlobAsyncClient.uploadWithResponse#Flux-ParallelTransferOptions-BlobHttpHeaders-Map-AccessTier-BlobAccessConditions
+        // END: com.azure.storage.blob.BlobAsyncClient.uploadWithResponse#Flux-ParallelTransferOptions-BlobHTTPHeaders-Map-AccessTier-BlobAccessConditions
     }
 
     /**
-     * Code snippet for {@link BlobAsyncClient#uploadWithResponse(Flux, ParallelTransferOptions, BlobHttpHeaders, Map, AccessTier, BlobAccessConditions)}
+     * Code snippet for {@link BlobAsyncClient#uploadWithResponse(Flux, ParallelTransferOptions, BlobHTTPHeaders, Map, AccessTier, BlobAccessConditions)}
      */
     public void upload5() {
-        // BEGIN: com.azure.storage.blob.BlobAsyncClient.uploadWithResponse#Flux-ParallelTransferOptions-BlobHttpHeaders-Map-AccessTier-BlobAccessConditions.ProgressReporter
-        BlobHttpHeaders headers = new BlobHttpHeaders()
+        // BEGIN: com.azure.storage.blob.BlobAsyncClient.uploadWithResponse#Flux-ParallelTransferOptions-BlobHTTPHeaders-Map-AccessTier-BlobAccessConditions.ProgressReporter
+        BlobHTTPHeaders headers = new BlobHTTPHeaders()
             .setBlobContentMD5("data".getBytes(StandardCharsets.UTF_8))
             .setBlobContentLanguage("en-US")
             .setBlobContentType("binary");
@@ -491,7 +490,7 @@ public class BlobAsyncClientJavaDocCodeSnippets {
         client.uploadWithResponse(data, parallelTransferOptions, headers, metadata, AccessTier.HOT, accessConditions)
             .subscribe(response -> System.out.printf("Uploaded BlockBlob MD5 is %s%n",
                 Base64.getEncoder().encodeToString(response.getValue().getContentMD5())));
-        // END: com.azure.storage.blob.BlobAsyncClient.uploadWithResponse#Flux-ParallelTransferOptions-BlobHttpHeaders-Map-AccessTier-BlobAccessConditions.ProgressReporter
+        // END: com.azure.storage.blob.BlobAsyncClient.uploadWithResponse#Flux-ParallelTransferOptions-BlobHTTPHeaders-Map-AccessTier-BlobAccessConditions.ProgressReporter
     }
 
     /**
@@ -506,11 +505,11 @@ public class BlobAsyncClientJavaDocCodeSnippets {
     }
 
     /**
-     * Code snippet for {@link BlobAsyncClient#uploadFromFile(String, ParallelTransferOptions, BlobHttpHeaders, Map, AccessTier, BlobAccessConditions)}
+     * Code snippet for {@link BlobAsyncClient#uploadFromFile(String, ParallelTransferOptions, BlobHTTPHeaders, Map, AccessTier, BlobAccessConditions)}
      */
     public void uploadFromFile2() {
-        // BEGIN: com.azure.storage.blob.BlobAsyncClient.uploadFromFile#String-ParallelTransferOptions-BlobHttpHeaders-Map-AccessTier-BlobAccessConditions
-        BlobHttpHeaders headers = new BlobHttpHeaders()
+        // BEGIN: com.azure.storage.blob.BlobAsyncClient.uploadFromFile#String-ParallelTransferOptions-BlobHTTPHeaders-Map-AccessTier-BlobAccessConditions
+        BlobHTTPHeaders headers = new BlobHTTPHeaders()
             .setBlobContentMD5("data".getBytes(StandardCharsets.UTF_8))
             .setBlobContentLanguage("en-US")
             .setBlobContentType("binary");
@@ -526,7 +525,7 @@ public class BlobAsyncClientJavaDocCodeSnippets {
             headers, metadata, AccessTier.HOT, accessConditions)
             .doOnError(throwable -> System.err.printf("Failed to upload from file %s%n", throwable.getMessage()))
             .subscribe(completion -> System.out.println("Upload from file succeeded"));
-        // END: com.azure.storage.blob.BlobAsyncClient.uploadFromFile#String-ParallelTransferOptions-BlobHttpHeaders-Map-AccessTier-BlobAccessConditions
+        // END: com.azure.storage.blob.BlobAsyncClient.uploadFromFile#String-ParallelTransferOptions-BlobHTTPHeaders-Map-AccessTier-BlobAccessConditions
     }
 
 }
