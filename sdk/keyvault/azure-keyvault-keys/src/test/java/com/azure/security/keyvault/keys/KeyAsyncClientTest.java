@@ -75,8 +75,7 @@ public class KeyAsyncClientTest extends KeyClientTestBase {
      * Verifies that an exception is thrown when null key object is passed for creation.
      */
     public void setKeyNull() {
-        StepVerifier.create(client.createKey(null))
-            .verifyError(NullPointerException.class);
+        assertRunnableThrowsException(() -> client.createKey(null).block(), NullPointerException.class);
     }
 
     /**
