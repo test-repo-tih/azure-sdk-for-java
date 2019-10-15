@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 package com.azure.storage.queue;
 
-import static com.azure.core.implementation.util.FluxUtil.monoError;
-import static com.azure.core.implementation.util.FluxUtil.pagedFluxError;
 import static com.azure.core.implementation.util.FluxUtil.withContext;
 
 import com.azure.core.annotation.ServiceClient;
@@ -19,20 +17,19 @@ import com.azure.storage.common.Utility;
 import com.azure.storage.common.credentials.SharedKeyCredential;
 import com.azure.storage.queue.implementation.AzureQueueStorageImpl;
 import com.azure.storage.queue.implementation.models.ListQueuesIncludeType;
-import com.azure.storage.queue.models.QueueCorsRule;
+import com.azure.storage.queue.models.CorsRule;
 import com.azure.storage.queue.models.QueueItem;
-import com.azure.storage.queue.models.QueueServiceProperties;
-import com.azure.storage.queue.models.QueueServiceStatistics;
 import com.azure.storage.queue.models.QueuesSegmentOptions;
-import com.azure.storage.queue.models.QueueStorageException;
-import reactor.core.publisher.Mono;
-
+import com.azure.storage.queue.models.StorageException;
+import com.azure.storage.queue.models.StorageServiceProperties;
+import com.azure.storage.queue.models.StorageServiceStats;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import reactor.core.publisher.Mono;
 
 /**
  * This class provides a client that contains all the operations for interacting with a queue account in Azure Storage.
@@ -96,14 +93,10 @@ public final class QueueServiceAsyncClient {
      *
      * @param queueName Name of the queue
      * @return The {@link QueueAsyncClient QueueAsyncClient}
-     * @throws QueueStorageException If a queue with the same name and different metadata already exists
+     * @throws StorageException If a queue with the same name and different metadata already exists
      */
     public Mono<QueueAsyncClient> createQueue(String queueName) {
-        try {
-            return createQueueWithResponse(queueName, null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return createQueueWithResponse(queueName, null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -119,15 +112,11 @@ public final class QueueServiceAsyncClient {
      * @param queueName Name of the queue
      * @param metadata Metadata to associate with the queue
      * @return A response containing the {@link QueueAsyncClient QueueAsyncClient} and the status of creating the queue
-     * @throws QueueStorageException If a queue with the same name and different metadata already exists
+     * @throws StorageException If a queue with the same name and different metadata already exists
      */
     public Mono<Response<QueueAsyncClient>> createQueueWithResponse(String queueName, Map<String, String> metadata) {
-        try {
-            Objects.requireNonNull(queueName, "'queueName' cannot be null.");
-            return withContext(context -> createQueueWithResponse(queueName, metadata, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        Objects.requireNonNull(queueName, "'queueName' cannot be null.");
+        return withContext(context -> createQueueWithResponse(queueName, metadata, context));
     }
 
     Mono<Response<QueueAsyncClient>> createQueueWithResponse(String queueName, Map<String, String> metadata,
@@ -149,14 +138,10 @@ public final class QueueServiceAsyncClient {
      *
      * @param queueName Name of the queue
      * @return An empty response
-     * @throws QueueStorageException If the queue doesn't exist
+     * @throws StorageException If the queue doesn't exist
      */
     public Mono<Void> deleteQueue(String queueName) {
-        try {
-            return deleteQueueWithResponse(queueName).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return deleteQueueWithResponse(queueName).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -170,14 +155,10 @@ public final class QueueServiceAsyncClient {
      *
      * @param queueName Name of the queue
      * @return A response that only contains headers and response status code
-     * @throws QueueStorageException If the queue doesn't exist
+     * @throws StorageException If the queue doesn't exist
      */
     public Mono<Response<Void>> deleteQueueWithResponse(String queueName) {
-        try {
-            return withContext(context -> deleteQueueWithResponse(queueName, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> deleteQueueWithResponse(queueName, context));
     }
 
     Mono<Response<Void>> deleteQueueWithResponse(String queueName, Context context) {
@@ -199,11 +180,7 @@ public final class QueueServiceAsyncClient {
      * @return {@link QueueItem Queues} in the storage account
      */
     public PagedFlux<QueueItem> listQueues() {
-        try {
-            return listQueuesWithOptionalTimeout(null, null, null, Context.NONE);
-        } catch (RuntimeException ex) {
-            return pagedFluxError(logger, ex);
-        }
+        return listQueuesWithOptionalTimeout(null, null, null, Context.NONE);
     }
 
     /**
@@ -225,11 +202,7 @@ public final class QueueServiceAsyncClient {
      * @return {@link QueueItem Queues} in the storage account that satisfy the filter requirements
      */
     public PagedFlux<QueueItem> listQueues(QueuesSegmentOptions options) {
-        try {
-            return listQueuesWithOptionalTimeout(null, options, null, Context.NONE);
-        } catch (RuntimeException ex) {
-            return pagedFluxError(logger, ex);
-        }
+        return listQueuesWithOptionalTimeout(null, options, null, Context.NONE);
     }
 
     /**
@@ -285,14 +258,10 @@ public final class QueueServiceAsyncClient {
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties">Azure
      * Docs</a>.</p>
      *
-     * @return Storage account {@link QueueServiceProperties Queue service properties}
+     * @return Storage account {@link StorageServiceProperties Queue service properties}
      */
-    public Mono<QueueServiceProperties> getProperties() {
-        try {
-            return getPropertiesWithResponse().flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+    public Mono<StorageServiceProperties> getProperties() {
+        return getPropertiesWithResponse().flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -309,17 +278,13 @@ public final class QueueServiceAsyncClient {
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties">Azure
      * Docs</a>.</p>
      *
-     * @return A response containing the Storage account {@link QueueServiceProperties Queue service properties}
+     * @return A response containing the Storage account {@link StorageServiceProperties Queue service properties}
      */
-    public Mono<Response<QueueServiceProperties>> getPropertiesWithResponse() {
-        try {
-            return withContext(this::getPropertiesWithResponse);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+    public Mono<Response<StorageServiceProperties>> getPropertiesWithResponse() {
+        return withContext(this::getPropertiesWithResponse);
     }
 
-    Mono<Response<QueueServiceProperties>> getPropertiesWithResponse(Context context) {
+    Mono<Response<StorageServiceProperties>> getPropertiesWithResponse(Context context) {
         return client.services().getPropertiesWithRestResponseAsync(context)
             .map(response -> new SimpleResponse<>(response, response.getValue()));
     }
@@ -328,19 +293,19 @@ public final class QueueServiceAsyncClient {
      * Sets the properties for the storage account's Queue service. The properties range from storage analytics and
      * metric to CORS (Cross-Origin Resource Sharing).
      *
-     * To maintain the CORS in the Queue service pass a {@code null} value for {@link QueueServiceProperties#getCors()
-     * CORS}. To disable all CORS in the Queue service pass an empty list for {@link QueueServiceProperties#getCors()
+     * To maintain the CORS in the Queue service pass a {@code null} value for {@link StorageServiceProperties#getCors()
+     * CORS}. To disable all CORS in the Queue service pass an empty list for {@link StorageServiceProperties#getCors()
      * CORS}.
      *
      * <p><strong>Code Sample</strong></p>
      *
      * <p>Clear CORS in the Queue service</p>
      *
-     * {@codesnippet com.azure.storage.queue.queueServiceAsyncClient.setProperties#QueueServiceProperties}
+     * {@codesnippet com.azure.storage.queue.queueServiceAsyncClient.setProperties#storageServiceProperties}
      *
      * <p>Enable Minute and Hour Metrics</p>
      *
-     * {@codesnippet com.azure.storage.queue.queueServiceAsyncClient.setPropertiesEnableMetrics#QueueServiceProperties}
+     * {@codesnippet com.azure.storage.queue.queueServiceAsyncClient.setPropertiesEnableMetrics#storageServiceProperties}
      *
      * <p>For more information, see the
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties">Azure
@@ -348,44 +313,40 @@ public final class QueueServiceAsyncClient {
      *
      * @param properties Storage account Queue service properties
      * @return An empty response
-     * @throws QueueStorageException When one of the following is true
+     * @throws StorageException When one of the following is true
      * <ul>
      * <li>A CORS rule is missing one of its fields</li>
      * <li>More than five CORS rules will exist for the Queue service</li>
      * <li>Size of all CORS rules exceeds 2KB</li>
      * <li>
-     * Length of {@link QueueCorsRule#getAllowedHeaders() allowed headers}, {@link QueueCorsRule#getExposedHeaders()
-     * exposed headers}, or {@link QueueCorsRule#getAllowedOrigins() allowed origins} exceeds 256 characters.
+     * Length of {@link CorsRule#getAllowedHeaders() allowed headers}, {@link CorsRule#getExposedHeaders() exposed
+     * headers}, or {@link CorsRule#getAllowedOrigins() allowed origins} exceeds 256 characters.
      * </li>
-     * <li>{@link QueueCorsRule#getAllowedMethods() Allowed methods} isn't DELETE, GET, HEAD, MERGE, POST, OPTIONS, or
+     * <li>{@link CorsRule#getAllowedMethods() Allowed methods} isn't DELETE, GET, HEAD, MERGE, POST, OPTIONS, or
      * PUT</li>
      * </ul>
      */
-    public Mono<Void> setProperties(QueueServiceProperties properties) {
-        try {
-            return setPropertiesWithResponse(properties).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+    public Mono<Void> setProperties(StorageServiceProperties properties) {
+        return setPropertiesWithResponse(properties).flatMap(FluxUtil::toMono);
     }
 
     /**
      * Sets the properties for the storage account's Queue service. The properties range from storage analytics and
      * metric to CORS (Cross-Origin Resource Sharing).
      *
-     * To maintain the CORS in the Queue service pass a {@code null} value for {@link QueueServiceProperties#getCors()
-     * CORS}. To disable all CORS in the Queue service pass an empty list for {@link QueueServiceProperties#getCors()
+     * To maintain the CORS in the Queue service pass a {@code null} value for {@link StorageServiceProperties#getCors()
+     * CORS}. To disable all CORS in the Queue service pass an empty list for {@link StorageServiceProperties#getCors()
      * CORS}.
      *
      * <p><strong>Code Sample</strong></p>
      *
      * <p>Clear CORS in the Queue service</p>
      *
-     * {@codesnippet com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponse#QueueServiceProperties}
+     * {@codesnippet com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponse#storageServiceProperties}
      *
      * <p>Enable Minute and Hour Metrics</p>
      *
-     * {@codesnippet com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponseEnableMetrics#QueueServiceProperties}
+     * {@codesnippet com.azure.storage.queue.queueServiceAsyncClient.setPropertiesWithResponseEnableMetrics#storageServiceProperties}
      *
      * <p>For more information, see the
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties">Azure
@@ -393,28 +354,24 @@ public final class QueueServiceAsyncClient {
      *
      * @param properties Storage account Queue service properties
      * @return A response that only contains headers and response status code
-     * @throws QueueStorageException When one of the following is true
+     * @throws StorageException When one of the following is true
      * <ul>
      * <li>A CORS rule is missing one of its fields</li>
      * <li>More than five CORS rules will exist for the Queue service</li>
      * <li>Size of all CORS rules exceeds 2KB</li>
      * <li>
-     * Length of {@link QueueCorsRule#getAllowedHeaders() allowed headers}, {@link QueueCorsRule#getExposedHeaders()
-     * exposed headers}, or {@link QueueCorsRule#getAllowedOrigins() allowed origins} exceeds 256 characters.
+     * Length of {@link CorsRule#getAllowedHeaders() allowed headers}, {@link CorsRule#getExposedHeaders() exposed
+     * headers}, or {@link CorsRule#getAllowedOrigins() allowed origins} exceeds 256 characters.
      * </li>
-     * <li>{@link QueueCorsRule#getAllowedMethods() Allowed methods} isn't DELETE, GET, HEAD, MERGE, POST, OPTIONS, or
+     * <li>{@link CorsRule#getAllowedMethods() Allowed methods} isn't DELETE, GET, HEAD, MERGE, POST, OPTIONS, or
      * PUT</li>
      * </ul>
      */
-    public Mono<Response<Void>> setPropertiesWithResponse(QueueServiceProperties properties) {
-        try {
-            return withContext(context -> setPropertiesWithResponse(properties, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+    public Mono<Response<Void>> setPropertiesWithResponse(StorageServiceProperties properties) {
+        return withContext(context -> setPropertiesWithResponse(properties, context));
     }
 
-    Mono<Response<Void>> setPropertiesWithResponse(QueueServiceProperties properties, Context context) {
+    Mono<Response<Void>> setPropertiesWithResponse(StorageServiceProperties properties, Context context) {
         return client.services().setPropertiesWithRestResponseAsync(properties, context)
             .map(response -> new SimpleResponse<>(response, null));
     }
@@ -433,12 +390,8 @@ public final class QueueServiceAsyncClient {
      *
      * @return The geo replication information about the Queue service
      */
-    public Mono<QueueServiceStatistics> getStatistics() {
-        try {
-            return getStatisticsWithResponse().flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+    public Mono<StorageServiceStats> getStatistics() {
+        return getStatisticsWithResponse().flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -455,15 +408,11 @@ public final class QueueServiceAsyncClient {
      *
      * @return A response containing the geo replication information about the Queue service
      */
-    public Mono<Response<QueueServiceStatistics>> getStatisticsWithResponse() {
-        try {
-            return withContext(this::getStatisticsWithResponse);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+    public Mono<Response<StorageServiceStats>> getStatisticsWithResponse() {
+        return withContext(this::getStatisticsWithResponse);
     }
 
-    Mono<Response<QueueServiceStatistics>> getStatisticsWithResponse(Context context) {
+    Mono<Response<StorageServiceStats>> getStatisticsWithResponse(Context context) {
         return client.services().getStatisticsWithRestResponseAsync(context)
             .map(response -> new SimpleResponse<>(response, response.getValue()));
     }
