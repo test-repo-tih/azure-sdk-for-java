@@ -35,6 +35,10 @@ import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -233,7 +237,7 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
 
     /**
@@ -403,7 +407,7 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.reimageAll(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
 
     /**
@@ -573,7 +577,7 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.deallocate(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
 
     /**
@@ -1543,7 +1547,7 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.powerOff(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
 
     /**
@@ -1713,7 +1717,7 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.restart(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
 
     /**
@@ -1883,7 +1887,7 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.start(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
 
     /**
@@ -1981,7 +1985,7 @@ public class VirtualMachineScaleSetVMsInner {
     }
 
     /**
-     * Redeploys a virtual machine in a VM scale set.
+     * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -1996,7 +2000,7 @@ public class VirtualMachineScaleSetVMsInner {
     }
 
     /**
-     * Redeploys a virtual machine in a VM scale set.
+     * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -2010,7 +2014,7 @@ public class VirtualMachineScaleSetVMsInner {
     }
 
     /**
-     * Redeploys a virtual machine in a VM scale set.
+     * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -2028,7 +2032,7 @@ public class VirtualMachineScaleSetVMsInner {
     }
 
     /**
-     * Redeploys a virtual machine in a VM scale set.
+     * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -2053,11 +2057,11 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.redeploy(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
 
     /**
-     * Redeploys a virtual machine in a VM scale set.
+     * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -2072,7 +2076,7 @@ public class VirtualMachineScaleSetVMsInner {
     }
 
     /**
-     * Redeploys a virtual machine in a VM scale set.
+     * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -2086,7 +2090,7 @@ public class VirtualMachineScaleSetVMsInner {
     }
 
     /**
-     * Redeploys a virtual machine in a VM scale set.
+     * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -2104,7 +2108,7 @@ public class VirtualMachineScaleSetVMsInner {
     }
 
     /**
-     * Redeploys a virtual machine in a VM scale set.
+     * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -2223,7 +2227,7 @@ public class VirtualMachineScaleSetVMsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Observable<Response<ResponseBody>> observable = service.performMaintenance(resourceGroupName, vmScaleSetName, instanceId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<OperationStatusResponseInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.AZURE_ASYNC_OPERATION), new TypeToken<OperationStatusResponseInner>() { }.getType());
     }
 
     /**
