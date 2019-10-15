@@ -85,7 +85,6 @@ public final class QueueServiceClientBuilder {
     private HttpPipeline httpPipeline;
 
     private Configuration configuration;
-    private QueueServiceVersion version;
 
     /**
      * Creates a builder instance that is able to configure and construct {@link QueueServiceClient QueueServiceClients}
@@ -95,7 +94,6 @@ public final class QueueServiceClientBuilder {
     }
 
     private AzureQueueStorageImpl constructImpl() {
-        QueueServiceVersion serviceVersion = version != null ? version : QueueServiceVersion.getLatest();
         HttpPipeline pipeline = (httpPipeline != null) ? httpPipeline : BuilderHelper.buildPipeline(() -> {
             if (sharedKeyCredential != null) {
                 return new SharedKeyCredentialPolicy(sharedKeyCredential);
@@ -106,12 +104,11 @@ public final class QueueServiceClientBuilder {
             } else {
                 return null;
             }
-        }, retryOptions, logOptions, httpClient, additionalPolicies, configuration, serviceVersion);
+        }, retryOptions, logOptions, httpClient, additionalPolicies, configuration);
 
         return new AzureQueueStorageBuilder()
             .url(endpoint)
             .pipeline(pipeline)
-            .version(serviceVersion.getVersion())
             .build();
     }
 
@@ -324,21 +321,6 @@ public final class QueueServiceClientBuilder {
         }
 
         this.httpPipeline = httpPipeline;
-        return this;
-    }
-
-    /**
-     * Sets the {@link QueueServiceVersion} that is used when making API requests.
-     * <p>
-     * If a service version is not provided, the service version that will be used will be the latest known service
-     * version based on the version of the client library being used. If no service version is specified, updating to a
-     * newer version the client library will have the result of potentially moving to a newer service version.
-     *
-     * @param version {@link QueueServiceVersion} of the service to be used when making requests.
-     * @return the updated QueueServiceClientBuilder object
-     */
-    public QueueServiceClientBuilder serviceVersion(QueueServiceVersion version) {
-        this.version = version;
         return this;
     }
 }
