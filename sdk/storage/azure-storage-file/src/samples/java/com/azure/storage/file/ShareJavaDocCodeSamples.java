@@ -5,15 +5,14 @@ package com.azure.storage.file;
 import com.azure.core.http.rest.Response;
 import com.azure.core.util.Context;
 import com.azure.storage.common.credentials.SharedKeyCredential;
-import com.azure.storage.file.models.FileAccessPolicy;
-import com.azure.storage.file.models.FileHttpHeaders;
-import com.azure.storage.file.models.FileSignedIdentifier;
+import com.azure.storage.file.models.AccessPolicy;
+import com.azure.storage.file.models.FileHTTPHeaders;
 import com.azure.storage.file.models.NtfsFileAttributes;
 import com.azure.storage.file.models.ShareInfo;
 import com.azure.storage.file.models.ShareProperties;
 import com.azure.storage.file.models.ShareSnapshotInfo;
 import com.azure.storage.file.models.ShareStatistics;
-
+import com.azure.storage.file.models.SignedIdentifier;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -200,12 +199,12 @@ public class ShareJavaDocCodeSamples {
     }
 
     /**
-     * Generates a code sample for using {@link ShareClient#createFileWithResponse(String, long, FileHttpHeaders, FileSmbProperties, String, Map, Duration, Context)}
+     * Generates a code sample for using {@link ShareClient#createFileWithResponse(String, long, FileHTTPHeaders, FileSmbProperties, String, Map, Duration, Context)}
      */
     public void createFileWithResponse() {
         ShareClient shareClient = createClientWithSASToken();
         // BEGIN: com.azure.storage.file.shareClient.createFileWithResponse#string-long-filehttpheaders-filesmbproperties-string-map-duration-context
-        FileHttpHeaders httpHeaders = new FileHttpHeaders()
+        FileHTTPHeaders httpHeaders = new FileHTTPHeaders()
             .setFileContentType("text/html")
             .setFileContentEncoding("gzip")
             .setFileContentLanguage("en")
@@ -381,9 +380,9 @@ public class ShareJavaDocCodeSamples {
     public void getAccessPolicy() {
         ShareClient shareClient = createClientWithSASToken();
         // BEGIN: com.azure.storage.file.shareClient.getAccessPolicy
-        for (FileSignedIdentifier result : shareClient.getAccessPolicy()) {
+        for (SignedIdentifier result : shareClient.getAccessPolicy()) {
             System.out.printf("Access policy %s allows these permissions: %s",
-                result.getId(), result.getAccessPolicy().getPermissions());
+                result.getId(), result.getAccessPolicy().getPermission());
         }
         // END: com.azure.storage.file.shareClient.getAccessPolicy
     }
@@ -394,11 +393,11 @@ public class ShareJavaDocCodeSamples {
     public void setAccessPolicy() {
         ShareClient shareClient = createClientWithSASToken();
         // BEGIN: com.azure.storage.file.ShareClient.setAccessPolicy#List
-        FileAccessPolicy accessPolicy = new FileAccessPolicy().setPermissions("r")
-            .setStartsOn(OffsetDateTime.now(ZoneOffset.UTC))
-            .setExpiresOn(OffsetDateTime.now(ZoneOffset.UTC).plusDays(10));
+        AccessPolicy accessPolicy = new AccessPolicy().setPermission("r")
+            .setStart(OffsetDateTime.now(ZoneOffset.UTC))
+            .setExpiry(OffsetDateTime.now(ZoneOffset.UTC).plusDays(10));
 
-        FileSignedIdentifier permission = new FileSignedIdentifier().setId("mypolicy").setAccessPolicy(accessPolicy);
+        SignedIdentifier permission = new SignedIdentifier().setId("mypolicy").setAccessPolicy(accessPolicy);
 
         shareClient.setAccessPolicy(Collections.singletonList(permission));
         System.out.println("Setting access policies completed.");
@@ -411,11 +410,11 @@ public class ShareJavaDocCodeSamples {
     public void setAccessPolicyWithResponse() {
         ShareClient shareClient = createClientWithSASToken();
         // BEGIN: com.azure.storage.file.shareClient.setAccessPolicyWithResponse#list-duration-context
-        FileAccessPolicy accessPolicy = new FileAccessPolicy().setPermissions("r")
-            .setStartsOn(OffsetDateTime.now(ZoneOffset.UTC))
-            .setExpiresOn(OffsetDateTime.now(ZoneOffset.UTC).plusDays(10));
+        AccessPolicy accessPolicy = new AccessPolicy().setPermission("r")
+            .setStart(OffsetDateTime.now(ZoneOffset.UTC))
+            .setExpiry(OffsetDateTime.now(ZoneOffset.UTC).plusDays(10));
 
-        FileSignedIdentifier permission = new FileSignedIdentifier().setId("mypolicy").setAccessPolicy(accessPolicy);
+        SignedIdentifier permission = new SignedIdentifier().setId("mypolicy").setAccessPolicy(accessPolicy);
 
         Response<ShareInfo> response = shareClient.setAccessPolicyWithResponse(Collections.singletonList(permission),
             Duration.ofSeconds(1), new Context(key1, value1));
