@@ -18,8 +18,8 @@ import reactor.test.StepVerifier;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -27,21 +27,11 @@ import static org.mockito.Mockito.when;
 
 @SuppressWarnings("unchecked")
 public class PollerTests {
-    private static final String OUTPUT_NAME = "Bar";
     @Mock
     private Function<PollResponse<Response>, Mono<PollResponse<Response>>> pollOperation;
 
     @Mock
-    private Function<Poller<Response, CertificateOutput>, Mono<Response>> cancelOperation;
-
-    @Mock
-    private Supplier<Mono<CertificateOutput>> fetchResultOperation;
-
-    @Mock
-    private Function<Poller<Response, Void>, Mono<Response>> voidCancelOperation;
-
-    @Mock
-    private Supplier<Mono<Void>> voidResultOperation;
+    private Consumer<Poller<Response>> cancelOperation;
 
     @Before
     public void beforeTest() {
@@ -58,8 +48,7 @@ public class PollerTests {
      */
     @Test(expected = IllegalArgumentException.class)
     public void constructorPollIntervalZero() {
-        new Poller<>(Duration.ZERO, pollOperation,
-            fetchResultOperation, () -> Mono.just(new Response("Foo")), cancelOperation);
+        new Poller<>(Duration.ZERO, pollOperation, () -> Mono.just(new Response("Foo")), cancelOperation);
     }
 
     /**
@@ -67,8 +56,7 @@ public class PollerTests {
      */
     @Test(expected = IllegalArgumentException.class)
     public void constructorPollIntervalNegative() {
-        new Poller<>(Duration.ofSeconds(-1), pollOperation, fetchResultOperation,
-            () -> Mono.just(new Response("Foo")), cancelOperation);
+        new Poller<>(Duration.ofSeconds(-1), pollOperation, () -> Mono.just(new Response("Foo")), cancelOperation);
     }
 
     /**
@@ -76,8 +64,7 @@ public class PollerTests {
      */
     @Test(expected = NullPointerException.class)
     public void constructorPollIntervalNull() {
-        new Poller<>(null, pollOperation, fetchResultOperation,
-            () -> Mono.just(new Response("Foo")), cancelOperation);
+        new Poller<>(null, pollOperation, () -> Mono.just(new Response("Foo")), cancelOperation);
     }
 
     /**
@@ -85,8 +72,7 @@ public class PollerTests {
      */
     @Test(expected = NullPointerException.class)
     public void constructorPollOperationNull() {
-        new Poller<>(Duration.ofSeconds(1), null, fetchResultOperation,
-            () -> Mono.just(new Response("Foo")), cancelOperation);
+        new Poller<>(Duration.ofSeconds(1), null, () -> Mono.just(new Response("Foo")), cancelOperation);
     }
 
     /**
@@ -102,8 +88,8 @@ public class PollerTests {
         final List<PollResponse<Response>> responses = new ArrayList<>();
         responses.add(new PollResponse<>(OperationStatus.IN_PROGRESS, new Response("0"), retryAfter));
         responses.add(new PollResponse<>(OperationStatus.IN_PROGRESS, new Response("1"), retryAfter));
-        responses.add(new PollResponse<>(OperationStatus.fromString("OTHER_1", false), new Response("2")));
-        responses.add(new PollResponse<>(OperationStatus.fromString("OTHER_2", false), new Response("3")));
+        responses.add(new PollResponse<>(OperationStatus.fromString("OTHER_1"), new Response("2")));
+        responses.add(new PollResponse<>(OperationStatus.fromString("OTHER_2"), new Response("3")));
         responses.add(new PollResponse<>(OperationStatus.SUCCESSFULLY_COMPLETED, new Response("4"), retryAfter));
 
         when(pollOperation.apply(any())).thenReturn(
@@ -114,8 +100,7 @@ public class PollerTests {
             Mono.just(responses.get(4)));
 
         // Act
-        final Poller<Response, CertificateOutput> pollerObserver = new Poller<Response, CertificateOutput>(pollInterval,
-            pollOperation, fetchResultOperation);
+        final Poller<Response> pollerObserver = new Poller<>(pollInterval, pollOperation);
 
         // Assert
         StepVerifier.create(pollerObserver.getObserver())
@@ -136,10 +121,10 @@ public class PollerTests {
      */
     @Test
     public void blockForCustomOperationStatusTest() {
-        final OperationStatus expected = OperationStatus.fromString("OTHER_2", false);
+        final OperationStatus expected = OperationStatus.fromString("OTHER_2");
         PollResponse<Response> successPollResponse = new PollResponse<>(OperationStatus.SUCCESSFULLY_COMPLETED, new Response("Created : Cert A"));
         PollResponse<Response> inProgressPollResponse = new PollResponse<>(OperationStatus.IN_PROGRESS, new Response("Starting : Cert A"));
-        PollResponse<Response> other1PollResponse = new PollResponse<>(OperationStatus.fromString("OTHER_1", false), new Response("Starting : Cert A"));
+        PollResponse<Response> other1PollResponse = new PollResponse<>(OperationStatus.fromString("OTHER_1"), new Response("Starting : Cert A"));
         PollResponse<Response> other2PollResponse = new PollResponse<>(expected, new Response("Starting : Cert A"));
 
         when(pollOperation.apply(any())).thenReturn(Mono.just(inProgressPollResponse),
@@ -147,8 +132,7 @@ public class PollerTests {
             Mono.just(successPollResponse));
 
         // Act
-        final Poller<Response, CertificateOutput> createCertPoller = new Poller<>(Duration.ofMillis(100), pollOperation,
-            fetchResultOperation);
+        final Poller<Response> createCertPoller = new Poller<>(Duration.ofMillis(100), pollOperation);
         final PollResponse<Response> pollResponse = createCertPoller.blockUntil(expected);
 
         // Assert
@@ -174,7 +158,7 @@ public class PollerTests {
         when(pollOperation.apply(any())).thenReturn(Mono.just(inProgressPollResponse), Mono.just(successPollResponse));
 
         // Act
-        final Poller<Response, CertificateOutput> poller = new Poller<>(pollInterval, pollOperation, fetchResultOperation);
+        final Poller<Response> poller = new Poller<>(pollInterval, pollOperation);
 
         // Assert
         StepVerifier.create(poller.getObserver())
@@ -204,7 +188,7 @@ public class PollerTests {
 
         when(pollOperation.apply(any())).thenReturn(Mono.just(initial), Mono.just(inProgress), Mono.just(success));
 
-        Poller<Response, CertificateOutput> poller = new Poller<>(Duration.ofSeconds(1), pollOperation, fetchResultOperation);
+        Poller<Response> poller = new Poller<>(Duration.ofSeconds(1), pollOperation);
 
         // Act & Assert
         poller.setAutoPollingEnabled(false);
@@ -233,7 +217,7 @@ public class PollerTests {
 
         when(pollOperation.apply(any())).thenReturn(Mono.just(inProgressPollResponse), Mono.just(successPollResponse));
 
-        Poller<Response, CertificateOutput> createCertPoller = new Poller<>(pollInterval, pollOperation, fetchResultOperation);
+        Poller<Response> createCertPoller = new Poller<>(pollInterval, pollOperation);
 
         while (createCertPoller.getStatus() != OperationStatus.SUCCESSFULLY_COMPLETED) {
             Thread.sleep(pollInterval.toMillis());
@@ -257,11 +241,10 @@ public class PollerTests {
         Duration pollInterval = Duration.ofMillis(500);
 
         when(pollOperation.apply(any())).thenReturn(Mono.just(inProgress), Mono.just(success));
-        when(fetchResultOperation.get()).thenReturn(Mono.just(new CertificateOutput(OUTPUT_NAME)));
 
-        Poller<Response, CertificateOutput> createCertPoller = new Poller<>(pollInterval, pollOperation, fetchResultOperation);
+        Poller<Response> createCertPoller = new Poller<>(pollInterval, pollOperation);
 
-        Assert.assertEquals(OUTPUT_NAME, createCertPoller.block().getName());
+        Assert.assertEquals(OperationStatus.SUCCESSFULLY_COMPLETED, createCertPoller.block().getStatus());
         Assert.assertEquals(OperationStatus.SUCCESSFULLY_COMPLETED, createCertPoller.getStatus());
         Assert.assertTrue(createCertPoller.isAutoPollingEnabled());
     }
@@ -284,8 +267,8 @@ public class PollerTests {
         when(pollOperation.apply(any())).thenReturn(Mono.just(inProgress), Mono.just(inProgress), Mono.just(success));
 
         // Act
-        Poller<Response, CertificateOutput> poller = new Poller<>(pollInterval, pollOperation, fetchResultOperation, null,
-            ignored -> Mono.just(new Response("Foo")));
+        Poller<Response> poller = new Poller<>(pollInterval, pollOperation, null,
+            ignored -> new PollResponse<Response>(OperationStatus.USER_CANCELLED, null));
 
         // Assert
         StepVerifier.create(poller.getObserver())
@@ -317,7 +300,7 @@ public class PollerTests {
 
         when(pollOperation.apply(any())).thenReturn(Mono.just(responses.get(0)), Mono.just(responses.get(1)), Mono.just(responses.get(2)));
 
-        Poller<Response, CertificateOutput> poller = new Poller<>(pollInterval, pollOperation, fetchResultOperation);
+        Poller<Response> poller = new Poller<>(pollInterval, pollOperation);
         poller.setAutoPollingEnabled(false);
 
         // Act & Assert
@@ -347,39 +330,20 @@ public class PollerTests {
         when(pollOperation.apply(any())).thenReturn(Mono.just(first), Mono.just(cancellation));
 
         // Act
-        Poller<Response, Void> poller = new Poller<Response, Void>(pollInterval, pollOperation, voidResultOperation, null, voidCancelOperation);
+        Poller<Response> poller = new Poller<>(pollInterval, pollOperation, null, cancelOperation);
 
         // Assert
         StepVerifier.create(poller.getObserver())
             .expectNext(first)
             .then(() -> poller.cancelOperation())
-            .expectNext(cancellation)
             .thenCancel() // cancel this actual subscriber, this does not affect the parent operation.
             .verify();
 
+        Assert.assertEquals(OperationStatus.USER_CANCELLED, poller.block().getStatus());
         Assert.assertEquals(OperationStatus.USER_CANCELLED, poller.getStatus());
         Assert.assertTrue(poller.isAutoPollingEnabled());
 
-        verify(voidCancelOperation, Mockito.times(1)).apply(poller);
-    }
-
-    /**
-     * Test polling stops when activation operation throws error.
-     */
-    @Test
-    public void testActivationOperationFailure() {
-        Duration pollInterval = Duration.ofMillis(500);
-
-        Supplier<Mono<Response>> activationOperation = () -> Mono.defer(() -> {
-            // This will throw InvalidFormat Exception
-            System.out.printf("wow %d", "wow");
-            return Mono.just(new Response("Foo"));
-        });
-
-        Poller<Response, Void> poller = new Poller<Response, Void>(pollInterval, pollOperation, voidResultOperation,
-            activationOperation, voidCancelOperation);
-
-        Assert.assertEquals(OperationStatus.FAILED, poller.getStatus());
+        verify(cancelOperation, Mockito.times(1)).accept(poller);
     }
 
     public static class Response {
@@ -396,18 +360,6 @@ public class PollerTests {
         @Override
         public String toString() {
             return "Response: " + response;
-        }
-    }
-
-    public class CertificateOutput {
-        String name;
-
-        public CertificateOutput(String certName) {
-            name = certName;
-        }
-
-        public String getName() {
-            return name;
         }
     }
 }
