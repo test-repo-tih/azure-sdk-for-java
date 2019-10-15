@@ -3,8 +3,6 @@
 
 package com.azure.storage.blob.specialized.cryptography;
 
-import static com.azure.core.implementation.util.FluxUtil.monoError;
-
 import com.azure.core.annotation.ServiceClient;
 import com.azure.core.cryptography.AsyncKeyEncryptionKey;
 import com.azure.core.http.rest.Response;
@@ -18,7 +16,7 @@ import com.azure.storage.blob.models.BlobHTTPHeaders;
 import com.azure.storage.blob.models.BlockBlobItem;
 import com.azure.storage.blob.models.ParallelTransferOptions;
 import com.azure.storage.blob.specialized.BlockBlobAsyncClient;
-import com.azure.storage.common.implementation.Constants;
+import com.azure.storage.common.Constants;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
@@ -125,12 +123,7 @@ public class EncryptedBlobAsyncClient extends BlobAsyncClient {
      * @return A reactive response containing the information of the uploaded block blob.
      */
     public Mono<BlockBlobItem> upload(Flux<ByteBuffer> data, ParallelTransferOptions parallelTransferOptions) {
-        try {
-            return this.uploadWithResponse(data, parallelTransferOptions, null, null, null, null)
-                .flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return this.uploadWithResponse(data, parallelTransferOptions, null, null, null, null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -172,14 +165,11 @@ public class EncryptedBlobAsyncClient extends BlobAsyncClient {
     public Mono<Response<BlockBlobItem>> uploadWithResponse(Flux<ByteBuffer> data,
         ParallelTransferOptions parallelTransferOptions, BlobHTTPHeaders headers, Map<String, String> metadata,
         AccessTier tier, BlobAccessConditions accessConditions) {
-        try {
-            final Map<String, String> metadataFinal = metadata == null ? new HashMap<>() : metadata;
-            Mono<Flux<ByteBuffer>> dataFinal = prepareToSendEncryptedRequest(data, metadataFinal);
-            return dataFinal.flatMap(df -> super.uploadWithResponse(df, parallelTransferOptions, headers, metadataFinal,
-                tier, accessConditions));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+
+        final Map<String, String> metadataFinal = metadata == null ? new HashMap<>() : metadata;
+        Mono<Flux<ByteBuffer>> dataFinal = prepareToSendEncryptedRequest(data, metadataFinal);
+        return dataFinal.flatMap(df -> super.uploadWithResponse(df, parallelTransferOptions, headers, metadataFinal,
+           tier, accessConditions));
     }
 
     /**
@@ -194,11 +184,7 @@ public class EncryptedBlobAsyncClient extends BlobAsyncClient {
      * @return An empty response
      */
     public Mono<Void> uploadFromFile(String filePath) {
-        try {
-            return uploadFromFile(filePath, null, null, null, null, null);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return uploadFromFile(filePath, null, null, null, null, null);
     }
 
     /**
@@ -221,26 +207,22 @@ public class EncryptedBlobAsyncClient extends BlobAsyncClient {
      */
     public Mono<Void> uploadFromFile(String filePath, ParallelTransferOptions parallelTransferOptions,
         BlobHTTPHeaders headers, Map<String, String> metadata, AccessTier tier, BlobAccessConditions accessConditions) {
-        try {
-            final Map<String, String> metadataFinal = metadata == null ? new HashMap<>() : metadata;
-            final ParallelTransferOptions finalParallelTransferOptions = parallelTransferOptions == null
-                ? new ParallelTransferOptions()
-                : parallelTransferOptions;
+        final Map<String, String> metadataFinal = metadata == null ? new HashMap<>() : metadata;
+        final ParallelTransferOptions finalParallelTransferOptions = parallelTransferOptions == null
+            ? new ParallelTransferOptions()
+            : parallelTransferOptions;
 
-            return Mono.using(() -> super.uploadFileResourceSupplier(filePath),
-                channel -> this.uploadWithResponse(FluxUtil.readFile(channel), finalParallelTransferOptions, headers,
-                    metadataFinal, tier, accessConditions)
-                    .then()
-                    .doOnTerminate(() -> {
-                        try {
-                            channel.close();
-                        } catch (IOException e) {
-                            throw logger.logExceptionAsError(new UncheckedIOException(e));
-                        }
-                    }), this::uploadFileCleanup);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return Mono.using(() -> super.uploadFileResourceSupplier(filePath),
+            channel -> this.uploadWithResponse(FluxUtil.readFile(channel), finalParallelTransferOptions, headers,
+                metadataFinal, tier, accessConditions)
+                .then()
+                .doOnTerminate(() -> {
+                    try {
+                        channel.close();
+                    } catch (IOException e) {
+                        throw logger.logExceptionAsError(new UncheckedIOException(e));
+                    }
+                }), this::uploadFileCleanup);
     }
 
     private void uploadFileCleanup(AsynchronousFileChannel channel) {
