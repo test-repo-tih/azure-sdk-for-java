@@ -243,8 +243,8 @@ public class IdentityClient {
                                                       Consumer<DeviceCodeInfo> deviceCodeConsumer) {
         return Mono.fromFuture(() -> {
             DeviceCodeFlowParameters parameters = DeviceCodeFlowParameters.builder(new HashSet<>(request.getScopes()),
-                dc -> deviceCodeConsumer.accept(new DeviceCodeInfo(dc.userCode(), dc.deviceCode(),
-                    dc.verificationUri(), OffsetDateTime.now().plusSeconds(dc.expiresIn()), dc.message()))).build();
+                dc -> deviceCodeConsumer.accept(new DeviceCodeChallenge(dc.userCode(), dc.deviceCode(),
+                    dc.verificationUri(), dc.expiresIn(), dc.interval(), dc.message()))).build();
             return publicClientApplication.acquireToken(parameters);
         }).map(MsalToken::new);
     }
@@ -254,13 +254,13 @@ public class IdentityClient {
      *
      * @param request the details of the token request
      * @param authorizationCode the oauth2 authorization code
-     * @param redirectUrl the redirectUrl where the authorization code is sent to
+     * @param redirectUri the redirectUri where the authorization code is sent to
      * @return a Publisher that emits an AccessToken
      */
-    public Mono<MsalToken> authenticateWithAuthorizationCode(TokenRequestContext request, String authorizationCode,
-                                                             URI redirectUrl) {
+    public Mono<MsalToken> authenticateWithAuthorizationCode(TokenRequest request, String authorizationCode,
+                                                             URI redirectUri) {
         return Mono.fromFuture(() -> publicClientApplication.acquireToken(
-            AuthorizationCodeParameters.builder(authorizationCode, redirectUrl)
+            AuthorizationCodeParameters.builder(authorizationCode, redirectUri)
                 .scopes(new HashSet<>(request.getScopes()))
                 .build()))
             .map(MsalToken::new);
