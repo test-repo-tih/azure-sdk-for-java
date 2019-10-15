@@ -21,14 +21,14 @@ import com.azure.storage.blob.implementation.models.ContainersListBlobHierarchyS
 import com.azure.storage.blob.models.BlobContainerAccessConditions;
 import com.azure.storage.blob.models.BlobContainerAccessPolicies;
 import com.azure.storage.blob.models.BlobItem;
-import com.azure.storage.blob.models.BlobSignedIdentifier;
-import com.azure.storage.blob.models.BlobStorageException;
 import com.azure.storage.blob.models.CpkInfo;
 import com.azure.storage.blob.models.LeaseAccessConditions;
 import com.azure.storage.blob.models.ListBlobsOptions;
 import com.azure.storage.blob.models.ModifiedAccessConditions;
 import com.azure.storage.blob.models.PublicAccessType;
+import com.azure.storage.blob.models.SignedIdentifier;
 import com.azure.storage.blob.models.StorageAccountInfo;
+import com.azure.storage.blob.models.StorageException;
 import com.azure.storage.common.Utility;
 import reactor.core.publisher.Mono;
 
@@ -41,8 +41,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.azure.core.implementation.util.FluxUtil.monoError;
-import static com.azure.core.implementation.util.FluxUtil.pagedFluxError;
 import static com.azure.core.implementation.util.FluxUtil.withContext;
 
 /**
@@ -122,7 +120,7 @@ public final class BlobContainerAsyncClient {
      */
     public BlobAsyncClient getBlobAsyncClient(String blobName, String snapshot) {
         return new BlobAsyncClient(new AzureBlobStorageBuilder()
-            .url(Utility.appendToUrlPath(getBlobContainerUrl(), blobName).toString())
+            .url(Utility.appendToURLPath(getBlobContainerUrl(), blobName).toString())
             .pipeline(azureBlobStorage.getHttpPipeline())
             .build(), snapshot, customerProvidedKey, accountName);
     }
@@ -169,8 +167,8 @@ public final class BlobContainerAsyncClient {
     }
 
     /**
-     * Gets the {@link CpkInfo} associated with this client that will be passed to {@link BlobAsyncClient
-     * BlobAsyncClients} when {@link #getBlobAsyncClient(String) getBlobAsyncClient} is called.
+     * Gets the {@link CpkInfo} associated with this client that will be passed to
+     * {@link BlobAsyncClient BlobAsyncClients} when {@link #getBlobAsyncClient(String) getBlobAsyncClient} is called.
      *
      * @return the customer provided key used for encryption.
      */
@@ -188,11 +186,7 @@ public final class BlobContainerAsyncClient {
      * @return true if the container exists, false if it doesn't
      */
     public Mono<Boolean> exists() {
-        try {
-            return existsWithResponse().flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return existsWithResponse().flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -205,11 +199,7 @@ public final class BlobContainerAsyncClient {
      * @return true if the container exists, false if it doesn't
      */
     public Mono<Response<Boolean>> existsWithResponse() {
-        try {
-            return withContext(this::existsWithResponse);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(this::existsWithResponse);
     }
 
     /**
@@ -220,12 +210,11 @@ public final class BlobContainerAsyncClient {
     Mono<Response<Boolean>> existsWithResponse(Context context) {
         return this.getPropertiesWithResponse(null, context)
             .map(cp -> (Response<Boolean>) new SimpleResponse<>(cp, true))
-            .onErrorResume(t -> t instanceof BlobStorageException && ((BlobStorageException) t).getStatusCode() == 404,
-                t -> {
-                    HttpResponse response = ((BlobStorageException) t).getResponse();
-                    return Mono.just(new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
-                        response.getHeaders(), false));
-                });
+            .onErrorResume(t -> t instanceof StorageException && ((StorageException) t).getStatusCode() == 404, t -> {
+                HttpResponse response = ((StorageException) t).getResponse();
+                return Mono.just(new SimpleResponse<>(response.getRequest(), response.getStatusCode(),
+                    response.getHeaders(), false));
+            });
     }
 
     /**
@@ -240,11 +229,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response signalling completion.
      */
     public Mono<Void> create() {
-        try {
-            return createWithResponse(null, null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return createWithResponse(null, null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -262,11 +247,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response signalling completion.
      */
     public Mono<Response<Void>> createWithResponse(Map<String, String> metadata, PublicAccessType accessType) {
-        try {
-            return withContext(context -> createWithResponse(metadata, accessType, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> createWithResponse(metadata, accessType, context));
     }
 
     Mono<Response<Void>> createWithResponse(Map<String, String> metadata, PublicAccessType accessType,
@@ -288,11 +269,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response signalling completion.
      */
     public Mono<Void> delete() {
-        try {
-            return deleteWithResponse(null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return deleteWithResponse(null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -310,11 +287,7 @@ public final class BlobContainerAsyncClient {
      * either {@link ModifiedAccessConditions#getIfMatch()} or {@link ModifiedAccessConditions#getIfNoneMatch()} set.
      */
     public Mono<Response<Void>> deleteWithResponse(BlobContainerAccessConditions accessConditions) {
-        try {
-            return withContext(context -> deleteWithResponse(accessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> deleteWithResponse(accessConditions, context));
     }
 
     Mono<Response<Void>> deleteWithResponse(BlobContainerAccessConditions accessConditions, Context context) {
@@ -344,11 +317,7 @@ public final class BlobContainerAsyncClient {
      * container properties.
      */
     public Mono<BlobContainerProperties> getProperties() {
-        try {
-            return getPropertiesWithResponse(null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return getPropertiesWithResponse(null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -365,11 +334,7 @@ public final class BlobContainerAsyncClient {
      */
     public Mono<Response<BlobContainerProperties>> getPropertiesWithResponse(
         LeaseAccessConditions leaseAccessConditions) {
-        try {
-            return withContext(context -> getPropertiesWithResponse(leaseAccessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> getPropertiesWithResponse(leaseAccessConditions, context));
     }
 
     Mono<Response<BlobContainerProperties>> getPropertiesWithResponse(LeaseAccessConditions leaseAccessConditions,
@@ -392,11 +357,7 @@ public final class BlobContainerAsyncClient {
      * completion.
      */
     public Mono<Void> setMetadata(Map<String, String> metadata) {
-        try {
-            return setMetadataWithResponse(metadata, null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return setMetadataWithResponse(metadata, null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -415,11 +376,7 @@ public final class BlobContainerAsyncClient {
      */
     public Mono<Response<Void>> setMetadataWithResponse(Map<String, String> metadata,
         BlobContainerAccessConditions accessConditions) {
-        try {
-            return withContext(context -> setMetadataWithResponse(metadata, accessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> setMetadataWithResponse(metadata, accessConditions, context));
     }
 
     Mono<Response<Void>> setMetadataWithResponse(Map<String, String> metadata,
@@ -450,11 +407,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response containing the container access policy.
      */
     public Mono<BlobContainerAccessPolicies> getAccessPolicy() {
-        try {
-            return getAccessPolicyWithResponse(null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return getAccessPolicyWithResponse(null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -472,11 +425,7 @@ public final class BlobContainerAsyncClient {
      */
     public Mono<Response<BlobContainerAccessPolicies>> getAccessPolicyWithResponse(
         LeaseAccessConditions leaseAccessConditions) {
-        try {
-            return withContext(context -> getAccessPolicyWithResponse(leaseAccessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> getAccessPolicyWithResponse(leaseAccessConditions, context));
     }
 
     Mono<Response<BlobContainerAccessPolicies>> getAccessPolicyWithResponse(LeaseAccessConditions leaseAccessConditions,
@@ -499,18 +448,15 @@ public final class BlobContainerAsyncClient {
      *
      * @param accessType Specifies how the data in this container is available to the public. See the
      * x-ms-blob-public-access header in the Azure Docs for more information. Pass null for no public access.
-     * @param identifiers A list of {@link BlobSignedIdentifier} objects that specify the permissions for the container.
+     * @param identifiers A list of {@link SignedIdentifier} objects that specify the permissions for the container.
      * Please see
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy">here</a>
      * for more information. Passing null will clear all access policies.
      * @return A reactive response signalling completion.
      */
-    public Mono<Void> setAccessPolicy(PublicAccessType accessType, List<BlobSignedIdentifier> identifiers) {
-        try {
-            return setAccessPolicyWithResponse(accessType, identifiers, null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+    public Mono<Void> setAccessPolicy(PublicAccessType accessType,
+        List<SignedIdentifier> identifiers) {
+        return setAccessPolicyWithResponse(accessType, identifiers, null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -525,7 +471,7 @@ public final class BlobContainerAsyncClient {
      *
      * @param accessType Specifies how the data in this container is available to the public. See the
      * x-ms-blob-public-access header in the Azure Docs for more information. Pass null for no public access.
-     * @param identifiers A list of {@link BlobSignedIdentifier} objects that specify the permissions for the container.
+     * @param identifiers A list of {@link SignedIdentifier} objects that specify the permissions for the container.
      * Please see
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy">here</a>
      * for more information. Passing null will clear all access policies.
@@ -535,17 +481,12 @@ public final class BlobContainerAsyncClient {
      * either {@link ModifiedAccessConditions#getIfMatch()} or {@link ModifiedAccessConditions#getIfNoneMatch()} set.
      */
     public Mono<Response<Void>> setAccessPolicyWithResponse(PublicAccessType accessType,
-        List<BlobSignedIdentifier> identifiers, BlobContainerAccessConditions accessConditions) {
-        try {
-            return withContext(
-                context -> setAccessPolicyWithResponse(accessType, identifiers, accessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        List<SignedIdentifier> identifiers, BlobContainerAccessConditions accessConditions) {
+        return withContext(context -> setAccessPolicyWithResponse(accessType, identifiers, accessConditions, context));
     }
 
-    Mono<Response<Void>> setAccessPolicyWithResponse(PublicAccessType accessType,
-        List<BlobSignedIdentifier> identifiers, BlobContainerAccessConditions accessConditions, Context context) {
+    Mono<Response<Void>> setAccessPolicyWithResponse(PublicAccessType accessType, List<SignedIdentifier> identifiers,
+        BlobContainerAccessConditions accessConditions, Context context) {
         accessConditions = accessConditions == null ? new BlobContainerAccessConditions() : accessConditions;
 
         if (!validateNoETag(accessConditions.getModifiedAccessConditions())) {
@@ -562,14 +503,14 @@ public final class BlobContainerAsyncClient {
         signed identifiers is not really necessary.
          */
         if (identifiers != null) {
-            for (BlobSignedIdentifier identifier : identifiers) {
-                if (identifier.getAccessPolicy() != null && identifier.getAccessPolicy().getStartsOn() != null) {
-                    identifier.getAccessPolicy().setStartsOn(
-                        identifier.getAccessPolicy().getStartsOn().truncatedTo(ChronoUnit.SECONDS));
+            for (SignedIdentifier identifier : identifiers) {
+                if (identifier.getAccessPolicy() != null && identifier.getAccessPolicy().getStart() != null) {
+                    identifier.getAccessPolicy().setStart(
+                        identifier.getAccessPolicy().getStart().truncatedTo(ChronoUnit.SECONDS));
                 }
-                if (identifier.getAccessPolicy() != null && identifier.getAccessPolicy().getExpiresOn() != null) {
-                    identifier.getAccessPolicy().setExpiresOn(
-                        identifier.getAccessPolicy().getExpiresOn().truncatedTo(ChronoUnit.SECONDS));
+                if (identifier.getAccessPolicy() != null && identifier.getAccessPolicy().getExpiry() != null) {
+                    identifier.getAccessPolicy().setExpiry(
+                        identifier.getAccessPolicy().getExpiry().truncatedTo(ChronoUnit.SECONDS));
                 }
             }
         }
@@ -605,11 +546,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response emitting the flattened blobs.
      */
     public PagedFlux<BlobItem> listBlobsFlat() {
-        try {
-            return this.listBlobsFlat(new ListBlobsOptions());
-        } catch (RuntimeException ex) {
-            return pagedFluxError(logger, ex);
-        }
+        return this.listBlobsFlat(new ListBlobsOptions());
     }
 
     /**
@@ -638,11 +575,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response emitting the listed blobs, flattened.
      */
     public PagedFlux<BlobItem> listBlobsFlat(ListBlobsOptions options) {
-        try {
-            return listBlobsFlatWithOptionalTimeout(options, null);
-        } catch (RuntimeException ex) {
-            return pagedFluxError(logger, ex);
-        }
+        return listBlobsFlatWithOptionalTimeout(options, null);
     }
 
     /*
@@ -696,8 +629,8 @@ public final class BlobContainerAsyncClient {
 
         return Utility.applyOptionalTimeout(
             this.azureBlobStorage.containers().listBlobFlatSegmentWithRestResponseAsync(null, options.getPrefix(),
-                marker, options.getMaxResultsPerPage(), options.getDetails().toList(),
-                null, null, Context.NONE), timeout);
+            marker, options.getMaxResultsPerPage(), options.getDetails().toList(),
+            null, null, Context.NONE), timeout);
     }
 
     /**
@@ -732,11 +665,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response emitting the prefixes and blobs.
      */
     public PagedFlux<BlobItem> listBlobsHierarchy(String directory) {
-        try {
-            return this.listBlobsHierarchy("/", new ListBlobsOptions().setPrefix(directory));
-        } catch (RuntimeException ex) {
-            return pagedFluxError(logger, ex);
-        }
+        return this.listBlobsHierarchy("/", new ListBlobsOptions().setPrefix(directory));
     }
 
     /**
@@ -772,11 +701,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response emitting the prefixes and blobs.
      */
     public PagedFlux<BlobItem> listBlobsHierarchy(String delimiter, ListBlobsOptions options) {
-        try {
-            return listBlobsHierarchyWithOptionalTimeout(delimiter, options, null);
-        } catch (RuntimeException ex) {
-            return pagedFluxError(logger, ex);
-        }
+        return listBlobsHierarchyWithOptionalTimeout(delimiter, options, null);
     }
 
     /*
@@ -840,11 +765,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response containing the account info.
      */
     public Mono<StorageAccountInfo> getAccountInfo() {
-        try {
-            return getAccountInfoWithResponse().flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return getAccountInfoWithResponse().flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -858,11 +779,7 @@ public final class BlobContainerAsyncClient {
      * @return A reactive response containing the account info.
      */
     public Mono<Response<StorageAccountInfo>> getAccountInfoWithResponse() {
-        try {
-            return withContext(this::getAccountInfoWithResponse);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(this::getAccountInfoWithResponse);
     }
 
     Mono<Response<StorageAccountInfo>> getAccountInfoWithResponse(Context context) {
