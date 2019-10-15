@@ -61,9 +61,8 @@ public final class SecretAsyncClient {
      *
      * @param endpoint URL for the Azure KeyVault service.
      * @param pipeline HttpPipeline that the HTTP requests and responses flow through.
-     * @param version {@link SecretServiceVersion} of the service to be used when making requests.
      */
-    SecretAsyncClient(URL endpoint, HttpPipeline pipeline, SecretServiceVersion version) {
+    SecretAsyncClient(URL endpoint, HttpPipeline pipeline) {
         Objects.requireNonNull(endpoint,
             KeyVaultErrorCodeStrings.getErrorString(KeyVaultErrorCodeStrings.VAULT_END_POINT_REQUIRED));
         this.endpoint = endpoint.toString();
