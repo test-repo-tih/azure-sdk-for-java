@@ -4,13 +4,13 @@
 package com.azure.storage.blob;
 
 import com.azure.core.util.Context;
-import com.azure.storage.blob.models.BlobAnalyticsLogging;
 import com.azure.storage.blob.models.BlobContainerListDetails;
-import com.azure.storage.blob.models.BlobMetrics;
-import com.azure.storage.blob.models.BlobRetentionPolicy;
 import com.azure.storage.blob.models.BlobServiceProperties;
 import com.azure.storage.blob.models.ListBlobContainersOptions;
+import com.azure.storage.blob.models.Logging;
+import com.azure.storage.blob.models.Metrics;
 import com.azure.storage.blob.models.PublicAccessType;
+import com.azure.storage.blob.models.RetentionPolicy;
 import com.azure.storage.blob.models.StorageAccountInfo;
 
 import java.time.Duration;
@@ -135,18 +135,18 @@ public class BlobServiceClientJavaDocCodeSnippets {
      */
     public void setProperties() {
         // BEGIN: com.azure.storage.blob.BlobServiceClient.setProperties#BlobServiceProperties
-        BlobRetentionPolicy loggingRetentionPolicy = new BlobRetentionPolicy().setEnabled(true).setDays(3);
-        BlobRetentionPolicy metricsRetentionPolicy = new BlobRetentionPolicy().setEnabled(true).setDays(1);
+        RetentionPolicy loggingRetentionPolicy = new RetentionPolicy().setEnabled(true).setDays(3);
+        RetentionPolicy metricsRetentionPolicy = new RetentionPolicy().setEnabled(true).setDays(1);
 
         BlobServiceProperties properties = new BlobServiceProperties()
-            .setLogging(new BlobAnalyticsLogging()
+            .setLogging(new Logging()
                 .setWrite(true)
                 .setDelete(true)
                 .setRetentionPolicy(loggingRetentionPolicy))
-            .setHourMetrics(new BlobMetrics()
+            .setHourMetrics(new Metrics()
                 .setEnabled(true)
                 .setRetentionPolicy(metricsRetentionPolicy))
-            .setMinuteMetrics(new BlobMetrics()
+            .setMinuteMetrics(new Metrics()
                 .setEnabled(true)
                 .setRetentionPolicy(metricsRetentionPolicy));
 
@@ -164,18 +164,18 @@ public class BlobServiceClientJavaDocCodeSnippets {
      */
     public void setPropertiesWithResponse() {
         // BEGIN: com.azure.storage.blob.BlobServiceClient.setPropertiesWithResponse#BlobServiceProperties-Duration-Context
-        BlobRetentionPolicy loggingRetentionPolicy = new BlobRetentionPolicy().setEnabled(true).setDays(3);
-        BlobRetentionPolicy metricsRetentionPolicy = new BlobRetentionPolicy().setEnabled(true).setDays(1);
+        RetentionPolicy loggingRetentionPolicy = new RetentionPolicy().setEnabled(true).setDays(3);
+        RetentionPolicy metricsRetentionPolicy = new RetentionPolicy().setEnabled(true).setDays(1);
 
         BlobServiceProperties properties = new BlobServiceProperties()
-            .setLogging(new BlobAnalyticsLogging()
+            .setLogging(new Logging()
                 .setWrite(true)
                 .setDelete(true)
                 .setRetentionPolicy(loggingRetentionPolicy))
-            .setHourMetrics(new BlobMetrics()
+            .setHourMetrics(new Metrics()
                 .setEnabled(true)
                 .setRetentionPolicy(metricsRetentionPolicy))
-            .setMinuteMetrics(new BlobMetrics()
+            .setMinuteMetrics(new Metrics()
                 .setEnabled(true)
                 .setRetentionPolicy(metricsRetentionPolicy));
 

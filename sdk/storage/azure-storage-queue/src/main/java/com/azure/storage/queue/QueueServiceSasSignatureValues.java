@@ -3,8 +3,8 @@
 
 package com.azure.storage.queue;
 
-import com.azure.storage.common.implementation.Constants;
-import com.azure.storage.common.sas.SasIpRange;
+import com.azure.storage.common.Constants;
+import com.azure.storage.common.IpRange;
 import com.azure.storage.common.SasProtocol;
 import com.azure.storage.common.Utility;
 import com.azure.storage.common.credentials.SharedKeyCredential;
@@ -40,7 +40,7 @@ public final class QueueServiceSasSignatureValues {
 
     private String permissions;
 
-    private SasIpRange sasIpRange;
+    private IpRange ipRange;
 
     private String canonicalName;
 
@@ -73,7 +73,7 @@ public final class QueueServiceSasSignatureValues {
     }
 
     QueueServiceSasSignatureValues(String version, SasProtocol sasProtocol, OffsetDateTime startTime,
-        OffsetDateTime expiryTime, String permission, SasIpRange sasIpRange, String identifier) {
+                                   OffsetDateTime expiryTime, String permission, IpRange ipRange, String identifier) {
         if (version != null) {
             this.version = version;
         }
@@ -81,7 +81,7 @@ public final class QueueServiceSasSignatureValues {
         this.startTime = startTime;
         this.expiryTime = expiryTime;
         this.permissions = permission;
-        this.sasIpRange = sasIpRange;
+        this.ipRange = ipRange;
         this.identifier = identifier;
     }
 
@@ -180,20 +180,20 @@ public final class QueueServiceSasSignatureValues {
     }
 
     /**
-     * @return the {@link SasIpRange} which determines the IP ranges that are allowed to use the SAS.
+     * @return the {@link IpRange} which determines the IP ranges that are allowed to use the SAS.
      */
-    public SasIpRange getSasIpRange() {
-        return sasIpRange;
+    public IpRange getIpRange() {
+        return ipRange;
     }
 
     /**
-     * Sets the {@link SasIpRange} which determines the IP ranges that are allowed to use the SAS.
+     * Sets the {@link IpRange} which determines the IP ranges that are allowed to use the SAS.
      *
-     * @param sasIpRange Allowed IP range to set
+     * @param ipRange Allowed IP range to set
      * @return the updated QueueServiceSasSignatureValues object
      */
-    public QueueServiceSasSignatureValues setSasIpRange(SasIpRange sasIpRange) {
-        this.sasIpRange = sasIpRange;
+    public QueueServiceSasSignatureValues setIpRange(IpRange ipRange) {
+        this.ipRange = ipRange;
         return this;
     }
 
@@ -271,7 +271,7 @@ public final class QueueServiceSasSignatureValues {
         String signature = sharedKeyCredentials.computeHmac256(stringToSign);
 
         return new QueueServiceSasQueryParameters(this.version, this.protocol, this.startTime, this.expiryTime,
-            this.sasIpRange, this.identifier, this.permissions, signature);
+            this.ipRange, this.identifier, this.permissions, signature);
     }
 
     /**
@@ -299,7 +299,7 @@ public final class QueueServiceSasSignatureValues {
             this.expiryTime == null ? "" : Utility.ISO_8601_UTC_DATE_FORMATTER.format(this.expiryTime),
             this.canonicalName == null ? "" : this.canonicalName,
             this.identifier == null ? "" : this.identifier,
-            this.sasIpRange == null ? "" : this.sasIpRange.toString(),
+            this.ipRange == null ? "" : this.ipRange.toString(),
             this.protocol == null ? "" : protocol.toString(),
             this.version == null ? "" : this.version
         );
