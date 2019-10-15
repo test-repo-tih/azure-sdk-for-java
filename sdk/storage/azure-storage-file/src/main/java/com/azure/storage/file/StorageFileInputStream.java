@@ -5,10 +5,10 @@ package com.azure.storage.file;
 
 import com.azure.core.implementation.util.FluxUtil;
 import com.azure.core.util.logging.ClientLogger;
-import com.azure.storage.common.implementation.Constants;
+import com.azure.storage.common.Constants;
 import com.azure.storage.common.StorageInputStream;
 import com.azure.storage.file.models.FileRange;
-import com.azure.storage.file.models.FileStorageException;
+import com.azure.storage.file.models.StorageException;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -26,10 +26,10 @@ public class StorageFileInputStream extends StorageInputStream {
      *
      * @param fileAsyncClient A {@link FileClient} object which represents the blob that this stream is associated
      * with.
-     * @throws FileStorageException An exception representing any error which occurred during the operation.
+     * @throws StorageException An exception representing any error which occurred during the operation.
      */
     StorageFileInputStream(final FileAsyncClient fileAsyncClient)
-        throws FileStorageException {
+        throws StorageException {
         this(fileAsyncClient, 0, null);
     }
 
@@ -41,10 +41,10 @@ public class StorageFileInputStream extends StorageInputStream {
      * with.
      * @param fileRangeOffset The offset of file range data to begin stream.
      * @param fileRangeLength How much data the stream should return after fileRangeOffset.
-     * @throws FileStorageException An exception representing any error which occurred during the operation.
+     * @throws StorageException An exception representing any error which occurred during the operation.
      */
     StorageFileInputStream(final FileAsyncClient fileAsyncClient, long fileRangeOffset, Long fileRangeLength)
-        throws FileStorageException {
+        throws StorageException {
         super(fileRangeOffset, fileRangeLength, 4 * Constants.MB,
             fileAsyncClient.getProperties().block().getContentLength());
         this.fileAsyncClient = fileAsyncClient;
@@ -67,7 +67,7 @@ public class StorageFileInputStream extends StorageInputStream {
             this.bufferSize = readLength;
             this.bufferStartOffset = offset;
             return currentBuffer;
-        } catch (final FileStorageException e) {
+        } catch (final StorageException e) {
             this.streamFaulted = true;
             this.lastError = new IOException(e);
             throw logger.logExceptionAsError(new RuntimeException(this.lastError.getMessage()));
