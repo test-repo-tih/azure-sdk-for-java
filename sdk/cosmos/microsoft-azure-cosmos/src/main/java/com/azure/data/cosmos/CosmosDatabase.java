@@ -7,7 +7,6 @@ import com.azure.data.cosmos.internal.HttpConstants;
 import com.azure.data.cosmos.internal.Offer;
 import com.azure.data.cosmos.internal.Paths;
 import org.apache.commons.lang3.StringUtils;
-import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -309,14 +308,13 @@ public class CosmosDatabase {
     private Mono<CosmosContainerResponse> createContainerIfNotExistsInternal(
             CosmosContainerProperties containerProperties, CosmosContainer container, CosmosContainerRequestOptions options) {
         return container.read(options).onErrorResume(exception -> {
-            Throwable unwrappedException = Exceptions.unwrap(exception);
-            if (unwrappedException instanceof CosmosClientException) {
-                CosmosClientException cosmosClientException = (CosmosClientException) unwrappedException;
+            if (exception instanceof CosmosClientException) {
+                CosmosClientException cosmosClientException = (CosmosClientException) exception;
                 if (cosmosClientException.statusCode() == HttpConstants.StatusCodes.NOTFOUND) {
                     return createContainer(containerProperties, options);
                 }
             }
-            return Mono.error(unwrappedException);
+            return Mono.error(exception);
         });
     }
 
