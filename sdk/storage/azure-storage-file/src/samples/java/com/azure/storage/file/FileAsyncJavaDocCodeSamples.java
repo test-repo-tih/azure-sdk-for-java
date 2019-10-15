@@ -3,7 +3,7 @@
 package com.azure.storage.file;
 
 import com.azure.storage.common.credentials.SharedKeyCredential;
-import com.azure.storage.file.models.FileHttpHeaders;
+import com.azure.storage.file.models.FileHTTPHeaders;
 import com.azure.storage.file.models.FileProperties;
 import com.azure.storage.file.models.FileRange;
 import com.azure.storage.file.models.NtfsFileAttributes;
@@ -103,12 +103,24 @@ public class FileAsyncJavaDocCodeSamples {
     }
 
     /**
-     * Generates a code sample for using {@link FileAsyncClient#createWithResponse(long, FileHttpHeaders, FileSmbProperties, String, Map)}
+     * Generates a code sample for using {@link FileAsyncClient#create(long)}
+     */
+    public void createFileAsyncMaxOverload() {
+        FileAsyncClient fileAsyncClient = createAsyncClientWithSASToken();
+        // BEGIN: com.azure.storage.file.fileAsyncClient.create#long-filehttpheaders-map
+        FileHTTPHeaders httpHeaders = new FileHTTPHeaders().setFileContentType("text/plain");
+        fileAsyncClient.create(1024)
+            .doOnSuccess(response -> System.out.println("Creating the file completed."));
+        // END: com.azure.storage.file.fileAsyncClient.create#long-filehttpheaders-map
+    }
+
+    /**
+     * Generates a code sample for using {@link FileAsyncClient#createWithResponse(long, FileHTTPHeaders, FileSmbProperties, String, Map)}
      */
     public void createWithResponse() {
         FileAsyncClient fileAsyncClient = createAsyncClientWithSASToken();
         // BEGIN: com.azure.storage.file.fileAsyncClient.createWithResponse#long-filehttpheaders-filesmbproperties-string-map
-        FileHttpHeaders httpHeaders = new FileHttpHeaders()
+        FileHTTPHeaders httpHeaders = new FileHTTPHeaders()
             .setFileContentType("text/html")
             .setFileContentEncoding("gzip")
             .setFileContentLanguage("en")
@@ -451,12 +463,12 @@ public class FileAsyncJavaDocCodeSamples {
     }
 
     /**
-     * Generates a code sample for using {@link FileAsyncClient#setProperties(long, FileHttpHeaders, FileSmbProperties, String)}
+     * Generates a code sample for using {@link FileAsyncClient#setProperties(long, FileHTTPHeaders, FileSmbProperties, String)}
      */
     public void setFilePropertiesAsync() {
         FileAsyncClient fileAsyncClient = createAsyncClientWithSASToken();
         // BEGIN: com.azure.storage.file.fileAsyncClient.setProperties#long-filehttpheaders-filesmbproperties-string
-        FileHttpHeaders httpHeaders = new FileHttpHeaders()
+        FileHTTPHeaders httpHeaders = new FileHTTPHeaders()
             .setFileContentType("text/html")
             .setFileContentEncoding("gzip")
             .setFileContentLanguage("en")
@@ -475,12 +487,12 @@ public class FileAsyncJavaDocCodeSamples {
     }
 
     /**
-     * Generates a code sample for using {@link FileAsyncClient#setPropertiesWithResponse(long, FileHttpHeaders, FileSmbProperties, String)}
+     * Generates a code sample for using {@link FileAsyncClient#setPropertiesWithResponse(long, FileHTTPHeaders, FileSmbProperties, String)}
      */
     public void setHttpHeadersWithResponse() {
         FileAsyncClient fileAsyncClient = createAsyncClientWithSASToken();
         // BEGIN: com.azure.storage.file.fileAsyncClient.setPropertiesWithResponse#long-filehttpheaders-filesmbproperties-string
-        FileHttpHeaders httpHeaders = new FileHttpHeaders()
+        FileHTTPHeaders httpHeaders = new FileHTTPHeaders()
             .setFileContentType("text/html")
             .setFileContentEncoding("gzip")
             .setFileContentLanguage("en")
@@ -500,7 +512,7 @@ public class FileAsyncJavaDocCodeSamples {
     }
 
     /**
-     * Generates a code sample for using {@link FileAsyncClient#setPropertiesWithResponse(long, FileHttpHeaders, FileSmbProperties, String)}
+     * Generates a code sample for using {@link FileAsyncClient#setPropertiesWithResponse(long, FileHTTPHeaders, FileSmbProperties, String)}
      * to clear httpHeaders.
      */
     public void clearHTTPHeadersAsync() {
@@ -513,7 +525,7 @@ public class FileAsyncJavaDocCodeSamples {
     }
 
     /**
-     * Generates a code sample for using {@link FileAsyncClient#setProperties(long, FileHttpHeaders, FileSmbProperties, String)}
+     * Generates a code sample for using {@link FileAsyncClient#setProperties(long, FileHTTPHeaders, FileSmbProperties, String)}
      * to clear httpHeaders.
      */
     public void clearHTTPHeaders() {
