@@ -133,6 +133,32 @@ public class SqlManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The DatabaseSecurityAlertPoliciesInner object to access its operations.
+     */
+    private DatabaseSecurityAlertPoliciesInner databaseSecurityAlertPolicies;
+
+    /**
+     * Gets the DatabaseSecurityAlertPoliciesInner object to access its operations.
+     * @return the DatabaseSecurityAlertPoliciesInner object.
+     */
+    public DatabaseSecurityAlertPoliciesInner databaseSecurityAlertPolicies() {
+        return this.databaseSecurityAlertPolicies;
+    }
+
+    /**
+     * The ManagedDatabaseSensitivityLabelsInner object to access its operations.
+     */
+    private ManagedDatabaseSensitivityLabelsInner managedDatabaseSensitivityLabels;
+
+    /**
+     * Gets the ManagedDatabaseSensitivityLabelsInner object to access its operations.
+     * @return the ManagedDatabaseSensitivityLabelsInner object.
+     */
+    public ManagedDatabaseSensitivityLabelsInner managedDatabaseSensitivityLabels() {
+        return this.managedDatabaseSensitivityLabels;
+    }
+
+    /**
      * The ManagedInstanceVulnerabilityAssessmentsInner object to access its operations.
      */
     private ManagedInstanceVulnerabilityAssessmentsInner managedInstanceVulnerabilityAssessments;
@@ -156,6 +182,110 @@ public class SqlManagementClientImpl extends AzureServiceClient {
      */
     public ServerVulnerabilityAssessmentsInner serverVulnerabilityAssessments() {
         return this.serverVulnerabilityAssessments;
+    }
+
+    /**
+     * The InstancePoolsInner object to access its operations.
+     */
+    private InstancePoolsInner instancePools;
+
+    /**
+     * Gets the InstancePoolsInner object to access its operations.
+     * @return the InstancePoolsInner object.
+     */
+    public InstancePoolsInner instancePools() {
+        return this.instancePools;
+    }
+
+    /**
+     * The UsagesInner object to access its operations.
+     */
+    private UsagesInner usages;
+
+    /**
+     * Gets the UsagesInner object to access its operations.
+     * @return the UsagesInner object.
+     */
+    public UsagesInner usages() {
+        return this.usages;
+    }
+
+    /**
+     * The ManagedInstancesInner object to access its operations.
+     */
+    private ManagedInstancesInner managedInstances;
+
+    /**
+     * Gets the ManagedInstancesInner object to access its operations.
+     * @return the ManagedInstancesInner object.
+     */
+    public ManagedInstancesInner managedInstances() {
+        return this.managedInstances;
+    }
+
+    /**
+     * The ManagedDatabaseRestoreDetailsInner object to access its operations.
+     */
+    private ManagedDatabaseRestoreDetailsInner managedDatabaseRestoreDetails;
+
+    /**
+     * Gets the ManagedDatabaseRestoreDetailsInner object to access its operations.
+     * @return the ManagedDatabaseRestoreDetailsInner object.
+     */
+    public ManagedDatabaseRestoreDetailsInner managedDatabaseRestoreDetails() {
+        return this.managedDatabaseRestoreDetails;
+    }
+
+    /**
+     * The ManagedDatabasesInner object to access its operations.
+     */
+    private ManagedDatabasesInner managedDatabases;
+
+    /**
+     * Gets the ManagedDatabasesInner object to access its operations.
+     * @return the ManagedDatabasesInner object.
+     */
+    public ManagedDatabasesInner managedDatabases() {
+        return this.managedDatabases;
+    }
+
+    /**
+     * The DatabasesInner object to access its operations.
+     */
+    private DatabasesInner databases;
+
+    /**
+     * Gets the DatabasesInner object to access its operations.
+     * @return the DatabasesInner object.
+     */
+    public DatabasesInner databases() {
+        return this.databases;
+    }
+
+    /**
+     * The ElasticPoolsInner object to access its operations.
+     */
+    private ElasticPoolsInner elasticPools;
+
+    /**
+     * Gets the ElasticPoolsInner object to access its operations.
+     * @return the ElasticPoolsInner object.
+     */
+    public ElasticPoolsInner elasticPools() {
+        return this.elasticPools;
+    }
+
+    /**
+     * The PrivateEndpointConnectionsInner object to access its operations.
+     */
+    private PrivateEndpointConnectionsInner privateEndpointConnections;
+
+    /**
+     * Gets the PrivateEndpointConnectionsInner object to access its operations.
+     * @return the PrivateEndpointConnectionsInner object.
+     */
+    public PrivateEndpointConnectionsInner privateEndpointConnections() {
+        return this.privateEndpointConnections;
     }
 
     /**
@@ -193,8 +323,18 @@ public class SqlManagementClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.databaseSecurityAlertPolicies = new DatabaseSecurityAlertPoliciesInner(restClient().retrofit(), this);
+        this.managedDatabaseSensitivityLabels = new ManagedDatabaseSensitivityLabelsInner(restClient().retrofit(), this);
         this.managedInstanceVulnerabilityAssessments = new ManagedInstanceVulnerabilityAssessmentsInner(restClient().retrofit(), this);
         this.serverVulnerabilityAssessments = new ServerVulnerabilityAssessmentsInner(restClient().retrofit(), this);
+        this.instancePools = new InstancePoolsInner(restClient().retrofit(), this);
+        this.usages = new UsagesInner(restClient().retrofit(), this);
+        this.managedInstances = new ManagedInstancesInner(restClient().retrofit(), this);
+        this.managedDatabaseRestoreDetails = new ManagedDatabaseRestoreDetailsInner(restClient().retrofit(), this);
+        this.managedDatabases = new ManagedDatabasesInner(restClient().retrofit(), this);
+        this.databases = new DatabasesInner(restClient().retrofit(), this);
+        this.elasticPools = new ElasticPoolsInner(restClient().retrofit(), this);
+        this.privateEndpointConnections = new PrivateEndpointConnectionsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
