@@ -22,20 +22,18 @@ import com.azure.core.implementation.util.ImplUtils;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.storage.blob.BlobContainerAsyncClient;
-import com.azure.storage.blob.BlobServiceVersion;
 import com.azure.storage.blob.BlobUrlParts;
 import com.azure.storage.blob.implementation.AzureBlobStorageBuilder;
 import com.azure.storage.blob.implementation.AzureBlobStorageImpl;
-import com.azure.storage.common.implementation.Constants;
+import com.azure.storage.common.Constants;
 import com.azure.storage.common.Utility;
-import com.azure.storage.common.StorageSharedKeyCredential;
+import com.azure.storage.common.credentials.SharedKeyCredential;
 import com.azure.storage.common.implementation.credentials.SasTokenCredential;
 import com.azure.storage.common.implementation.policy.SasTokenCredentialPolicy;
 import com.azure.storage.common.policy.RequestRetryOptions;
 import com.azure.storage.common.policy.RequestRetryPolicy;
 import com.azure.storage.common.policy.ResponseValidationPolicyBuilder;
-import com.azure.storage.common.policy.StorageSharedKeyCredentialPolicy;
-import com.azure.storage.common.policy.ScrubEtagPolicy;
+import com.azure.storage.common.policy.SharedKeyCredentialPolicy;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -55,7 +53,7 @@ import java.util.Objects;
  * {@code https://{accountName}.blob.core.windows.net/{containerName}/{blobName}}.
  * <li>Container and blob name if not specified in the {@link #endpoint(String)}, set through
  * {@link #containerName(String)} and {@link #blobName(String)} respectively.
- * <li>Credential set through {@link #credential(StorageSharedKeyCredential)} , {@link #sasToken(String)}, or
+ * <li>Credential set through {@link #credential(SharedKeyCredential)} , {@link #sasToken(String)}, or
  * {@link #connectionString(String)} if the container is not publicly accessible.
  * <li>Key and key wrapping algorithm (for encryption) and/or key resolver (for decryption) must be specified
  * through {@link #key(AsyncKeyEncryptionKey, String)} and {@link #keyResolver(AsyncKeyEncryptionKeyResolver)}
@@ -79,7 +77,7 @@ public final class EncryptedBlobClientBuilder {
     private String blobName;
     private String snapshot;
 
-    private StorageSharedKeyCredential storageSharedKeyCredential;
+    private SharedKeyCredential sharedKeyCredential;
     private TokenCredential tokenCredential;
     private SasTokenCredential sasTokenCredential;
 
@@ -94,7 +92,6 @@ public final class EncryptedBlobClientBuilder {
     private AsyncKeyEncryptionKey keyWrapper;
     private AsyncKeyEncryptionKeyResolver keyResolver;
     private String keyWrapAlgorithm;
-    private BlobServiceVersion version;
 
     /**
      * Creates a new instance of the EncryptedBlobClientBuilder
@@ -113,13 +110,11 @@ public final class EncryptedBlobClientBuilder {
         if (ImplUtils.isNullOrEmpty(containerName)) {
             containerName = BlobContainerAsyncClient.ROOT_CONTAINER_NAME;
         }
-        BlobServiceVersion serviceVersion = version != null ? version : BlobServiceVersion.getLatest();
 
         if (httpPipeline != null) {
             return new AzureBlobStorageBuilder()
                 .url(String.format("%s/%s/%s", endpoint, containerName, blobName))
                 .pipeline(httpPipeline)
-                .version(serviceVersion.getVersion())
                 .build();
         }
 
@@ -130,13 +125,12 @@ public final class EncryptedBlobClientBuilder {
         // Closest to API goes first, closest to wire goes last.
         List<HttpPipelinePolicy> policies = new ArrayList<>();
 
-        policies.add(new BlobDecryptionPolicy(keyWrapper, keyResolver));
-        policies.add(new UserAgentPolicy(userAgentName, userAgentVersion, userAgentConfiguration, serviceVersion));
+        policies.add(new UserAgentPolicy(userAgentName, userAgentVersion, userAgentConfiguration));
         policies.add(new RequestIdPolicy());
         policies.add(new AddDatePolicy());
 
-        if (storageSharedKeyCredential != null) {
-            policies.add(new StorageSharedKeyCredentialPolicy(storageSharedKeyCredential));
+        if (sharedKeyCredential != null) {
+            policies.add(new SharedKeyCredentialPolicy(sharedKeyCredential));
         } else if (tokenCredential != null) {
             policies.add(new BearerTokenAuthenticationPolicy(tokenCredential, String.format("%s/.default", endpoint)));
         } else if (sasTokenCredential != null) {
@@ -157,8 +151,6 @@ public final class EncryptedBlobClientBuilder {
 
         policies.add(new HttpLoggingPolicy(logOptions));
 
-        policies.add(new ScrubEtagPolicy());
-
         HttpPipeline pipeline = new HttpPipelineBuilder()
             .policies(policies.toArray(new HttpPipelinePolicy[0]))
             .httpClient(httpClient)
@@ -167,7 +159,6 @@ public final class EncryptedBlobClientBuilder {
         return new AzureBlobStorageBuilder()
             .url(String.format("%s/%s/%s", endpoint, containerName, blobName))
             .pipeline(pipeline)
-            .version(serviceVersion.getVersion())
             .build();
     }
 
@@ -243,14 +234,14 @@ public final class EncryptedBlobClientBuilder {
     }
 
     /**
-     * Sets the {@link StorageSharedKeyCredential} used to authorize requests sent to the service.
+     * Sets the {@link SharedKeyCredential} used to authorize requests sent to the service.
      *
      * @param credential The credential to use for authenticating request.
      * @return the updated EncryptedBlobClientBuilder
      * @throws NullPointerException If {@code credential} is {@code null}.
      */
-    public EncryptedBlobClientBuilder credential(StorageSharedKeyCredential credential) {
-        this.storageSharedKeyCredential = Objects.requireNonNull(credential, "'credential' cannot be null.");
+    public EncryptedBlobClientBuilder credential(SharedKeyCredential credential) {
+        this.sharedKeyCredential = Objects.requireNonNull(credential, "'credential' cannot be null.");
         this.tokenCredential = null;
         this.sasTokenCredential = null;
         return this;
@@ -265,7 +256,7 @@ public final class EncryptedBlobClientBuilder {
      */
     public EncryptedBlobClientBuilder credential(TokenCredential credential) {
         this.tokenCredential = Objects.requireNonNull(credential, "'credential' cannot be null.");
-        this.storageSharedKeyCredential = null;
+        this.sharedKeyCredential = null;
         this.sasTokenCredential = null;
         return this;
     }
@@ -280,7 +271,7 @@ public final class EncryptedBlobClientBuilder {
     public EncryptedBlobClientBuilder sasToken(String sasToken) {
         this.sasTokenCredential = new SasTokenCredential(Objects.requireNonNull(sasToken,
             "'sasToken' cannot be null."));
-        this.storageSharedKeyCredential = null;
+        this.sharedKeyCredential = null;
         this.tokenCredential = null;
         return this;
     }
@@ -293,15 +284,15 @@ public final class EncryptedBlobClientBuilder {
      * @return the updated EncryptedBlobClientBuilder
      */
     public EncryptedBlobClientBuilder setAnonymousAccess() {
-        this.storageSharedKeyCredential = null;
+        this.sharedKeyCredential = null;
         this.tokenCredential = null;
         this.sasTokenCredential = null;
         return this;
     }
 
     /**
-     * Constructs a {@link StorageSharedKeyCredential} used to authorize requests sent to the service. Additionally,
-     * if the connection string contains `DefaultEndpointsProtocol` and `EndpointSuffix` it will set the {@link
+     * Constructs a {@link SharedKeyCredential} used to authorize requests sent to the service. Additionally, if the
+     * connection string contains `DefaultEndpointsProtocol` and `EndpointSuffix` it will set the {@link
      * #endpoint(String) endpoint}.
      *
      * @param connectionString Connection string of the storage account.
@@ -331,7 +322,7 @@ public final class EncryptedBlobClientBuilder {
         }
 
         this.accountName = accountName;
-        return credential(new StorageSharedKeyCredential(accountName, accountKey));
+        return credential(new SharedKeyCredential(accountName, accountKey));
     }
 
     /**
@@ -480,21 +471,6 @@ public final class EncryptedBlobClientBuilder {
         }
 
         this.httpPipeline = httpPipeline;
-        return this;
-    }
-
-    /**
-     * Sets the {@link BlobServiceVersion} that is used when making API requests.
-     * <p>
-     * If a service version is not provided, the service version that will be used will be the latest known service
-     * version based on the version of the client library being used. If no service version is specified, updating to a
-     * newer version the client library will have the result of potentially moving to a newer service version.
-     *
-     * @param version {@link BlobServiceVersion} of the service to be used when making requests.
-     * @return the updated EncryptedBlobClientBuilder object
-     */
-    public EncryptedBlobClientBuilder serviceVersion(BlobServiceVersion version) {
-        this.version = version;
         return this;
     }
 }

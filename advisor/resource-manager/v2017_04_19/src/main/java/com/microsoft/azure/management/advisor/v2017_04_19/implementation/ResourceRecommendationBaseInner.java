@@ -27,8 +27,7 @@ import com.microsoft.azure.ProxyResource;
 public class ResourceRecommendationBaseInner extends ProxyResource {
     /**
      * The category of the recommendation. Possible values include:
-     * 'HighAvailability', 'Security', 'Performance', 'Cost',
-     * 'OperationalExcellence'.
+     * 'HighAvailability', 'Security', 'Performance', 'Cost'.
      */
     @JsonProperty(value = "properties.category")
     private Category category;
@@ -97,7 +96,7 @@ public class ResourceRecommendationBaseInner extends ProxyResource {
     private Map<String, String> extendedProperties;
 
     /**
-     * Get the category of the recommendation. Possible values include: 'HighAvailability', 'Security', 'Performance', 'Cost', 'OperationalExcellence'.
+     * Get the category of the recommendation. Possible values include: 'HighAvailability', 'Security', 'Performance', 'Cost'.
      *
      * @return the category value
      */
@@ -106,7 +105,7 @@ public class ResourceRecommendationBaseInner extends ProxyResource {
     }
 
     /**
-     * Set the category of the recommendation. Possible values include: 'HighAvailability', 'Security', 'Performance', 'Cost', 'OperationalExcellence'.
+     * Set the category of the recommendation. Possible values include: 'HighAvailability', 'Security', 'Performance', 'Cost'.
      *
      * @param category the category value to set
      * @return the ResourceRecommendationBaseInner object itself.

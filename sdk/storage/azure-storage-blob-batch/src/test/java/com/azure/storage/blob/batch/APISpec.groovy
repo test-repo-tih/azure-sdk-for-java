@@ -14,7 +14,7 @@ import com.azure.core.test.TestMode
 import com.azure.core.test.utils.TestResourceNamer
 import com.azure.core.util.Configuration
 import com.azure.core.util.logging.ClientLogger
-import com.azure.identity.EnvironmentCredentialBuilder
+import com.azure.identity.credential.EnvironmentCredentialBuilder
 import com.azure.storage.blob.BlobContainerAsyncClient
 import com.azure.storage.blob.BlobContainerClient
 import com.azure.storage.blob.BlobServiceAsyncClient
@@ -25,7 +25,7 @@ import com.azure.storage.blob.models.LeaseStateType
 import com.azure.storage.blob.models.ListBlobContainersOptions
 import com.azure.storage.blob.specialized.LeaseClient
 import com.azure.storage.blob.specialized.LeaseClientBuilder
-import com.azure.storage.common.StorageSharedKeyCredential
+import com.azure.storage.common.credentials.SharedKeyCredential
 import reactor.core.publisher.Flux
 import spock.lang.Requires
 import spock.lang.Shared
@@ -75,7 +75,7 @@ class APISpec extends Specification {
     static def AZURE_TEST_MODE = "AZURE_TEST_MODE"
     static def PRIMARY_STORAGE = "PRIMARY_STORAGE_"
 
-    protected static StorageSharedKeyCredential primaryCredential
+    protected static SharedKeyCredential primaryCredential
     static TestMode testMode
 
     BlobServiceClient primaryBlobServiceClient
@@ -146,7 +146,7 @@ class APISpec extends Specification {
         return setupTestMode() == TestMode.RECORD
     }
 
-    private StorageSharedKeyCredential getCredential(String accountType) {
+    private SharedKeyCredential getCredential(String accountType) {
         String accountName
         String accountKey
 
@@ -163,10 +163,10 @@ class APISpec extends Specification {
             return null
         }
 
-        return new StorageSharedKeyCredential(accountName, accountKey)
+        return new SharedKeyCredential(accountName, accountKey)
     }
 
-    BlobServiceClient setClient(StorageSharedKeyCredential credential) {
+    BlobServiceClient setClient(SharedKeyCredential credential) {
         try {
             return getServiceClient(credential)
         } catch (Exception ignore) {
@@ -197,16 +197,15 @@ class APISpec extends Specification {
         return getServiceClient(null, endpoint, null)
     }
 
-    BlobServiceClient getServiceClient(StorageSharedKeyCredential credential) {
-        return getServiceClient(credential, String.format(defaultEndpointTemplate, credential.getAccountName()),
-            null)
+    BlobServiceClient getServiceClient(SharedKeyCredential credential) {
+        return getServiceClient(credential, String.format(defaultEndpointTemplate, credential.getAccountName()), null)
     }
 
-    BlobServiceClient getServiceClient(StorageSharedKeyCredential credential, String endpoint) {
+    BlobServiceClient getServiceClient(SharedKeyCredential credential, String endpoint) {
         return getServiceClient(credential, endpoint, null)
     }
 
-    BlobServiceClient getServiceClient(StorageSharedKeyCredential credential, String endpoint,
+    BlobServiceClient getServiceClient(SharedKeyCredential credential, String endpoint,
         HttpPipelinePolicy... policies) {
         return getServiceClientBuilder(credential, endpoint, policies).buildClient()
     }
@@ -215,12 +214,12 @@ class APISpec extends Specification {
         return getServiceClientBuilder(null, endpoint, null).sasToken(sasToken).buildClient()
     }
 
-    BlobServiceAsyncClient getServiceAsyncClient(StorageSharedKeyCredential credential) {
+    BlobServiceAsyncClient getServiceAsyncClient(SharedKeyCredential credential) {
         return getServiceClientBuilder(credential, String.format(defaultEndpointTemplate, credential.getAccountName()))
             .buildAsyncClient()
     }
 
-    BlobServiceClientBuilder getServiceClientBuilder(StorageSharedKeyCredential credential, String endpoint,
+    BlobServiceClientBuilder getServiceClientBuilder(SharedKeyCredential credential, String endpoint,
         HttpPipelinePolicy... policies) {
         BlobServiceClientBuilder builder = new BlobServiceClientBuilder()
             .endpoint(endpoint)

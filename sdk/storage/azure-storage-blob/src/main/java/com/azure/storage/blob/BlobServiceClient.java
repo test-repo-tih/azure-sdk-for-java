@@ -12,10 +12,10 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
 import com.azure.storage.blob.models.BlobContainerItem;
 import com.azure.storage.blob.models.BlobServiceProperties;
-import com.azure.storage.blob.models.BlobServiceStatistics;
 import com.azure.storage.blob.models.ListBlobContainersOptions;
 import com.azure.storage.blob.models.PublicAccessType;
 import com.azure.storage.blob.models.StorageAccountInfo;
+import com.azure.storage.blob.models.StorageServiceStats;
 import com.azure.storage.blob.models.UserDelegationKey;
 import com.azure.storage.common.Utility;
 import reactor.core.publisher.Mono;
@@ -72,15 +72,6 @@ public final class BlobServiceClient {
      */
     public HttpPipeline getHttpPipeline() {
         return blobServiceAsyncClient.getHttpPipeline();
-    }
-
-    /**
-     * Gets the service version the client is using.
-     *
-     * @return the service version the client is using.
-     */
-    public String getServiceVersion() {
-        return this.blobServiceAsyncClient.getServiceVersion();
     }
 
     /**
@@ -312,7 +303,7 @@ public final class BlobServiceClient {
      *
      * @return The storage account statistics.
      */
-    public BlobServiceStatistics getStatistics() {
+    public StorageServiceStats getStatistics() {
         return getStatisticsWithResponse(null, Context.NONE).getValue();
     }
 
@@ -330,8 +321,8 @@ public final class BlobServiceClient {
      * @param context Additional context that is passed through the Http pipeline during the service call.
      * @return A {@link Response} whose {@link Response#getValue() value} the storage account statistics.
      */
-    public Response<BlobServiceStatistics> getStatisticsWithResponse(Duration timeout, Context context) {
-        Mono<Response<BlobServiceStatistics>> response = blobServiceAsyncClient.getStatisticsWithResponse(context);
+    public Response<StorageServiceStats> getStatisticsWithResponse(Duration timeout, Context context) {
+        Mono<Response<StorageServiceStats>> response = blobServiceAsyncClient.getStatisticsWithResponse(context);
 
         return Utility.blockWithOptionalTimeout(response, timeout);
     }

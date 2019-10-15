@@ -9,15 +9,15 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.util.Context;
 import com.azure.storage.common.Utility;
-import com.azure.storage.common.StorageSharedKeyCredential;
+import com.azure.storage.common.credentials.SharedKeyCredential;
 import com.azure.storage.file.models.DirectoryInfo;
 import com.azure.storage.file.models.DirectoryProperties;
 import com.azure.storage.file.models.DirectorySetMetadataInfo;
-import com.azure.storage.file.models.FileHttpHeaders;
+import com.azure.storage.file.models.FileHTTPHeaders;
 import com.azure.storage.file.models.FileInfo;
-import com.azure.storage.file.models.HandleItem;
-import com.azure.storage.file.models.FileStorageException;
 import com.azure.storage.file.models.StorageFileItem;
+import com.azure.storage.file.models.HandleItem;
+import com.azure.storage.file.models.StorageException;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -36,7 +36,7 @@ import java.util.Map;
  *
  * @see FileClientBuilder
  * @see DirectoryClient
- * @see StorageSharedKeyCredential
+ * @see SharedKeyCredential
  */
 @ServiceClient(builder = FileClientBuilder.class)
 public class DirectoryClient {
@@ -59,15 +59,6 @@ public class DirectoryClient {
      */
     public String getDirectoryUrl() {
         return directoryAsyncClient.getDirectoryUrl();
-    }
-
-    /**
-     * Gets the service version the client is using.
-     *
-     * @return the service version the client is using.
-     */
-    public String getServiceVersion() {
-        return directoryAsyncClient.getServiceVersion();
     }
 
     /**
@@ -109,8 +100,8 @@ public class DirectoryClient {
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory">Azure Docs</a>.</p>
      *
      * @return The {@link DirectoryInfo directory info}.
-     * @throws FileStorageException If the directory has already existed, the parent directory does not exist or
-     * directory name is an invalid resource name.
+     * @throws StorageException If the directory has already existed, the parent directory does not exist or directory
+     * name is an invalid resource name.
      */
     public DirectoryInfo create() {
         return createWithResponse(null, null, null, null, Context.NONE).getValue();
@@ -135,8 +126,8 @@ public class DirectoryClient {
      * concludes a {@link RuntimeException} will be thrown.
      * @param context Additional context that is passed through the Http pipeline during the service call.
      * @return A response containing the directory info and the status of creating the directory.
-     * @throws FileStorageException If the directory has already existed, the parent directory does not exist or
-     * directory name is an invalid resource name.
+     * @throws StorageException If the directory has already existed, the parent directory does not exist or directory
+     * name is an invalid resource name.
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
     public Response<DirectoryInfo> createWithResponse(FileSmbProperties smbProperties, String filePermission,
@@ -158,7 +149,7 @@ public class DirectoryClient {
      * <p>For more information, see the
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory">Azure Docs</a>.</p>
      *
-     * @throws FileStorageException If the share doesn't exist
+     * @throws StorageException If the share doesn't exist
      */
     public void delete() {
         deleteWithResponse(null, Context.NONE);
@@ -180,7 +171,7 @@ public class DirectoryClient {
      * concludes a {@link RuntimeException} will be thrown.
      * @param context Additional context that is passed through the Http pipeline during the service call.
      * @return A response that only contains headers and response status code
-     * @throws FileStorageException If the share doesn't exist
+     * @throws StorageException If the share doesn't exist
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
     public Response<Void> deleteWithResponse(Duration timeout, Context context) {
@@ -298,7 +289,7 @@ public class DirectoryClient {
      * @param metadata Optional metadata to set on the directory, if null is passed the metadata for the directory is
      * cleared
      * @return The information about the directory
-     * @throws FileStorageException If the directory doesn't exist or the metadata contains invalid keys
+     * @throws StorageException If the directory doesn't exist or the metadata contains invalid keys
      */
     public DirectorySetMetadataInfo setMetadata(Map<String, String> metadata) {
         return setMetadataWithResponse(metadata, null, Context.NONE).getValue();
@@ -327,7 +318,7 @@ public class DirectoryClient {
      * concludes a {@link RuntimeException} will be thrown.
      * @param context Additional context that is passed through the Http pipeline during the service call.
      * @return A response containing the information about the directory and response status code
-     * @throws FileStorageException If the directory doesn't exist or the metadata contains invalid keys
+     * @throws StorageException If the directory doesn't exist or the metadata contains invalid keys
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
     public Response<DirectorySetMetadataInfo> setMetadataWithResponse(Map<String, String> metadata, Duration timeout,
@@ -415,70 +406,32 @@ public class DirectoryClient {
     }
 
     /**
-     * Closes a handle on the directory at the service. This is intended to be used alongside {@link
-     * #listHandles(Integer, boolean, Duration, Context)}.
+     * Closes a handle or handles opened on a directory or a file at the service. It is intended to be used alongside
+     * {@link DirectoryClient#listHandles(Integer, boolean, Duration, Context)} .
      *
      * <p><strong>Code Samples</strong></p>
      *
-     * <p>Force close handles returned by list handles.</p>
+     * <p>Force close handles with handles returned by get handles in recursive.</p>
      *
-     * {@codesnippet com.azure.storage.file.DirectoryClient.forceCloseHandle#String}
+     * {@codesnippet com.azure.storage.file.directoryClient.forceCloseHandles}
      *
      * <p>For more information, see the
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles">Azure Docs</a>.</p>
      *
-     * @param handleId Handle ID to be closed.
-     */
-    public void forceCloseHandle(String handleId) {
-        forceCloseHandleWithResponse(handleId, null, Context.NONE);
-    }
-
-    /**
-     * Closes a handle on the directory at the service. This is intended to be used alongside {@link
-     * #listHandles(Integer, boolean, Duration, Context)}.
-     *
-     * <p><strong>Code Samples</strong></p>
-     *
-     * <p>Force close handles returned by list handles.</p>
-     *
-     * {@codesnippet com.azure.storage.file.DirectoryClient.forceCloseHandleWithResponse#String-Duration-Context}
-     *
-     * <p>For more information, see the
-     * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles">Azure Docs</a>.</p>
-     *
-     * @param handleId Handle ID to be clsoed.
+     * @param handleId Specifies the handle ID to be closed. Use an asterisk ('*') as a wildcard string to specify all
+     * handles.
+     * @param recursive A boolean value that specifies if the operation should also apply to the files and
+     * subdirectories of the directory specified in the URI.
      * @param timeout An optional timeout applied to the operation. If a response is not returned before the timeout
      * concludes a {@link RuntimeException} will be thrown.
      * @param context Additional context that is passed through the Http pipeline during the service call.
-     * @return A response that only contains headers and response status code.
+     * @return The counts of number of handles closed.
+     * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
-    public Response<Void> forceCloseHandleWithResponse(String handleId, Duration timeout, Context context) {
-        return Utility.blockWithOptionalTimeout(directoryAsyncClient
-            .forceCloseHandleWithResponse(handleId, context), timeout);
-    }
-
-    /**
-     * Closes all handles opened on the directory at the service.
-     *
-     * <p><strong>Code Samples</strong></p>
-     *
-     * <p>Force close all handles recursively.</p>
-     *
-     * {@codesnippet com.azure.storage.file.DirectoryClient.forceCloseAllHandles#boolean-Duration-Context}
-     *
-     * <p>For more information, see the
-     * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles">Azure Docs</a>.</p>
-     *
-     * @param recursive Flag indicating if the operation should apply to all subdirectories and files contained in the
-     * directory.
-     * @param timeout An optional timeout applied to the operation. If a response is not returned before the timeout
-     * concludes a {@link RuntimeException} will be thrown.
-     * @param context Additional context that is passed through the Http pipeline during the service call.
-     * @return The number of handles closed.
-     */
-    public int forceCloseAllHandles(boolean recursive, Duration timeout, Context context) {
-        return new PagedIterable<>(directoryAsyncClient.forceCloseAllHandlesWithTimeout(recursive, timeout, context))
-            .stream().reduce(0, Integer::sum);
+    public PagedIterable<Integer> forceCloseHandles(String handleId, boolean recursive, Duration timeout,
+        Context context) {
+        return new PagedIterable<>(directoryAsyncClient
+            .forceCloseHandlesWithOptionalTimeout(handleId, recursive, timeout, context));
     }
 
     /**
@@ -496,7 +449,7 @@ public class DirectoryClient {
      *
      * @param subDirectoryName Name of the subdirectory
      * @return The subdirectory client.
-     * @throws FileStorageException If the subdirectory has already existed, the parent directory does not exist or
+     * @throws StorageException If the subdirectory has already existed, the parent directory does not exist or
      * directory is an invalid resource name.
      */
     public DirectoryClient createSubDirectory(String subDirectoryName) {
@@ -524,7 +477,7 @@ public class DirectoryClient {
      * concludes a {@link RuntimeException} will be thrown.
      * @param context Additional context that is passed through the Http pipeline during the service call.
      * @return A response containing the subdirectory client and the status of creating the directory.
-     * @throws FileStorageException If the directory has already existed, the parent directory does not exist or
+     * @throws StorageException If the directory has already existed, the parent directory does not exist or
      * subdirectory is an invalid resource name.
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
@@ -550,8 +503,8 @@ public class DirectoryClient {
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory">Azure Docs</a>.</p>
      *
      * @param subDirectoryName Name of the subdirectory
-     * @throws FileStorageException If the subdirectory doesn't exist, the parent directory does not exist or
-     * subdirectory name is an invalid resource name.
+     * @throws StorageException If the subdirectory doesn't exist, the parent directory does not exist or subdirectory
+     * name is an invalid resource name.
      */
     public void deleteSubDirectory(String subDirectoryName) {
         deleteSubDirectoryWithResponse(subDirectoryName, null, Context.NONE);
@@ -575,8 +528,8 @@ public class DirectoryClient {
      * @param timeout An optional timeout applied to the operation. If a response is not returned before the timeout
      * concludes a {@link RuntimeException} will be thrown.
      * @return A response that only contains headers and response status code
-     * @throws FileStorageException If the subdirectory doesn't exist, the parent directory does not exist or
-     * subdirectory name is an invalid resource name.
+     * @throws StorageException If the subdirectory doesn't exist, the parent directory does not exist or subdirectory
+     * name is an invalid resource name.
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
     public Response<Void> deleteSubDirectoryWithResponse(String subDirectoryName, Duration timeout, Context context) {
@@ -600,8 +553,8 @@ public class DirectoryClient {
      * @param fileName Name of the file
      * @param maxSize Size of the file
      * @return The FileClient
-     * @throws FileStorageException If the file has already existed, the parent directory does not exist or file name
-     * is an invalid resource name.
+     * @throws StorageException If the file has already existed, the parent directory does not exist or file name is an
+     * invalid resource name.
      */
     public FileClient createFile(String fileName, long maxSize) {
         return createFileWithResponse(fileName, maxSize, null, null, null, null, null, Context.NONE).getValue();
@@ -629,11 +582,11 @@ public class DirectoryClient {
      * concludes a {@link RuntimeException} will be thrown.
      * @param context Additional context that is passed through the Http pipeline during the service call.
      * @return A response containing the directory info and the status of creating the directory.
-     * @throws FileStorageException If the directory has already existed, the parent directory does not exist or file
-     * name is an invalid resource name.
+     * @throws StorageException If the directory has already existed, the parent directory does not exist or file name
+     * is an invalid resource name.
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */
-    public Response<FileClient> createFileWithResponse(String fileName, long maxSize, FileHttpHeaders httpHeaders,
+    public Response<FileClient> createFileWithResponse(String fileName, long maxSize, FileHTTPHeaders httpHeaders,
         FileSmbProperties smbProperties, String filePermission, Map<String, String> metadata, Duration timeout,
         Context context) {
         FileClient fileClient = getFileClient(fileName);
@@ -655,7 +608,7 @@ public class DirectoryClient {
      * <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2">Azure Docs</a>.</p>
      *
      * @param fileName Name of the file
-     * @throws FileStorageException If the directory doesn't exist or the file doesn't exist or file name is an invalid
+     * @throws StorageException If the directory doesn't exist or the file doesn't exist or file name is an invalid
      * resource name.
      */
     public void deleteFile(String fileName) {
@@ -679,7 +632,7 @@ public class DirectoryClient {
      * concludes a {@link RuntimeException} will be thrown.
      * @param context Additional context that is passed through the Http pipeline during the service call.
      * @return A response that only contains headers and response status code
-     * @throws FileStorageException If the directory doesn't exist or the file doesn't exist or file name is an invalid
+     * @throws StorageException If the directory doesn't exist or the file doesn't exist or file name is an invalid
      * resource name.
      * @throws RuntimeException if the operation doesn't complete before the timeout concludes.
      */

@@ -61,9 +61,8 @@ public final class ConfigurationAsyncClient {
      *
      * @param serviceEndpoint The URL string for the App Configuration service.
      * @param pipeline HttpPipeline that the HTTP requests and responses flow through.
-     * @param version {@link ConfigurationServiceVersion} of the service to be used when making requests.
      */
-    ConfigurationAsyncClient(String serviceEndpoint, HttpPipeline pipeline, ConfigurationServiceVersion version) {
+    ConfigurationAsyncClient(String serviceEndpoint, HttpPipeline pipeline) {
         this.service = RestProxy.create(ConfigurationService.class, pipeline);
         this.serviceEndpoint = serviceEndpoint;
     }

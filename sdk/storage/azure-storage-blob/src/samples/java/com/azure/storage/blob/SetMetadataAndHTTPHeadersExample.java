@@ -4,9 +4,9 @@
 package com.azure.storage.blob;
 
 import com.azure.core.util.Context;
-import com.azure.storage.blob.models.BlobHttpHeaders;
+import com.azure.storage.blob.models.BlobHTTPHeaders;
 import com.azure.storage.blob.specialized.BlockBlobClient;
-import com.azure.storage.common.StorageSharedKeyCredential;
+import com.azure.storage.common.credentials.SharedKeyCredential;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class SetMetadataAndHTTPHeadersExample {
         /*
          * Use your Storage account's name and key to create a credential object; this is used to access your account.
          */
-        StorageSharedKeyCredential credential = new StorageSharedKeyCredential(accountName, accountKey);
+        SharedKeyCredential credential = new SharedKeyCredential(accountName, accountKey);
 
         /*
          * From the Azure portal, get your Storage account blob service URL endpoint.
@@ -72,7 +72,7 @@ public class SetMetadataAndHTTPHeadersExample {
          * Create a blob with blob's blobMetadata and BlobHttpHeaders.
          */
         Map<String, String> blobMetadata = Collections.singletonMap("myblobmetadata", "sample");
-        BlobHttpHeaders blobHTTPHeaders = new BlobHttpHeaders().setBlobContentDisposition("attachment")
+        BlobHTTPHeaders blobHTTPHeaders = new BlobHTTPHeaders().setBlobContentDisposition("attachment")
             .setBlobContentType("text/html; charset=utf-8");
 
         /*

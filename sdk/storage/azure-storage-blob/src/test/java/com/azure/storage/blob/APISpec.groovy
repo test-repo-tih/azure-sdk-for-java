@@ -23,19 +23,19 @@ import com.azure.core.test.TestMode
 import com.azure.core.test.utils.TestResourceNamer
 import com.azure.core.util.Configuration
 import com.azure.core.util.logging.ClientLogger
-import com.azure.identity.EnvironmentCredentialBuilder
+import com.azure.identity.credential.EnvironmentCredentialBuilder
 import com.azure.storage.blob.models.BlobContainerItem
-import com.azure.storage.blob.models.BlobRetentionPolicy
 import com.azure.storage.blob.models.BlobServiceProperties
 import com.azure.storage.blob.models.CopyStatusType
 import com.azure.storage.blob.models.LeaseStateType
 import com.azure.storage.blob.models.ListBlobContainersOptions
+import com.azure.storage.blob.models.RetentionPolicy
 import com.azure.storage.blob.specialized.BlobAsyncClientBase
 import com.azure.storage.blob.specialized.BlobClientBase
 import com.azure.storage.blob.specialized.LeaseClient
 import com.azure.storage.blob.specialized.LeaseClientBuilder
-import com.azure.storage.common.StorageSharedKeyCredential
-import com.azure.storage.common.implementation.Constants
+import com.azure.storage.common.Constants
+import com.azure.storage.common.credentials.SharedKeyCredential
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import spock.lang.Requires
@@ -117,10 +117,10 @@ class APISpec extends Specification {
     static def BLOB_STORAGE = "BLOB_STORAGE_"
     static def PREMIUM_STORAGE = "PREMIUM_STORAGE_"
 
-    protected static StorageSharedKeyCredential primaryCredential
-    static StorageSharedKeyCredential alternateCredential
-    static StorageSharedKeyCredential blobCredential
-    static StorageSharedKeyCredential premiumCredential
+    protected static SharedKeyCredential primaryCredential
+    static SharedKeyCredential alternateCredential
+    static SharedKeyCredential blobCredential
+    static SharedKeyCredential premiumCredential
     static TestMode testMode
 
     BlobServiceClient primaryBlobServiceClient
@@ -133,7 +133,7 @@ class APISpec extends Specification {
     boolean recordLiveMode
     private TestResourceNamer resourceNamer
     protected String testName
-    String containerName
+    def containerName
 
     def setupSpec() {
         testMode = setupTestMode()
@@ -205,7 +205,7 @@ class APISpec extends Specification {
         return setupTestMode() == TestMode.RECORD
     }
 
-    private StorageSharedKeyCredential getCredential(String accountType) {
+    private SharedKeyCredential getCredential(String accountType) {
         String accountName
         String accountKey
 
@@ -222,10 +222,10 @@ class APISpec extends Specification {
             return null
         }
 
-        return new StorageSharedKeyCredential(accountName, accountKey)
+        return new SharedKeyCredential(accountName, accountKey)
     }
 
-    BlobServiceClient setClient(StorageSharedKeyCredential credential) {
+    BlobServiceClient setClient(SharedKeyCredential credential) {
         try {
             return getServiceClient(credential)
         } catch (Exception ignore) {
@@ -255,15 +255,15 @@ class APISpec extends Specification {
         return getServiceClient(null, endpoint, null)
     }
 
-    BlobServiceClient getServiceClient(StorageSharedKeyCredential credential) {
+    BlobServiceClient getServiceClient(SharedKeyCredential credential) {
         return getServiceClient(credential, String.format(defaultEndpointTemplate, credential.getAccountName()), null)
     }
 
-    BlobServiceClient getServiceClient(StorageSharedKeyCredential credential, String endpoint) {
+    BlobServiceClient getServiceClient(SharedKeyCredential credential, String endpoint) {
         return getServiceClient(credential, endpoint, null)
     }
 
-    BlobServiceClient getServiceClient(StorageSharedKeyCredential credential, String endpoint,
+    BlobServiceClient getServiceClient(SharedKeyCredential credential, String endpoint,
         HttpPipelinePolicy... policies) {
         return getServiceClientBuilder(credential, endpoint, policies).buildClient()
     }
@@ -272,12 +272,12 @@ class APISpec extends Specification {
         return getServiceClientBuilder(null, endpoint, null).sasToken(sasToken).buildClient()
     }
 
-    BlobServiceAsyncClient getServiceAsyncClient(StorageSharedKeyCredential credential) {
+    BlobServiceAsyncClient getServiceAsyncClient(SharedKeyCredential credential) {
         return getServiceClientBuilder(credential, String.format(defaultEndpointTemplate, credential.getAccountName()))
             .buildAsyncClient()
     }
 
-    BlobServiceClientBuilder getServiceClientBuilder(StorageSharedKeyCredential credential, String endpoint,
+    BlobServiceClientBuilder getServiceClientBuilder(SharedKeyCredential credential, String endpoint,
         HttpPipelinePolicy... policies) {
         BlobServiceClientBuilder builder = new BlobServiceClientBuilder()
             .endpoint(endpoint)
@@ -312,7 +312,7 @@ class APISpec extends Specification {
         builder.sasToken(sasToken).buildClient()
     }
 
-    BlobAsyncClient getBlobAsyncClient(StorageSharedKeyCredential credential, String endpoint, String blobName) {
+    BlobAsyncClient getBlobAsyncClient(SharedKeyCredential credential, String endpoint, String blobName) {
         BlobClientBuilder builder = new BlobClientBuilder()
             .endpoint(endpoint)
             .blobName(blobName)
@@ -345,7 +345,7 @@ class APISpec extends Specification {
         return builder.sasToken(sasToken).buildClient()
     }
 
-    BlobClient getBlobClient(StorageSharedKeyCredential credential, String endpoint, HttpPipelinePolicy... policies) {
+    BlobClient getBlobClient(SharedKeyCredential credential, String endpoint, HttpPipelinePolicy... policies) {
         BlobClientBuilder builder = new BlobClientBuilder()
             .endpoint(endpoint)
             .httpClient(getHttpClient())
@@ -362,7 +362,7 @@ class APISpec extends Specification {
         return builder.credential(credential).buildClient()
     }
 
-    BlobClient getBlobClient(StorageSharedKeyCredential credential, String endpoint, String blobName) {
+    BlobClient getBlobClient(SharedKeyCredential credential, String endpoint, String blobName) {
         BlobClientBuilder builder = new BlobClientBuilder()
             .endpoint(endpoint)
             .blobName(blobName)
@@ -652,14 +652,14 @@ class APISpec extends Specification {
 
     def enableSoftDelete() {
         primaryBlobServiceClient.setProperties(new BlobServiceProperties()
-            .setDeleteRetentionPolicy(new BlobRetentionPolicy().setEnabled(true).setDays(2)))
+            .setDeleteRetentionPolicy(new RetentionPolicy().setEnabled(true).setDays(2)))
 
         sleepIfRecord(30000)
     }
 
     def disableSoftDelete() {
         primaryBlobServiceClient.setProperties(new BlobServiceProperties()
-            .setDeleteRetentionPolicy(new BlobRetentionPolicy().setEnabled(false)))
+            .setDeleteRetentionPolicy(new RetentionPolicy().setEnabled(false)))
 
         sleepIfRecord(30000)
     }

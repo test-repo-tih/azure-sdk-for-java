@@ -21,7 +21,6 @@ import reactor.core.publisher.Mono;
 
 import java.net.URL;
 
-import static com.azure.core.implementation.util.FluxUtil.monoError;
 import static com.azure.core.implementation.util.FluxUtil.withContext;
 
 /**
@@ -52,14 +51,12 @@ public final class LeaseAsyncClient {
     private final AzureBlobStorageImpl client;
     private final String accountName;
 
-    LeaseAsyncClient(HttpPipeline pipeline, String url, String leaseId, boolean isBlob, String accountName,
-        String serviceVersion) {
+    LeaseAsyncClient(HttpPipeline pipeline, String url, String leaseId, boolean isBlob, String accountName) {
         this.isBlob = isBlob;
         this.leaseId = leaseId;
         this.client = new AzureBlobStorageBuilder()
             .pipeline(pipeline)
             .url(url)
-            .version(serviceVersion)
             .build();
         this.accountName = accountName;
     }
@@ -97,11 +94,7 @@ public final class LeaseAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<String> acquireLease(int duration) {
-        try {
-            return acquireLeaseWithResponse(duration, null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return acquireLeaseWithResponse(duration, null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -121,11 +114,7 @@ public final class LeaseAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<String>> acquireLeaseWithResponse(int duration,
         ModifiedAccessConditions modifiedAccessConditions) {
-        try {
-            return withContext(context -> acquireLeaseWithResponse(duration, modifiedAccessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> acquireLeaseWithResponse(duration, modifiedAccessConditions, context));
     }
 
     Mono<Response<String>> acquireLeaseWithResponse(int duration, ModifiedAccessConditions modifiedAccessConditions,
@@ -152,11 +141,7 @@ public final class LeaseAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<String> renewLease() {
-        try {
-            return renewLeaseWithResponse(null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return renewLeaseWithResponse(null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -173,11 +158,7 @@ public final class LeaseAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<String>> renewLeaseWithResponse(ModifiedAccessConditions modifiedAccessConditions) {
-        try {
-            return withContext(context -> renewLeaseWithResponse(modifiedAccessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> renewLeaseWithResponse(modifiedAccessConditions, context));
     }
 
     Mono<Response<String>> renewLeaseWithResponse(ModifiedAccessConditions modifiedAccessConditions, Context context) {
@@ -203,11 +184,7 @@ public final class LeaseAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> releaseLease() {
-        try {
-            return releaseLeaseWithResponse(null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return releaseLeaseWithResponse(null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -224,11 +201,7 @@ public final class LeaseAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> releaseLeaseWithResponse(ModifiedAccessConditions modifiedAccessConditions) {
-        try {
-            return withContext(context -> releaseLeaseWithResponse(modifiedAccessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> releaseLeaseWithResponse(modifiedAccessConditions, context));
     }
 
     Mono<Response<Void>> releaseLeaseWithResponse(ModifiedAccessConditions modifiedAccessConditions, Context context) {
@@ -254,11 +227,7 @@ public final class LeaseAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Integer> breakLease() {
-        try {
-            return breakLeaseWithResponse(null, null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return breakLeaseWithResponse(null, null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -283,12 +252,7 @@ public final class LeaseAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Integer>> breakLeaseWithResponse(Integer breakPeriodInSeconds,
         ModifiedAccessConditions modifiedAccessConditions) {
-        try {
-            return withContext(
-                context -> breakLeaseWithResponse(breakPeriodInSeconds, modifiedAccessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> breakLeaseWithResponse(breakPeriodInSeconds, modifiedAccessConditions, context));
     }
 
     Mono<Response<Integer>> breakLeaseWithResponse(Integer breakPeriodInSeconds,
@@ -316,11 +280,7 @@ public final class LeaseAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<String> changeLease(String proposedId) {
-        try {
-            return changeLeaseWithResponse(proposedId, null).flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return changeLeaseWithResponse(proposedId, null).flatMap(FluxUtil::toMono);
     }
 
     /**
@@ -339,11 +299,7 @@ public final class LeaseAsyncClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<String>> changeLeaseWithResponse(String proposedId,
         ModifiedAccessConditions modifiedAccessConditions) {
-        try {
-            return withContext(context -> changeLeaseWithResponse(proposedId, modifiedAccessConditions, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> changeLeaseWithResponse(proposedId, modifiedAccessConditions, context));
     }
 
     Mono<Response<String>> changeLeaseWithResponse(String proposedId, ModifiedAccessConditions modifiedAccessConditions,
