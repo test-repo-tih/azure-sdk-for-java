@@ -15,9 +15,8 @@ import java.util.function.Predicate;
  * This class contains code samples for generating javadocs through doclets for {@link Poller}
  */
 public final class PollerJavaDocCodeSnippets {
-    private final Poller<String, String> myPoller = new Poller<String, String>(Duration.ofMillis(100),
-        response -> Mono.just(new PollResponse<>(OperationStatus.SUCCESSFULLY_COMPLETED, "Completed")),
-        () -> Mono.just("Final Output"));
+    private final Poller<String> myPoller = new Poller<>(Duration.ofMillis(100),
+        response -> Mono.just(new PollResponse<>(OperationStatus.SUCCESSFULLY_COMPLETED, "Completed")));
 
     /**
      * Initialise
@@ -27,7 +26,7 @@ public final class PollerJavaDocCodeSnippets {
         LocalDateTime timeToReturnFinalResponse = LocalDateTime.now().plus(Duration.ofMillis(800));
 
         // Create poller instance
-        Poller<String, String> poller = new Poller<String, String>(Duration.ofMillis(100),
+        Poller<String> poller = new Poller<>(Duration.ofMillis(100),
             // Define your custom poll operation
             perPollResponse -> {
                 if (LocalDateTime.now().isBefore(timeToReturnFinalResponse)) {
@@ -37,8 +36,7 @@ public final class PollerJavaDocCodeSnippets {
                     System.out.println("Returning final response.");
                     return Mono.just(new PollResponse<>(OperationStatus.SUCCESSFULLY_COMPLETED, "Operation completed."));
                 }
-            },
-            () -> Mono.just("Final Output"));
+            });
 
         // Default polling will start transparently.
         // END: com.azure.core.util.polling.poller.initialize.interval.polloperation
@@ -53,7 +51,7 @@ public final class PollerJavaDocCodeSnippets {
 
         // Create poller instance
         Duration pollInterval = Duration.ofMillis(100);
-        Poller<String, String> poller = new Poller<String, String>(pollInterval,
+        Poller<String> poller = new Poller<>(pollInterval,
             // Define your custom poll operation
             prePollResponse -> {
                 if (LocalDateTime.now().isBefore(timeToReturnFinalResponse)) {
@@ -63,8 +61,7 @@ public final class PollerJavaDocCodeSnippets {
                     System.out.println("Returning final response.");
                     return Mono.just(new PollResponse<>(OperationStatus.SUCCESSFULLY_COMPLETED, "Operation Completed."));
                 }
-            },
-            () -> Mono.just("Final Output"));
+            });
 
         // Listen to poll responses
         poller.getObserver().subscribe(response -> {
@@ -81,8 +78,8 @@ public final class PollerJavaDocCodeSnippets {
      */
     public void block() {
         // BEGIN: com.azure.core.util.polling.poller.block
-        String response = myPoller.block();
-        System.out.printf("Polling complete. Final Output: %s %n", response);
+        PollResponse<String> response = myPoller.block();
+        System.out.printf("Polling complete. Status: %s, Value: %s%n", response.getStatus(), response.getValue());
         // END: com.azure.core.util.polling.poller.block
     }
 
