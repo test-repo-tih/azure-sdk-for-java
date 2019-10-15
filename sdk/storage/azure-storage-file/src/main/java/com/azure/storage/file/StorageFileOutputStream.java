@@ -5,7 +5,7 @@ package com.azure.storage.file;
 
 import com.azure.storage.common.Constants;
 import com.azure.storage.common.StorageOutputStream;
-import com.azure.storage.file.models.FileStorageException;
+import com.azure.storage.file.models.StorageException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
@@ -26,7 +26,7 @@ public class StorageFileOutputStream extends StorageOutputStream {
     private Mono<Void> uploadData(Flux<ByteBuffer> inputData, long writeLength, long offset) {
         return client.uploadWithResponse(inputData, writeLength, offset)
             .then()
-            .onErrorResume(t -> t instanceof IOException || t instanceof FileStorageException, e -> {
+            .onErrorResume(t -> t instanceof IOException || t instanceof StorageException, e -> {
                 this.lastError = new IOException(e);
                 return null;
             });
