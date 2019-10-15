@@ -26,7 +26,7 @@ import java.util.function.Function;
 /**
  * While this class is public, but it is not part of our published public APIs.
  * This is meant to be internally used only by our sdk.
- *
+ * 
  * This class is used as a proxy to wrap the
  * DefaultDocumentQueryExecutionContext which is needed for sending the query to
  * GATEWAY first and then uses PipelinedDocumentQueryExecutionContext after it
@@ -74,27 +74,25 @@ public class ProxyDocumentQueryExecutionContext<T extends Resource> implements I
     @Override
     public Flux<FeedResponse<T>> executeAsync() {
 
-        Function<? super Throwable, ? extends Flux<? extends FeedResponse<T>>> func  = throwable -> {
+        Function<? super Throwable, ? extends Flux<? extends FeedResponse<T>>> func  = t -> {
 
-            Throwable unwrappedException = reactor.core.Exceptions.unwrap(throwable);
-
-            logger.debug("Received non result message from gateway", unwrappedException);
-            if (!(unwrappedException instanceof Exception)) {
-                logger.error("Unexpected failure", unwrappedException);
-                return Flux.error(unwrappedException);
+            logger.debug("Received non result message from gateway", t);
+            if (!(t instanceof Exception)) {
+                logger.error("Unexpected failure", t);
+                return Flux.error(t);
             }
-
-            if (!isCrossPartitionQuery((Exception) unwrappedException)) {
+            
+            if (!isCrossPartitionQuery((Exception) t)) {
                 // If this is not a cross partition query then propagate error
-                logger.debug("Failure from gateway", unwrappedException);
-                return Flux.error(unwrappedException);
+                logger.debug("Failure from gateway", t);
+                return Flux.error(t);
             }
 
             logger.debug("Setting up query pipeline using the query plan received form gateway");
 
             // cross partition query construct pipeline
 
-            CosmosClientException dce = (CosmosClientException) unwrappedException;
+            CosmosClientException dce = (CosmosClientException) t;
 
             PartitionedQueryExecutionInfo partitionedQueryExecutionInfo = new
                     PartitionedQueryExecutionInfo(dce.error().getPartitionedQueryExecutionInfo());
@@ -163,6 +161,6 @@ public class ProxyDocumentQueryExecutionContext<T extends Resource> implements I
                 resourceLink,
                 collection,
                 isContinuationExpected,
-                correlatedActivityId));
+                correlatedActivityId));        
     }
 }
