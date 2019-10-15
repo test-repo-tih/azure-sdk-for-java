@@ -34,7 +34,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
-import static com.azure.core.implementation.util.FluxUtil.monoError;
 import static com.azure.core.implementation.util.FluxUtil.withContext;
 import static com.azure.security.keyvault.keys.models.webkey.KeyType.EC;
 import static com.azure.security.keyvault.keys.models.webkey.KeyType.EC_HSM;
@@ -134,11 +133,7 @@ public class CryptographyAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Key>> getKeyWithResponse() {
-        try {
-            return withContext(context -> getKeyWithResponse(context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> getKeyWithResponse(context));
     }
 
     /**
@@ -155,11 +150,7 @@ public class CryptographyAsyncClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Key> getKey() {
-        try {
-            return getKeyWithResponse().flatMap(FluxUtil::toMono);
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return getKeyWithResponse().flatMap(FluxUtil::toMono);
     }
 
     Mono<Response<Key>> getKeyWithResponse(Context context) {
@@ -194,13 +185,8 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for encryption.
      * @throws NullPointerException if {@code algorithm} or  {@code plainText} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<EncryptResult> encrypt(EncryptionAlgorithm algorithm, byte[] plaintext) {
-        try {
-            return withContext(context -> encrypt(algorithm, plaintext, context, null, null));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> encrypt(algorithm, plaintext, context, null, null));
     }
 
     /**
@@ -233,14 +219,9 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for encryption.
      * @throws NullPointerException if {@code algorithm} or  {@code plainText} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<EncryptResult> encrypt(EncryptionAlgorithm algorithm, byte[] plaintext, byte[] iv,
                                        byte[] authenticationData) {
-        try {
-            return withContext(context -> encrypt(algorithm, plaintext, context, iv, authenticationData));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> encrypt(algorithm, plaintext, context, iv, authenticationData));
     }
 
     Mono<EncryptResult> encrypt(EncryptionAlgorithm algorithm, byte[] plaintext, Context context, byte[] iv,
@@ -288,13 +269,8 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for decryption.
      * @throws NullPointerException if {@code algorithm} or {@code cipherText} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DecryptResult> decrypt(EncryptionAlgorithm algorithm, byte[] cipherText) {
-        try {
-            return withContext(context -> decrypt(algorithm, cipherText, null, null, null, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> decrypt(algorithm, cipherText, null, null, null, context));
     }
 
     /**
@@ -326,15 +302,10 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for decryption.
      * @throws NullPointerException if {@code algorithm} or {@code cipherText} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DecryptResult> decrypt(EncryptionAlgorithm algorithm, byte[] cipherText, byte[] iv,
                                        byte[] authenticationData, byte[] authenticationTag) {
-        try {
-            return withContext(context -> decrypt(algorithm, cipherText, iv, authenticationData, authenticationTag,
-                context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> decrypt(algorithm, cipherText, iv, authenticationData, authenticationTag,
+            context));
     }
 
     Mono<DecryptResult> decrypt(EncryptionAlgorithm algorithm, byte[] cipherText, byte[] iv, byte[] authenticationData,
@@ -379,13 +350,8 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for signing.
      * @throws NullPointerException if {@code algorithm} or {@code digest} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SignResult> sign(SignatureAlgorithm algorithm, byte[] digest) {
-        try {
-            return withContext(context -> sign(algorithm, digest, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> sign(algorithm, digest, context));
     }
 
     Mono<SignResult> sign(SignatureAlgorithm algorithm, byte[] digest, Context context) {
@@ -429,13 +395,8 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for verifying.
      * @throws NullPointerException if {@code algorithm}, {@code digest} or {@code signature} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VerifyResult> verify(SignatureAlgorithm algorithm, byte[] digest, byte[] signature) {
-        try {
-            return withContext(context -> verify(algorithm, digest, signature, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> verify(algorithm, digest, signature, context));
     }
 
     Mono<VerifyResult> verify(SignatureAlgorithm algorithm, byte[] digest, byte[] signature, Context context) {
@@ -476,13 +437,8 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for wrap operation.
      * @throws NullPointerException if {@code algorithm} or {@code key} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<KeyWrapResult> wrapKey(KeyWrapAlgorithm algorithm, byte[] key) {
-        try {
-            return withContext(context -> wrapKey(algorithm, key, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> wrapKey(algorithm, key, context));
     }
 
     Mono<KeyWrapResult> wrapKey(KeyWrapAlgorithm algorithm, byte[] key, Context context) {
@@ -526,13 +482,8 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for wrap operation.
      * @throws NullPointerException if {@code algorithm} or {@code encryptedKey} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<KeyUnwrapResult> unwrapKey(KeyWrapAlgorithm algorithm, byte[] encryptedKey) {
-        try {
-            return withContext(context -> unwrapKey(algorithm, encryptedKey, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> unwrapKey(algorithm, encryptedKey, context));
     }
 
     Mono<KeyUnwrapResult> unwrapKey(KeyWrapAlgorithm algorithm, byte[] encryptedKey, Context context) {
@@ -576,13 +527,8 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for signing.
      * @throws NullPointerException if {@code algorithm} or {@code data} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SignResult> signData(SignatureAlgorithm algorithm, byte[] data) {
-        try {
-            return withContext(context -> signData(algorithm, data, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> signData(algorithm, data, context));
     }
 
     Mono<SignResult> signData(SignatureAlgorithm algorithm, byte[] data, Context context) {
@@ -627,13 +573,8 @@ public class CryptographyAsyncClient {
      * @throws ResourceNotFoundException if the key cannot be found for verifying.
      * @throws NullPointerException if {@code algorithm}, {@code data} or {@code signature} is null.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VerifyResult> verifyData(SignatureAlgorithm algorithm, byte[] data, byte[] signature) {
-        try {
-            return withContext(context -> verifyData(algorithm, data, signature, context));
-        } catch (RuntimeException ex) {
-            return monoError(logger, ex);
-        }
+        return withContext(context -> verifyData(algorithm, data, signature, context));
     }
 
     Mono<VerifyResult> verifyData(SignatureAlgorithm algorithm, byte[] data, byte[] signature, Context context) {

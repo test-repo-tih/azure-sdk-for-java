@@ -5,7 +5,6 @@ package com.azure.security.keyvault.certificates;
 
 import com.azure.core.util.Context;
 import com.azure.core.util.polling.PollResponse;
-import com.azure.core.util.polling.Poller;
 import com.azure.identity.credential.DefaultAzureCredentialBuilder;
 import com.azure.security.keyvault.certificates.models.Certificate;
 import com.azure.security.keyvault.certificates.models.CertificateOperation;
@@ -57,7 +56,7 @@ public class BackupAndRestoreOperations {
         Poller<CertificateOperation, Certificate> certificatePoller = certificateClient.beginCreateCertificate("certificateName", policy, tags);
         certificatePoller.blockUntil(PollResponse.OperationStatus.SUCCESSFULLY_COMPLETED);
 
-        Certificate cert = certificatePoller.getResult().block();
+        Certificate cert = certificatePoller.result().block();
 
         // Backups are good to have, if in case certificates get accidentally deleted by you.
         // For long term storage, it is ideal to write the backup to a file.
