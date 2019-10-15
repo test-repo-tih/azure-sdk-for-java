@@ -4,19 +4,18 @@
 package com.azure.storage.blob;
 
 import com.azure.core.util.Context;
-import com.azure.storage.blob.models.BlobAccessPolicy;
+import com.azure.storage.blob.models.AccessPolicy;
 import com.azure.storage.blob.models.BlobContainerAccessConditions;
 import com.azure.storage.blob.models.BlobContainerAccessPolicies;
-import com.azure.storage.blob.models.BlobErrorCode;
 import com.azure.storage.blob.models.BlobListDetails;
-import com.azure.storage.blob.models.BlobSignedIdentifier;
-import com.azure.storage.blob.models.BlobStorageException;
 import com.azure.storage.blob.models.LeaseAccessConditions;
 import com.azure.storage.blob.models.ListBlobsOptions;
 import com.azure.storage.blob.models.ModifiedAccessConditions;
 import com.azure.storage.blob.models.PublicAccessType;
+import com.azure.storage.blob.models.SignedIdentifier;
 import com.azure.storage.blob.models.StorageAccountInfo;
-
+import com.azure.storage.blob.models.StorageErrorCode;
+import com.azure.storage.blob.models.StorageException;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Collections;
@@ -75,8 +74,8 @@ public class BlobContainerClientJavaDocCodeSnippets {
         try {
             client.create();
             System.out.printf("Create completed%n");
-        } catch (BlobStorageException error) {
-            if (error.getErrorCode().equals(BlobErrorCode.CONTAINER_ALREADY_EXISTS)) {
+        } catch (StorageException error) {
+            if (error.getErrorCode().equals(StorageErrorCode.CONTAINER_ALREADY_EXISTS)) {
                 System.out.printf("Can't create container. It already exists %n");
             }
         }
@@ -104,8 +103,8 @@ public class BlobContainerClientJavaDocCodeSnippets {
         try {
             client.delete();
             System.out.printf("Delete completed%n");
-        } catch (BlobStorageException error) {
-            if (error.getErrorCode().equals(BlobErrorCode.CONTAINER_NOT_FOUND)) {
+        } catch (StorageException error) {
+            if (error.getErrorCode().equals(StorageErrorCode.CONTAINER_NOT_FOUND)) {
                 System.out.printf("Delete failed. Container was not found %n");
             }
         }
@@ -199,10 +198,10 @@ public class BlobContainerClientJavaDocCodeSnippets {
         BlobContainerAccessPolicies accessPolicies = client.getAccessPolicy();
         System.out.printf("Blob Access Type: %s%n", accessPolicies.getBlobAccessType());
 
-        for (BlobSignedIdentifier identifier : accessPolicies.getIdentifiers()) {
+        for (SignedIdentifier identifier : accessPolicies.getIdentifiers()) {
             System.out.printf("Identifier Name: %s, Permissions %s%n",
                 identifier.getId(),
-                identifier.getAccessPolicy().getPermissions());
+                identifier.getAccessPolicy().getPermission());
         }
         // END: com.azure.storage.blob.BlobContainerClient.getAccessPolicy
     }
@@ -218,10 +217,10 @@ public class BlobContainerClientJavaDocCodeSnippets {
             .getValue();
         System.out.printf("Blob Access Type: %s%n", accessPolicies.getBlobAccessType());
 
-        for (BlobSignedIdentifier identifier : accessPolicies.getIdentifiers()) {
+        for (SignedIdentifier identifier : accessPolicies.getIdentifiers()) {
             System.out.printf("Identifier Name: %s, Permissions %s%n",
                 identifier.getId(),
-                identifier.getAccessPolicy().getPermissions());
+                identifier.getAccessPolicy().getPermission());
         }
         // END: com.azure.storage.blob.BlobContainerClient.getAccessPolicyWithResponse#LeaseAccessConditions-Duration-Context
     }
@@ -231,12 +230,12 @@ public class BlobContainerClientJavaDocCodeSnippets {
      */
     public void setAccessPolicy() {
         // BEGIN: com.azure.storage.blob.BlobContainerClient.setAccessPolicy#PublicAccessType-List
-        BlobSignedIdentifier identifier = new BlobSignedIdentifier()
+        SignedIdentifier identifier = new SignedIdentifier()
             .setId("name")
-            .setAccessPolicy(new BlobAccessPolicy()
-                .setStartsOn(OffsetDateTime.now())
-                .setExpiresOn(OffsetDateTime.now().plusDays(7))
-                .setPermissions("permissionString"));
+            .setAccessPolicy(new AccessPolicy()
+                .setStart(OffsetDateTime.now())
+                .setExpiry(OffsetDateTime.now().plusDays(7))
+                .setPermission("permissionString"));
 
         try {
             client.setAccessPolicy(PublicAccessType.CONTAINER, Collections.singletonList(identifier));
@@ -253,12 +252,12 @@ public class BlobContainerClientJavaDocCodeSnippets {
      */
     public void setAccessPolicy2() {
         // BEGIN: com.azure.storage.blob.BlobContainerClient.setAccessPolicyWithResponse#PublicAccessType-List-BlobContainerAccessConditions-Duration-Context
-        BlobSignedIdentifier identifier = new BlobSignedIdentifier()
+        SignedIdentifier identifier = new SignedIdentifier()
             .setId("name")
-            .setAccessPolicy(new BlobAccessPolicy()
-                .setStartsOn(OffsetDateTime.now())
-                .setExpiresOn(OffsetDateTime.now().plusDays(7))
-                .setPermissions("permissionString"));
+            .setAccessPolicy(new AccessPolicy()
+                .setStart(OffsetDateTime.now())
+                .setExpiry(OffsetDateTime.now().plusDays(7))
+                .setPermission("permissionString"));
 
         BlobContainerAccessConditions accessConditions = new BlobContainerAccessConditions()
             .setLeaseAccessConditions(new LeaseAccessConditions().setLeaseId(leaseId))
