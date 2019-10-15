@@ -3,11 +3,12 @@
 
 package com.azure.storage.blob.specialized
 
+
 import com.azure.core.implementation.util.FluxUtil
 import com.azure.storage.blob.APISpec
 import com.azure.storage.blob.HttpGetterInfo
 import com.azure.storage.blob.models.ReliableDownloadOptions
-import com.azure.storage.blob.models.BlobStorageException
+import com.azure.storage.blob.models.StorageErrorException
 import spock.lang.Unroll
 
 class DownloadResponseTest extends APISpec {
@@ -81,10 +82,10 @@ class DownloadResponseTest extends APISpec {
         which is when retryCount=6 and therefore tryNumber=7
          */
         where:
-        scenario                                                       | exceptionType    | tryNumber
-        DownloadResponseMockFlux.DR_TEST_SCENARIO_MAX_RETRIES_EXCEEDED | IOException      | 7
-        DownloadResponseMockFlux.DR_TEST_SCENARIO_NON_RETRYABLE_ERROR  | Exception        | 1
-        DownloadResponseMockFlux.DR_TEST_SCENARIO_ERROR_GETTER_MIDDLE  | BlobStorageException | 2
+        scenario                                                       | exceptionType         | tryNumber
+        DownloadResponseMockFlux.DR_TEST_SCENARIO_MAX_RETRIES_EXCEEDED | IOException           | 7
+        DownloadResponseMockFlux.DR_TEST_SCENARIO_NON_RETRYABLE_ERROR  | Exception             | 1
+        DownloadResponseMockFlux.DR_TEST_SCENARIO_ERROR_GETTER_MIDDLE  | StorageErrorException | 2
     }
 
     @Unroll
