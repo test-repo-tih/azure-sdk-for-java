@@ -43,12 +43,6 @@ class DatabasesImpl extends WrapperImpl<DatabasesInner> implements Databases {
     }
 
     @Override
-    public Completable upgradeDataWarehouseAsync(String resourceGroupName, String serverName, String databaseName) {
-        DatabasesInner client = this.inner();
-        return client.upgradeDataWarehouseAsync(resourceGroupName, serverName, databaseName).toCompletable();
-    }
-
-    @Override
     public Observable<Database> listByElasticPoolAsync(final String resourceGroupName, final String serverName, final String elasticPoolName) {
         DatabasesInner client = this.inner();
         return client.listByElasticPoolAsync(resourceGroupName, serverName, elasticPoolName)
@@ -88,6 +82,12 @@ class DatabasesImpl extends WrapperImpl<DatabasesInner> implements Databases {
                 return new DatabaseImpl(inner, manager());
             }
         });
+    }
+
+    @Override
+    public Completable upgradeDataWarehouseAsync(String resourceGroupName, String serverName, String databaseName) {
+        DatabasesInner client = this.inner();
+        return client.upgradeDataWarehouseAsync(resourceGroupName, serverName, databaseName).toCompletable();
     }
 
     @Override
