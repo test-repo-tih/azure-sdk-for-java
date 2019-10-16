@@ -22,26 +22,26 @@ public final class BlobServiceProperties {
      * The logging property.
      */
     @JsonProperty(value = "Logging")
-    private BlobAnalyticsLogging logging;
+    private Logging logging;
 
     /*
      * The hourMetrics property.
      */
     @JsonProperty(value = "HourMetrics")
-    private BlobMetrics hourMetrics;
+    private Metrics hourMetrics;
 
     /*
      * The minuteMetrics property.
      */
     @JsonProperty(value = "MinuteMetrics")
-    private BlobMetrics minuteMetrics;
+    private Metrics minuteMetrics;
 
     private static final class CorsWrapper {
         @JacksonXmlProperty(localName = "CorsRule")
-        private final List<BlobCorsRule> items;
+        private final List<CorsRule> items;
 
         @JsonCreator
-        private CorsWrapper(@JacksonXmlProperty(localName = "CorsRule") List<BlobCorsRule> items) {
+        private CorsWrapper(@JacksonXmlProperty(localName = "CorsRule") List<CorsRule> items) {
             this.items = items;
         }
     }
@@ -64,7 +64,7 @@ public final class BlobServiceProperties {
      * The deleteRetentionPolicy property.
      */
     @JsonProperty(value = "DeleteRetentionPolicy")
-    private BlobRetentionPolicy deleteRetentionPolicy;
+    private RetentionPolicy deleteRetentionPolicy;
 
     /*
      * The staticWebsite property.
@@ -77,7 +77,7 @@ public final class BlobServiceProperties {
      *
      * @return the logging value.
      */
-    public BlobAnalyticsLogging getLogging() {
+    public Logging getLogging() {
         return this.logging;
     }
 
@@ -87,7 +87,7 @@ public final class BlobServiceProperties {
      * @param logging the logging value to set.
      * @return the BlobServiceProperties object itself.
      */
-    public BlobServiceProperties setLogging(BlobAnalyticsLogging logging) {
+    public BlobServiceProperties setLogging(Logging logging) {
         this.logging = logging;
         return this;
     }
@@ -97,7 +97,7 @@ public final class BlobServiceProperties {
      *
      * @return the hourMetrics value.
      */
-    public BlobMetrics getHourMetrics() {
+    public Metrics getHourMetrics() {
         return this.hourMetrics;
     }
 
@@ -107,7 +107,7 @@ public final class BlobServiceProperties {
      * @param hourMetrics the hourMetrics value to set.
      * @return the BlobServiceProperties object itself.
      */
-    public BlobServiceProperties setHourMetrics(BlobMetrics hourMetrics) {
+    public BlobServiceProperties setHourMetrics(Metrics hourMetrics) {
         this.hourMetrics = hourMetrics;
         return this;
     }
@@ -117,7 +117,7 @@ public final class BlobServiceProperties {
      *
      * @return the minuteMetrics value.
      */
-    public BlobMetrics getMinuteMetrics() {
+    public Metrics getMinuteMetrics() {
         return this.minuteMetrics;
     }
 
@@ -127,7 +127,7 @@ public final class BlobServiceProperties {
      * @param minuteMetrics the minuteMetrics value to set.
      * @return the BlobServiceProperties object itself.
      */
-    public BlobServiceProperties setMinuteMetrics(BlobMetrics minuteMetrics) {
+    public BlobServiceProperties setMinuteMetrics(Metrics minuteMetrics) {
         this.minuteMetrics = minuteMetrics;
         return this;
     }
@@ -137,9 +137,9 @@ public final class BlobServiceProperties {
      *
      * @return the cors value.
      */
-    public List<BlobCorsRule> getCors() {
+    public List<CorsRule> getCors() {
         if (this.cors == null) {
-            this.cors = new CorsWrapper(new ArrayList<BlobCorsRule>());
+            this.cors = new CorsWrapper(new ArrayList<CorsRule>());
         }
         return this.cors.items;
     }
@@ -150,7 +150,7 @@ public final class BlobServiceProperties {
      * @param cors the cors value to set.
      * @return the BlobServiceProperties object itself.
      */
-    public BlobServiceProperties setCors(List<BlobCorsRule> cors) {
+    public BlobServiceProperties setCors(List<CorsRule> cors) {
         this.cors = new CorsWrapper(cors);
         return this;
     }
@@ -187,7 +187,7 @@ public final class BlobServiceProperties {
      *
      * @return the deleteRetentionPolicy value.
      */
-    public BlobRetentionPolicy getDeleteRetentionPolicy() {
+    public RetentionPolicy getDeleteRetentionPolicy() {
         return this.deleteRetentionPolicy;
     }
 
@@ -198,7 +198,7 @@ public final class BlobServiceProperties {
      * @param deleteRetentionPolicy the deleteRetentionPolicy value to set.
      * @return the BlobServiceProperties object itself.
      */
-    public BlobServiceProperties setDeleteRetentionPolicy(BlobRetentionPolicy deleteRetentionPolicy) {
+    public BlobServiceProperties setDeleteRetentionPolicy(RetentionPolicy deleteRetentionPolicy) {
         this.deleteRetentionPolicy = deleteRetentionPolicy;
         return this;
     }
