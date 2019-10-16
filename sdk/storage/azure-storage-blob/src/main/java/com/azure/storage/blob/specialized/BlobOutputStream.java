@@ -6,12 +6,12 @@ import com.azure.core.util.logging.ClientLogger;
 import com.azure.storage.blob.models.AppendBlobAccessConditions;
 import com.azure.storage.blob.models.AppendPositionAccessConditions;
 import com.azure.storage.blob.models.BlobAccessConditions;
-import com.azure.storage.blob.models.BlobStorageException;
 import com.azure.storage.blob.models.LeaseAccessConditions;
 import com.azure.storage.blob.models.PageBlobAccessConditions;
 import com.azure.storage.blob.models.PageRange;
-import com.azure.storage.common.StorageOutputStream;
+import com.azure.storage.blob.models.StorageException;
 import com.azure.storage.common.implementation.Constants;
+import com.azure.storage.common.StorageOutputStream;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -66,7 +66,7 @@ public abstract class BlobOutputStream extends StorageOutputStream {
             // try to commit the blob
             try {
                 this.commit();
-            } catch (final BlobStorageException e) {
+            } catch (final StorageException e) {
                 throw new IOException(e);
             }
         } finally {
@@ -111,9 +111,9 @@ public abstract class BlobOutputStream extends StorageOutputStream {
 
             return client.appendBlockWithResponse(blockData, writeLength, appendBlobAccessConditions)
                 .then()
-                .onErrorResume(t -> t instanceof IOException || t instanceof BlobStorageException, e -> {
+                .onErrorResume(t -> t instanceof IOException || t instanceof StorageException, e -> {
                     this.lastError = new IOException(e);
-                    return Mono.empty();
+                    return null;
                 });
         }
 
@@ -176,9 +176,9 @@ public abstract class BlobOutputStream extends StorageOutputStream {
 
             return client.stageBlockWithResponse(blockId, blockData, writeLength, leaseAccessConditions)
                 .then()
-                .onErrorResume(BlobStorageException.class, e -> {
+                .onErrorResume(t -> t instanceof StorageException, e -> {
                     this.lastError = new IOException(e);
-                    return Mono.empty();
+                    return null;
                 });
         }
 
@@ -234,9 +234,9 @@ public abstract class BlobOutputStream extends StorageOutputStream {
             return client.uploadPagesWithResponse(new PageRange().setStart(offset).setEnd(offset + length - 1),
                 pageData, pageBlobAccessConditions)
                 .then()
-                .onErrorResume(BlobStorageException.class, e -> {
+                .onErrorResume(t -> t instanceof StorageException, e -> {
                     this.lastError = new IOException(e);
-                    return Mono.empty();
+                    return null;
                 });
         }
 
