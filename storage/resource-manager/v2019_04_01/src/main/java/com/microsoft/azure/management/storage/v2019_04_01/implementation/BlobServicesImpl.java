@@ -63,14 +63,10 @@ class BlobServicesImpl extends WrapperImpl<BlobServicesInner> implements BlobSer
     public Observable<BlobServiceProperties> getServicePropertiesAsync(String resourceGroupName, String accountName) {
         BlobServicesInner client = this.inner();
         return client.getServicePropertiesAsync(resourceGroupName, accountName)
-        .flatMap(new Func1<BlobServicePropertiesInner, Observable<BlobServiceProperties>>() {
+        .map(new Func1<BlobServicePropertiesInner, BlobServiceProperties>() {
             @Override
-            public Observable<BlobServiceProperties> call(BlobServicePropertiesInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((BlobServiceProperties)wrapModel(inner));
-                }
+            public BlobServiceProperties call(BlobServicePropertiesInner inner) {
+                return wrapModel(inner);
             }
        });
     }
