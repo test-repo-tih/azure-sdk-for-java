@@ -63,6 +63,11 @@ class ApplicationInsightsComponentImpl extends GroupableResourceCoreImpl<Applica
     }
 
     @Override
+    public String connectionString() {
+        return this.inner().connectionString();
+    }
+
+    @Override
     public DateTime creationDate() {
         return this.inner().creationDate();
     }
