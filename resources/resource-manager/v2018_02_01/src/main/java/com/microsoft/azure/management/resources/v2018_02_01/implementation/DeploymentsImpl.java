@@ -25,6 +25,7 @@ import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.azure.management.resources.v2018_02_01.DeploymentValidateResult;
 import com.microsoft.azure.management.resources.v2018_02_01.DeploymentExportResult;
+import com.microsoft.azure.management.resources.v2018_02_01.TemplateHashResult;
 import com.microsoft.azure.management.resources.v2018_02_01.DeploymentProperties;
 import com.microsoft.azure.arm.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.v2018_02_01.DeploymentExtended;
@@ -62,10 +63,10 @@ class DeploymentsImpl extends WrapperImpl<DeploymentsInner> implements Deploymen
     }
 
     @Override
-    public Completable checkExistenceAsync(String resourceGroupName, String deploymentName) {
+    public Observable<Boolean> checkExistenceAsync(String resourceGroupName, String deploymentName) {
         DeploymentsInner client = this.inner();
-        return client.checkExistenceAsync(resourceGroupName, deploymentName).toCompletable();
-    }
+        return client.checkExistenceAsync(resourceGroupName, deploymentName)
+    ;}
 
     @Override
     public Completable cancelAsync(String resourceGroupName, String deploymentName) {
@@ -93,6 +94,18 @@ class DeploymentsImpl extends WrapperImpl<DeploymentsInner> implements Deploymen
             @Override
             public DeploymentExportResult call(DeploymentExportResultInner inner) {
                 return new DeploymentExportResultImpl(inner, manager());
+            }
+        });
+    }
+
+    @Override
+    public Observable<TemplateHashResult> calculateTemplateHashAsync(Object template) {
+        DeploymentsInner client = this.inner();
+        return client.calculateTemplateHashAsync(template)
+        .map(new Func1<TemplateHashResultInner, TemplateHashResult>() {
+            @Override
+            public TemplateHashResult call(TemplateHashResultInner inner) {
+                return new TemplateHashResultImpl(inner, manager());
             }
         });
     }
