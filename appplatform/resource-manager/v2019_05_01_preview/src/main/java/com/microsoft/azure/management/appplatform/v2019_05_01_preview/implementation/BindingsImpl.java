@@ -64,14 +64,10 @@ class BindingsImpl extends WrapperImpl<BindingsInner> implements Bindings {
     public Observable<BindingResource> getAsync(String resourceGroupName, String serviceName, String appName, String bindingName) {
         BindingsInner client = this.inner();
         return client.getAsync(resourceGroupName, serviceName, appName, bindingName)
-        .flatMap(new Func1<BindingResourceInner, Observable<BindingResource>>() {
+        .map(new Func1<BindingResourceInner, BindingResource>() {
             @Override
-            public Observable<BindingResource> call(BindingResourceInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((BindingResource)wrapModel(inner));
-                }
+            public BindingResource call(BindingResourceInner inner) {
+                return wrapModel(inner);
             }
        });
     }

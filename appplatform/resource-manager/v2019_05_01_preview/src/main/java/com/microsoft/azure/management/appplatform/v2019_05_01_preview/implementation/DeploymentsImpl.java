@@ -113,14 +113,10 @@ class DeploymentsImpl extends WrapperImpl<DeploymentsInner> implements Deploymen
     public Observable<DeploymentResource> getAsync(String resourceGroupName, String serviceName, String appName, String deploymentName) {
         DeploymentsInner client = this.inner();
         return client.getAsync(resourceGroupName, serviceName, appName, deploymentName)
-        .flatMap(new Func1<DeploymentResourceInner, Observable<DeploymentResource>>() {
+        .map(new Func1<DeploymentResourceInner, DeploymentResource>() {
             @Override
-            public Observable<DeploymentResource> call(DeploymentResourceInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((DeploymentResource)wrapModel(inner));
-                }
+            public DeploymentResource call(DeploymentResourceInner inner) {
+                return wrapModel(inner);
             }
        });
     }
