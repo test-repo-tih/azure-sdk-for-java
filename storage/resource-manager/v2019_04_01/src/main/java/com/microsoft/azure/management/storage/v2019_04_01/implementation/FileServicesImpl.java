@@ -57,14 +57,10 @@ class FileServicesImpl extends WrapperImpl<FileServicesInner> implements FileSer
     public Observable<FileServiceProperties> getServicePropertiesAsync(String resourceGroupName, String accountName) {
         FileServicesInner client = this.inner();
         return client.getServicePropertiesAsync(resourceGroupName, accountName)
-        .flatMap(new Func1<FileServicePropertiesInner, Observable<FileServiceProperties>>() {
+        .map(new Func1<FileServicePropertiesInner, FileServiceProperties>() {
             @Override
-            public Observable<FileServiceProperties> call(FileServicePropertiesInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((FileServiceProperties)wrapModel(inner));
-                }
+            public FileServiceProperties call(FileServicePropertiesInner inner) {
+                return wrapModel(inner);
             }
        });
     }
