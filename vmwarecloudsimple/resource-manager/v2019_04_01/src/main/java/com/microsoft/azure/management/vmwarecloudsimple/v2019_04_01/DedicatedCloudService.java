@@ -79,70 +79,22 @@ public interface DedicatedCloudService extends HasInner<DedicatedCloudServiceInn
         }
 
         /**
-         * The stage of the dedicatedcloudservice definition allowing to specify Nodes.
-         */
-        interface WithNodes {
-            /**
-             * Specifies nodes.
-             * @param nodes total nodes purchased
-             * @return the next definition stage
-             */
-            WithCreate withNodes(Integer nodes);
-        }
-
-        /**
-         * The stage of the dedicatedcloudservice definition allowing to specify ServiceURL.
-         */
-        interface WithServiceURL {
-            /**
-             * Specifies serviceURL.
-             * @param serviceURL link to a service management web portal
-             * @return the next definition stage
-             */
-            WithCreate withServiceURL(String serviceURL);
-        }
-
-        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
-        interface WithCreate extends Creatable<DedicatedCloudService>, Resource.DefinitionWithTags<WithCreate>, DefinitionStages.WithNodes, DefinitionStages.WithServiceURL {
+        interface WithCreate extends Creatable<DedicatedCloudService>, Resource.DefinitionWithTags<WithCreate> {
         }
     }
     /**
      * The template for a DedicatedCloudService update operation, containing all the settings that can be modified.
      */
-    interface Update extends Appliable<DedicatedCloudService>, Resource.UpdateWithTags<Update>, UpdateStages.WithNodes, UpdateStages.WithServiceURL {
+    interface Update extends Appliable<DedicatedCloudService>, Resource.UpdateWithTags<Update> {
     }
 
     /**
      * Grouping of DedicatedCloudService update stages.
      */
     interface UpdateStages {
-        /**
-         * The stage of the dedicatedcloudservice update allowing to specify Nodes.
-         */
-        interface WithNodes {
-            /**
-             * Specifies nodes.
-             * @param nodes total nodes purchased
-             * @return the next update stage
-             */
-            Update withNodes(Integer nodes);
-        }
-
-        /**
-         * The stage of the dedicatedcloudservice update allowing to specify ServiceURL.
-         */
-        interface WithServiceURL {
-            /**
-             * Specifies serviceURL.
-             * @param serviceURL link to a service management web portal
-             * @return the next update stage
-             */
-            Update withServiceURL(String serviceURL);
-        }
-
     }
 }

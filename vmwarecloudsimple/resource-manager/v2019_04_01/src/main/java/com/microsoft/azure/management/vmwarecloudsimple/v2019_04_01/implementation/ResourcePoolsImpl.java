@@ -54,14 +54,10 @@ class ResourcePoolsImpl extends WrapperImpl<ResourcePoolsInner> implements Resou
     public Observable<ResourcePool> getAsync(String regionId, String pcName, String resourcePoolName) {
         ResourcePoolsInner client = this.inner();
         return client.getAsync(regionId, pcName, resourcePoolName)
-        .flatMap(new Func1<ResourcePoolInner, Observable<ResourcePool>>() {
+        .map(new Func1<ResourcePoolInner, ResourcePool>() {
             @Override
-            public Observable<ResourcePool> call(ResourcePoolInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((ResourcePool)wrapModel(inner));
-                }
+            public ResourcePool call(ResourcePoolInner inner) {
+                return wrapModel(inner);
             }
        });
     }

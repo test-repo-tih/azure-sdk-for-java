@@ -54,14 +54,10 @@ class PrivateCloudsImpl extends WrapperImpl<PrivateCloudsInner> implements Priva
     public Observable<PrivateCloud> getAsync(String pcName, String regionId) {
         PrivateCloudsInner client = this.inner();
         return client.getAsync(pcName, regionId)
-        .flatMap(new Func1<PrivateCloudInner, Observable<PrivateCloud>>() {
+        .map(new Func1<PrivateCloudInner, PrivateCloud>() {
             @Override
-            public Observable<PrivateCloud> call(PrivateCloudInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((PrivateCloud)wrapModel(inner));
-                }
+            public PrivateCloud call(PrivateCloudInner inner) {
+                return wrapModel(inner);
             }
        });
     }

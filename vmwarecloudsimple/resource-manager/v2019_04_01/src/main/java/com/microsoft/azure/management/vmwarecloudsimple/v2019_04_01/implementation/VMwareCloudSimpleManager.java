@@ -21,6 +21,7 @@ import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.DedicatedClo
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.DedicatedCloudServices;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.SkusAvailabilitys;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.PrivateClouds;
+import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.CustomizationPolicies;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.ResourcePools;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualMachineTemplates;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualNetworks;
@@ -38,6 +39,7 @@ public final class VMwareCloudSimpleManager extends ManagerCore<VMwareCloudSimpl
     private DedicatedCloudServices dedicatedCloudServices;
     private SkusAvailabilitys skusAvailabilitys;
     private PrivateClouds privateClouds;
+    private CustomizationPolicies customizationPolicies;
     private ResourcePools resourcePools;
     private VirtualMachineTemplates virtualMachineTemplates;
     private VirtualNetworks virtualNetworks;
@@ -138,6 +140,16 @@ public final class VMwareCloudSimpleManager extends ManagerCore<VMwareCloudSimpl
             this.privateClouds = new PrivateCloudsImpl(this);
         }
         return this.privateClouds;
+    }
+
+    /**
+     * @return Entry point to manage CustomizationPolicies.
+     */
+    public CustomizationPolicies customizationPolicies() {
+        if (this.customizationPolicies == null) {
+            this.customizationPolicies = new CustomizationPoliciesImpl(this);
+        }
+        return this.customizationPolicies;
     }
 
     /**

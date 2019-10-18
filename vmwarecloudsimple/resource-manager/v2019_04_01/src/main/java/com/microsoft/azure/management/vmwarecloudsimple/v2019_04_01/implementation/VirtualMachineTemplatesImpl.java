@@ -54,14 +54,10 @@ class VirtualMachineTemplatesImpl extends WrapperImpl<VirtualMachineTemplatesInn
     public Observable<VirtualMachineTemplate> getAsync(String regionId, String pcName, String virtualMachineTemplateName) {
         VirtualMachineTemplatesInner client = this.inner();
         return client.getAsync(regionId, pcName, virtualMachineTemplateName)
-        .flatMap(new Func1<VirtualMachineTemplateInner, Observable<VirtualMachineTemplate>>() {
+        .map(new Func1<VirtualMachineTemplateInner, VirtualMachineTemplate>() {
             @Override
-            public Observable<VirtualMachineTemplate> call(VirtualMachineTemplateInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((VirtualMachineTemplate)wrapModel(inner));
-                }
+            public VirtualMachineTemplate call(VirtualMachineTemplateInner inner) {
+                return wrapModel(inner);
             }
        });
     }

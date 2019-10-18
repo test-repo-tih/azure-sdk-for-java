@@ -37,6 +37,11 @@ public interface VirtualMachine extends HasInner<VirtualMachineInner>, Resource,
     List<VirtualDiskController> controllers();
 
     /**
+     * @return the customization value.
+     */
+    GuestOSCustomization customization();
+
+    /**
      * @return the disks value.
      */
     List<VirtualDisk> disks();
@@ -190,6 +195,18 @@ public interface VirtualMachine extends HasInner<VirtualMachineInner>, Resource,
         }
 
         /**
+         * The stage of the virtualmachine definition allowing to specify Customization.
+         */
+        interface WithCustomization {
+            /**
+             * Specifies customization.
+             * @param customization Virtual machine properties
+             * @return the next definition stage
+             */
+            WithCreate withCustomization(GuestOSCustomization customization);
+        }
+
+        /**
          * The stage of the virtualmachine definition allowing to specify Disks.
          */
         interface WithDisks {
@@ -231,7 +248,7 @@ public interface VirtualMachine extends HasInner<VirtualMachineInner>, Resource,
         interface WithPassword {
             /**
              * Specifies password.
-             * @param password Password for login
+             * @param password Password for login. Deprecated - use customization property
              * @return the next definition stage
              */
             WithCreate withPassword(String password);
@@ -267,7 +284,7 @@ public interface VirtualMachine extends HasInner<VirtualMachineInner>, Resource,
         interface WithUsername {
             /**
              * Specifies username.
-             * @param username Username for login
+             * @param username Username for login. Deprecated - use customization property
              * @return the next definition stage
              */
             WithCreate withUsername(String username);
@@ -290,19 +307,31 @@ public interface VirtualMachine extends HasInner<VirtualMachineInner>, Resource,
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
-        interface WithCreate extends Creatable<VirtualMachine>, Resource.DefinitionWithTags<WithCreate>, DefinitionStages.WithDisks, DefinitionStages.WithExposeToGuestVM, DefinitionStages.WithNics, DefinitionStages.WithPassword, DefinitionStages.WithResourcePool, DefinitionStages.WithTemplateId, DefinitionStages.WithUsername, DefinitionStages.WithVSphereNetworks {
+        interface WithCreate extends Creatable<VirtualMachine>, Resource.DefinitionWithTags<WithCreate>, DefinitionStages.WithCustomization, DefinitionStages.WithDisks, DefinitionStages.WithExposeToGuestVM, DefinitionStages.WithNics, DefinitionStages.WithPassword, DefinitionStages.WithResourcePool, DefinitionStages.WithTemplateId, DefinitionStages.WithUsername, DefinitionStages.WithVSphereNetworks {
         }
     }
     /**
      * The template for a VirtualMachine update operation, containing all the settings that can be modified.
      */
-    interface Update extends Appliable<VirtualMachine>, Resource.UpdateWithTags<Update>, UpdateStages.WithDisks, UpdateStages.WithExposeToGuestVM, UpdateStages.WithNics, UpdateStages.WithPassword, UpdateStages.WithResourcePool, UpdateStages.WithTemplateId, UpdateStages.WithUsername, UpdateStages.WithVSphereNetworks {
+    interface Update extends Appliable<VirtualMachine>, Resource.UpdateWithTags<Update>, UpdateStages.WithCustomization, UpdateStages.WithDisks, UpdateStages.WithExposeToGuestVM, UpdateStages.WithNics, UpdateStages.WithPassword, UpdateStages.WithResourcePool, UpdateStages.WithTemplateId, UpdateStages.WithUsername, UpdateStages.WithVSphereNetworks {
     }
 
     /**
      * Grouping of VirtualMachine update stages.
      */
     interface UpdateStages {
+        /**
+         * The stage of the virtualmachine update allowing to specify Customization.
+         */
+        interface WithCustomization {
+            /**
+             * Specifies customization.
+             * @param customization Virtual machine properties
+             * @return the next update stage
+             */
+            Update withCustomization(GuestOSCustomization customization);
+        }
+
         /**
          * The stage of the virtualmachine update allowing to specify Disks.
          */
@@ -345,7 +374,7 @@ public interface VirtualMachine extends HasInner<VirtualMachineInner>, Resource,
         interface WithPassword {
             /**
              * Specifies password.
-             * @param password Password for login
+             * @param password Password for login. Deprecated - use customization property
              * @return the next update stage
              */
             Update withPassword(String password);
@@ -381,7 +410,7 @@ public interface VirtualMachine extends HasInner<VirtualMachineInner>, Resource,
         interface WithUsername {
             /**
              * Specifies username.
-             * @param username Username for login
+             * @param username Username for login. Deprecated - use customization property
              * @return the next update stage
              */
             Update withUsername(String username);

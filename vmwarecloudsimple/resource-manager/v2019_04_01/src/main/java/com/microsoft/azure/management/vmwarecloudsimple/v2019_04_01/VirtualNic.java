@@ -17,6 +17,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualNic {
     /**
+     * guest OS customization for nic.
+     */
+    @JsonProperty(value = "customization")
+    private GuestOSNICCustomization customization;
+
+    /**
      * NIC ip address.
      */
     @JsonProperty(value = "ipAddresses")
@@ -58,6 +64,26 @@ public class VirtualNic {
      */
     @JsonProperty(value = "virtualNicName", access = JsonProperty.Access.WRITE_ONLY)
     private String virtualNicName;
+
+    /**
+     * Get guest OS customization for nic.
+     *
+     * @return the customization value
+     */
+    public GuestOSNICCustomization customization() {
+        return this.customization;
+    }
+
+    /**
+     * Set guest OS customization for nic.
+     *
+     * @param customization the customization value to set
+     * @return the VirtualNic object itself.
+     */
+    public VirtualNic withCustomization(GuestOSNICCustomization customization) {
+        this.customization = customization;
+        return this;
+    }
 
     /**
      * Get nIC ip address.
