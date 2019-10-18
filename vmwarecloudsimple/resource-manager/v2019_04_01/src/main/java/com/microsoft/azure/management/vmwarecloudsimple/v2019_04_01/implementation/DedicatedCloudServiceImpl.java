@@ -70,16 +70,4 @@ class DedicatedCloudServiceImpl extends GroupableResourceCoreImpl<DedicatedCloud
         return this;
     }
 
-    @Override
-    public DedicatedCloudServiceImpl withNodes(Integer nodes) {
-        this.inner().withNodes(nodes);
-        return this;
-    }
-
-    @Override
-    public DedicatedCloudServiceImpl withServiceURL(String serviceURL) {
-        this.inner().withServiceURL(serviceURL);
-        return this;
-    }
-
 }

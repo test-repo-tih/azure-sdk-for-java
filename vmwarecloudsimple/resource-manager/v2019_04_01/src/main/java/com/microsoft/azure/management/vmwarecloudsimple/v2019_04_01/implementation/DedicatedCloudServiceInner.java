@@ -36,13 +36,13 @@ public class DedicatedCloudServiceInner extends Resource {
     /**
      * total nodes purchased.
      */
-    @JsonProperty(value = "properties.nodes")
+    @JsonProperty(value = "properties.nodes", access = JsonProperty.Access.WRITE_ONLY)
     private Integer nodes;
 
     /**
      * link to a service management web portal.
      */
-    @JsonProperty(value = "properties.serviceURL")
+    @JsonProperty(value = "properties.serviceURL", access = JsonProperty.Access.WRITE_ONLY)
     private String serviceURL;
 
     /**
@@ -84,34 +84,12 @@ public class DedicatedCloudServiceInner extends Resource {
     }
 
     /**
-     * Set total nodes purchased.
-     *
-     * @param nodes the nodes value to set
-     * @return the DedicatedCloudServiceInner object itself.
-     */
-    public DedicatedCloudServiceInner withNodes(Integer nodes) {
-        this.nodes = nodes;
-        return this;
-    }
-
-    /**
      * Get link to a service management web portal.
      *
      * @return the serviceURL value
      */
     public String serviceURL() {
         return this.serviceURL;
-    }
-
-    /**
-     * Set link to a service management web portal.
-     *
-     * @param serviceURL the serviceURL value to set
-     * @return the DedicatedCloudServiceInner object itself.
-     */
-    public DedicatedCloudServiceInner withServiceURL(String serviceURL) {
-        this.serviceURL = serviceURL;
-        return this;
     }
 
 }

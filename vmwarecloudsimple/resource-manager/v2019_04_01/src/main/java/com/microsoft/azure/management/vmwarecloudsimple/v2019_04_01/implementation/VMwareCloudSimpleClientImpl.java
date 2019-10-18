@@ -221,6 +221,19 @@ public class VMwareCloudSimpleClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The CustomizationPoliciesInner object to access its operations.
+     */
+    private CustomizationPoliciesInner customizationPolicies;
+
+    /**
+     * Gets the CustomizationPoliciesInner object to access its operations.
+     * @return the CustomizationPoliciesInner object.
+     */
+    public CustomizationPoliciesInner customizationPolicies() {
+        return this.customizationPolicies;
+    }
+
+    /**
      * The ResourcePoolsInner object to access its operations.
      */
     private ResourcePoolsInner resourcePools;
@@ -325,6 +338,7 @@ public class VMwareCloudSimpleClientImpl extends AzureServiceClient {
         this.dedicatedCloudServices = new DedicatedCloudServicesInner(restClient().retrofit(), this);
         this.skusAvailabilitys = new SkusAvailabilitysInner(restClient().retrofit(), this);
         this.privateClouds = new PrivateCloudsInner(restClient().retrofit(), this);
+        this.customizationPolicies = new CustomizationPoliciesInner(restClient().retrofit(), this);
         this.resourcePools = new ResourcePoolsInner(restClient().retrofit(), this);
         this.virtualMachineTemplates = new VirtualMachineTemplatesInner(restClient().retrofit(), this);
         this.virtualNetworks = new VirtualNetworksInner(restClient().retrofit(), this);

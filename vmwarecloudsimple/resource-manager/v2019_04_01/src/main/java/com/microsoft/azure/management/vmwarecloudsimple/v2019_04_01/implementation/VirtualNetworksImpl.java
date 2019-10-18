@@ -54,14 +54,10 @@ class VirtualNetworksImpl extends WrapperImpl<VirtualNetworksInner> implements V
     public Observable<VirtualNetwork> getAsync(String regionId, String pcName, String virtualNetworkName) {
         VirtualNetworksInner client = this.inner();
         return client.getAsync(regionId, pcName, virtualNetworkName)
-        .flatMap(new Func1<VirtualNetworkInner, Observable<VirtualNetwork>>() {
+        .map(new Func1<VirtualNetworkInner, VirtualNetwork>() {
             @Override
-            public Observable<VirtualNetwork> call(VirtualNetworkInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((VirtualNetwork)wrapModel(inner));
-                }
+            public VirtualNetwork call(VirtualNetworkInner inner) {
+                return wrapModel(inner);
             }
        });
     }

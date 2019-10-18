@@ -13,6 +13,7 @@ import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualMachi
 import rx.Observable;
 import java.util.List;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualDiskController;
+import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.GuestOSCustomization;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualDisk;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.GuestOSType;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualNic;
@@ -58,6 +59,11 @@ class VirtualMachineImpl extends GroupableResourceCoreImpl<VirtualMachine, Virtu
     @Override
     public List<VirtualDiskController> controllers() {
         return this.inner().controllers();
+    }
+
+    @Override
+    public GuestOSCustomization customization() {
+        return this.inner().customization();
     }
 
     @Override
@@ -175,6 +181,12 @@ class VirtualMachineImpl extends GroupableResourceCoreImpl<VirtualMachine, Virtu
     @Override
     public VirtualMachineImpl withPrivateCloudId(String privateCloudId) {
         this.inner().withPrivateCloudId(privateCloudId);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withCustomization(GuestOSCustomization customization) {
+        this.inner().withCustomization(customization);
         return this;
     }
 

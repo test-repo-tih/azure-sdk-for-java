@@ -10,6 +10,7 @@ package com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.implementat
 
 import java.util.List;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualDiskController;
+import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.GuestOSCustomization;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualDisk;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.GuestOSType;
 import com.microsoft.azure.management.vmwarecloudsimple.v2019_04_01.VirtualNic;
@@ -34,6 +35,12 @@ public class VirtualMachineInner extends Resource {
      */
     @JsonProperty(value = "properties.controllers", access = JsonProperty.Access.WRITE_ONLY)
     private List<VirtualDiskController> controllers;
+
+    /**
+     * Virtual machine properties.
+     */
+    @JsonProperty(value = "properties.customization")
+    private GuestOSCustomization customization;
 
     /**
      * The list of Virtual Disks.
@@ -84,7 +91,7 @@ public class VirtualMachineInner extends Resource {
     private int numberOfCores;
 
     /**
-     * Password for login.
+     * Password for login. Deprecated - use customization property.
      */
     @JsonProperty(value = "properties.password")
     private String password;
@@ -127,7 +134,7 @@ public class VirtualMachineInner extends Resource {
     private String templateId;
 
     /**
-     * Username for login.
+     * Username for login. Deprecated - use customization property.
      */
     @JsonProperty(value = "properties.username")
     private String username;
@@ -177,6 +184,26 @@ public class VirtualMachineInner extends Resource {
      */
     public List<VirtualDiskController> controllers() {
         return this.controllers;
+    }
+
+    /**
+     * Get virtual machine properties.
+     *
+     * @return the customization value
+     */
+    public GuestOSCustomization customization() {
+        return this.customization;
+    }
+
+    /**
+     * Set virtual machine properties.
+     *
+     * @param customization the customization value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withCustomization(GuestOSCustomization customization) {
+        this.customization = customization;
+        return this;
     }
 
     /**
@@ -296,7 +323,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Get password for login.
+     * Get password for login. Deprecated - use customization property.
      *
      * @return the password value
      */
@@ -305,7 +332,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Set password for login.
+     * Set password for login. Deprecated - use customization property.
      *
      * @param password the password value to set
      * @return the VirtualMachineInner object itself.
@@ -403,7 +430,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Get username for login.
+     * Get username for login. Deprecated - use customization property.
      *
      * @return the username value
      */
@@ -412,7 +439,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Set username for login.
+     * Set username for login. Deprecated - use customization property.
      *
      * @param username the username value to set
      * @return the VirtualMachineInner object itself.
