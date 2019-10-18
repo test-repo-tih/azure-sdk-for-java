@@ -64,14 +64,10 @@ class StorageTargetsImpl extends WrapperImpl<StorageTargetsInner> implements Sto
     public Observable<StorageTarget> getAsync(String resourceGroupName, String cacheName, String storageTargetName) {
         StorageTargetsInner client = this.inner();
         return client.getAsync(resourceGroupName, cacheName, storageTargetName)
-        .flatMap(new Func1<StorageTargetInner, Observable<StorageTarget>>() {
+        .map(new Func1<StorageTargetInner, StorageTarget>() {
             @Override
-            public Observable<StorageTarget> call(StorageTargetInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((StorageTarget)wrapModel(inner));
-                }
+            public StorageTarget call(StorageTargetInner inner) {
+                return wrapModel(inner);
             }
        });
     }
