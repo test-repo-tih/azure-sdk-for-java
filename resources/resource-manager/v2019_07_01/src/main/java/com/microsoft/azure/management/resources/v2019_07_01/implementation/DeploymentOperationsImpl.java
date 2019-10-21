@@ -174,14 +174,10 @@ class DeploymentOperationsImpl extends WrapperImpl<DeploymentOperationsInner> im
     public Observable<DeploymentOperation> getAtScopeAsync(String scope, String deploymentName, String operationId) {
         DeploymentOperationsInner client = this.inner();
         return client.getAtScopeAsync(scope, deploymentName, operationId)
-        .flatMap(new Func1<DeploymentOperationInner, Observable<DeploymentOperation>>() {
+        .map(new Func1<DeploymentOperationInner, DeploymentOperation>() {
             @Override
-            public Observable<DeploymentOperation> call(DeploymentOperationInner inner) {
-                if (inner == null) {
-                    return Observable.empty();
-                } else {
-                    return Observable.just((DeploymentOperation)wrapModel(inner));
-                }
+            public DeploymentOperation call(DeploymentOperationInner inner) {
+                return wrapModel(inner);
             }
        });
     }
