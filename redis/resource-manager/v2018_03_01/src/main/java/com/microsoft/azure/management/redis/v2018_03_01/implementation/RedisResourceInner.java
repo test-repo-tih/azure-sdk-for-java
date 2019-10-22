@@ -72,8 +72,10 @@ public class RedisResourceInner extends Resource {
     private String subnetId;
 
     /**
-     * Static IP address. Required when deploying a Redis cache inside an
-     * existing Azure Virtual Network.
+     * Deprecated. May optionally be used to request a specific IP address,
+     * only when deploying a Redis cache inside an Azure virtual network. We
+     * recommend you do not set this parameter, and connect using the hostname
+     * instead.
      */
     @JsonProperty(value = "properties.staticIP")
     private String staticIP;
@@ -272,7 +274,7 @@ public class RedisResourceInner extends Resource {
     }
 
     /**
-     * Get static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
+     * Get deprecated. May optionally be used to request a specific IP address, only when deploying a Redis cache inside an Azure virtual network. We recommend you do not set this parameter, and connect using the hostname instead.
      *
      * @return the staticIP value
      */
@@ -281,7 +283,7 @@ public class RedisResourceInner extends Resource {
     }
 
     /**
-     * Set static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.
+     * Set deprecated. May optionally be used to request a specific IP address, only when deploying a Redis cache inside an Azure virtual network. We recommend you do not set this parameter, and connect using the hostname instead.
      *
      * @param staticIP the staticIP value to set
      * @return the RedisResourceInner object itself.

@@ -18,14 +18,14 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.management.redis.v2018_03_01.RedisPatchSchedule;
 
 class PatchSchedulesImpl extends WrapperImpl<PatchSchedulesInner> implements PatchSchedules {
-    private final RedisManager manager;
+    private final CacheManager manager;
 
-    PatchSchedulesImpl(RedisManager manager) {
+    PatchSchedulesImpl(CacheManager manager) {
         super(manager.inner().patchSchedules());
         this.manager = manager;
     }
 
-    public RedisManager manager() {
+    public CacheManager manager() {
         return this.manager;
     }
 

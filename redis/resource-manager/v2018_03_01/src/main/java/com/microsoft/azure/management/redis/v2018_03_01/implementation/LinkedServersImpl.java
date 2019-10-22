@@ -18,14 +18,14 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.management.redis.v2018_03_01.RedisLinkedServerWithProperties;
 
 class LinkedServersImpl extends WrapperImpl<LinkedServersInner> implements LinkedServers {
-    private final RedisManager manager;
+    private final CacheManager manager;
 
-    LinkedServersImpl(RedisManager manager) {
+    LinkedServersImpl(CacheManager manager) {
         super(manager.inner().linkedServers());
         this.manager = manager;
     }
 
-    public RedisManager manager() {
+    public CacheManager manager() {
         return this.manager;
     }
 

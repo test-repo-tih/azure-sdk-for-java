@@ -18,14 +18,14 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.management.redis.v2018_03_01.RedisFirewallRule;
 
 class FirewallRulesImpl extends WrapperImpl<FirewallRulesInner> implements FirewallRules {
-    private final RedisManager manager;
+    private final CacheManager manager;
 
-    FirewallRulesImpl(RedisManager manager) {
+    FirewallRulesImpl(CacheManager manager) {
         super(manager.inner().firewallRules());
         this.manager = manager;
     }
 
-    public RedisManager manager() {
+    public CacheManager manager() {
         return this.manager;
     }
 
