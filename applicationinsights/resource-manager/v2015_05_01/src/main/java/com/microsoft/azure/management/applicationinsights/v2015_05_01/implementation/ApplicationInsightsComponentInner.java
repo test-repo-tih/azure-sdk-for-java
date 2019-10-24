@@ -119,6 +119,12 @@ public class ApplicationInsightsComponentInner extends ComponentsResource {
     private Double samplingPercentage;
 
     /**
+     * Application Insights component connection string.
+     */
+    @JsonProperty(value = "properties.ConnectionString", access = JsonProperty.Access.WRITE_ONLY)
+    private String connectionString;
+
+    /**
      * Get the kind of application that this component refers to, used to customize UI. This value is a freeform string, values should typically be one of the following: web, ios, other, store, java, phone.
      *
      * @return the kind value
@@ -299,6 +305,15 @@ public class ApplicationInsightsComponentInner extends ComponentsResource {
     public ApplicationInsightsComponentInner withSamplingPercentage(Double samplingPercentage) {
         this.samplingPercentage = samplingPercentage;
         return this;
+    }
+
+    /**
+     * Get application Insights component connection string.
+     *
+     * @return the connectionString value
+     */
+    public String connectionString() {
+        return this.connectionString;
     }
 
 }
