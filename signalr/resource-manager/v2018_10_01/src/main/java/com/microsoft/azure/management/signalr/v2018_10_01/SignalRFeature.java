@@ -16,10 +16,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SignalRFeature {
     /**
-     * Kind of feature. Required.
+     * FeatureFlags is the supported features of Azure SignalR service.
+     * - ServiceMode: Flag for backend server for SignalR service. Values
+     * allowed: "Default": have your own backend server; "Serverless": your
+     * application doesn't have a backend server; "Classic": for backward
+     * compatibility. Support both Default and Serverless mode but not
+     * recommended; "PredefinedOnly": for future use.
+     * - EnableConnectivityLogs: "true"/"false", to enable/disable the
+     * connectivity log category respectively. Possible values include:
+     * 'ServiceMode', 'EnableConnectivityLogs'.
      */
     @JsonProperty(value = "flag", required = true)
-    private String flag;
+    private FeatureFlags flag;
 
     /**
      * Value of the feature flag. See Azure SignalR service document
@@ -36,29 +44,25 @@ public class SignalRFeature {
     private Map<String, String> properties;
 
     /**
-     * Creates an instance of SignalRFeature class.
-     * @param value value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/en-us/azure/azure-signalr/ for allowed values.
-     */
-    public SignalRFeature() {
-        flag = "ServiceMode";
-    }
-
-    /**
-     * Get kind of feature. Required.
+     * Get featureFlags is the supported features of Azure SignalR service.
+     - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
+     - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively. Possible values include: 'ServiceMode', 'EnableConnectivityLogs'.
      *
      * @return the flag value
      */
-    public String flag() {
+    public FeatureFlags flag() {
         return this.flag;
     }
 
     /**
-     * Set kind of feature. Required.
+     * Set featureFlags is the supported features of Azure SignalR service.
+     - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.
+     - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively. Possible values include: 'ServiceMode', 'EnableConnectivityLogs'.
      *
      * @param flag the flag value to set
      * @return the SignalRFeature object itself.
      */
-    public SignalRFeature withFlag(String flag) {
+    public SignalRFeature withFlag(FeatureFlags flag) {
         this.flag = flag;
         return this;
     }
