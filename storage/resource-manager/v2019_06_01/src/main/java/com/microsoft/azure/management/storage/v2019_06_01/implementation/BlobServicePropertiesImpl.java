@@ -81,6 +81,11 @@ class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProper
     }
 
     @Override
+    public DeleteRetentionPolicy containerDeleteRetentionPolicy() {
+        return this.inner().containerDeleteRetentionPolicy();
+    }
+
+    @Override
     public CorsRules cors() {
         return this.inner().cors();
     }
@@ -126,6 +131,12 @@ class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProper
     @Override
     public BlobServicePropertiesImpl withChangeFeed(ChangeFeed changeFeed) {
         this.inner().withChangeFeed(changeFeed);
+        return this;
+    }
+
+    @Override
+    public BlobServicePropertiesImpl withContainerDeleteRetentionPolicy(DeleteRetentionPolicy containerDeleteRetentionPolicy) {
+        this.inner().withContainerDeleteRetentionPolicy(containerDeleteRetentionPolicy);
         return this;
     }
 
