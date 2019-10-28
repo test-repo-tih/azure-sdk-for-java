@@ -33,6 +33,11 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
     ChangeFeed changeFeed();
 
     /**
+     * @return the containerDeleteRetentionPolicy value.
+     */
+    DeleteRetentionPolicy containerDeleteRetentionPolicy();
+
+    /**
      * @return the cors value.
      */
     CorsRules cors();
@@ -116,6 +121,18 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
         }
 
         /**
+         * The stage of the blobserviceproperties definition allowing to specify ContainerDeleteRetentionPolicy.
+         */
+        interface WithContainerDeleteRetentionPolicy {
+            /**
+             * Specifies containerDeleteRetentionPolicy.
+             * @param containerDeleteRetentionPolicy The blob service properties for container soft delete
+             * @return the next definition stage
+             */
+            WithCreate withContainerDeleteRetentionPolicy(DeleteRetentionPolicy containerDeleteRetentionPolicy);
+        }
+
+        /**
          * The stage of the blobserviceproperties definition allowing to specify Cors.
          */
         interface WithCors {
@@ -145,7 +162,7 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
         interface WithDeleteRetentionPolicy {
             /**
              * Specifies deleteRetentionPolicy.
-             * @param deleteRetentionPolicy The blob service properties for soft delete
+             * @param deleteRetentionPolicy The blob service properties for blob soft delete
              * @return the next definition stage
              */
             WithCreate withDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy);
@@ -156,13 +173,13 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
-        interface WithCreate extends Creatable<BlobServiceProperties>, DefinitionStages.WithAutomaticSnapshotPolicyEnabled, DefinitionStages.WithChangeFeed, DefinitionStages.WithCors, DefinitionStages.WithDefaultServiceVersion, DefinitionStages.WithDeleteRetentionPolicy {
+        interface WithCreate extends Creatable<BlobServiceProperties>, DefinitionStages.WithAutomaticSnapshotPolicyEnabled, DefinitionStages.WithChangeFeed, DefinitionStages.WithContainerDeleteRetentionPolicy, DefinitionStages.WithCors, DefinitionStages.WithDefaultServiceVersion, DefinitionStages.WithDeleteRetentionPolicy {
         }
     }
     /**
      * The template for a BlobServiceProperties update operation, containing all the settings that can be modified.
      */
-    interface Update extends Appliable<BlobServiceProperties>, UpdateStages.WithAutomaticSnapshotPolicyEnabled, UpdateStages.WithChangeFeed, UpdateStages.WithCors, UpdateStages.WithDefaultServiceVersion, UpdateStages.WithDeleteRetentionPolicy {
+    interface Update extends Appliable<BlobServiceProperties>, UpdateStages.WithAutomaticSnapshotPolicyEnabled, UpdateStages.WithChangeFeed, UpdateStages.WithContainerDeleteRetentionPolicy, UpdateStages.WithCors, UpdateStages.WithDefaultServiceVersion, UpdateStages.WithDeleteRetentionPolicy {
     }
 
     /**
@@ -191,6 +208,18 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
              * @return the next update stage
              */
             Update withChangeFeed(ChangeFeed changeFeed);
+        }
+
+        /**
+         * The stage of the blobserviceproperties update allowing to specify ContainerDeleteRetentionPolicy.
+         */
+        interface WithContainerDeleteRetentionPolicy {
+            /**
+             * Specifies containerDeleteRetentionPolicy.
+             * @param containerDeleteRetentionPolicy The blob service properties for container soft delete
+             * @return the next update stage
+             */
+            Update withContainerDeleteRetentionPolicy(DeleteRetentionPolicy containerDeleteRetentionPolicy);
         }
 
         /**
@@ -223,7 +252,7 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
         interface WithDeleteRetentionPolicy {
             /**
              * Specifies deleteRetentionPolicy.
-             * @param deleteRetentionPolicy The blob service properties for soft delete
+             * @param deleteRetentionPolicy The blob service properties for blob soft delete
              * @return the next update stage
              */
             Update withDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy);
