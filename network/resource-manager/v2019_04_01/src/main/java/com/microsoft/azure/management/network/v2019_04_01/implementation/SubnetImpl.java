@@ -20,6 +20,7 @@ import com.microsoft.azure.management.network.v2019_04_01.Delegation;
 import com.microsoft.azure.management.network.v2019_04_01.NetworkSecurityGroup;
 import java.util.ArrayList;
 import com.microsoft.azure.management.network.v2019_04_01.PrivateEndpoint;
+import com.microsoft.azure.management.network.v2019_04_01.;
 import com.microsoft.azure.management.network.v2019_04_01.RouteTable;
 import com.microsoft.azure.management.network.v2019_04_01.ServiceEndpointPolicy;
 
@@ -136,6 +137,11 @@ class SubnetImpl extends CreatableUpdatableImpl<Subnet, SubnetInner, SubnetImpl>
     }
 
     @Override
+    public String privateEndpointNetworkPolicies() {
+        return this.inner().privateEndpointNetworkPolicies();
+    }
+
+    @Override
     public List<PrivateEndpoint> privateEndpoints() {
         List<PrivateEndpoint> lst = new ArrayList<PrivateEndpoint>();
         if (this.inner().privateEndpoints() != null) {
@@ -144,6 +150,11 @@ class SubnetImpl extends CreatableUpdatableImpl<Subnet, SubnetInner, SubnetImpl>
             }
         }
         return lst;
+    }
+
+    @Override
+    public String privateLinkServiceNetworkPolicies() {
+        return this.inner().privateLinkServiceNetworkPolicies();
     }
 
     @Override
@@ -244,6 +255,18 @@ class SubnetImpl extends CreatableUpdatableImpl<Subnet, SubnetInner, SubnetImpl>
     @Override
     public SubnetImpl withNetworkSecurityGroup(NetworkSecurityGroupInner networkSecurityGroup) {
         this.inner().withNetworkSecurityGroup(networkSecurityGroup);
+        return this;
+    }
+
+    @Override
+    public SubnetImpl withPrivateEndpointNetworkPolicies(String privateEndpointNetworkPolicies) {
+        this.inner().withPrivateEndpointNetworkPolicies(privateEndpointNetworkPolicies);
+        return this;
+    }
+
+    @Override
+    public SubnetImpl withPrivateLinkServiceNetworkPolicies(String privateLinkServiceNetworkPolicies) {
+        this.inner().withPrivateLinkServiceNetworkPolicies(privateLinkServiceNetworkPolicies);
         return this;
     }
 
